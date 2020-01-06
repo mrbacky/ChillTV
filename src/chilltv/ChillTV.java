@@ -25,6 +25,8 @@ public class ChillTV extends Application {
         
         stage.setScene(scene);
         stage.show();
+        
+        System.out.println("asdadasdasdasdsd");
     }
 
     /**
