@@ -20,7 +20,7 @@
          <children>
             <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="640.0" styleClass="myBar" stylesheets="@../css/style.css">
                <children>
-                  <Button fx:id="btn_library" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_openFile" prefHeight="20.0" prefWidth="20.0">
+                  <Button fx:id="btn_library" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_openLibrary" prefHeight="20.0" prefWidth="20.0">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>

@@ -3,12 +3,30 @@
 }
 
 .bg{
-    -fx-background-color: #3A3A3A;
+    -fx-background-color: black;
     
 }
 
+.list-view{
+    -fx-background-color: #282828;
+    -fx-text-fill: red;
+}
+.table-view{
+    -fx-background-color: #282828;
+    -fx-text-fill: red;
+}
 
-
+.lblFlow{
+    /* green stuff */
+    -fx-background-color: linear-gradient( #BA1B1D,#701E17);
+    -fx-background-radius: 5px;
+    
+    /*
+    #00AD3C
+    */
+    
+    
+}
 .button{
     -fx-background-color: transparent;
     -fx-opacity: 0.8;
