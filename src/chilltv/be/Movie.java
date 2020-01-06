@@ -12,4 +12,10 @@ package chilltv.be;
  */
 public class Movie {
 
+    public Movie(int aInt, String string, int aInt0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+
 }
