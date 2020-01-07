@@ -44,12 +44,12 @@ public interface LogicFacade {
     
     
     
-    void createMovie(String title, int duration, int rating);
+    void createMovie(Movie movie);
     
-    List<String> getAllMovies();
+    List<Movie> getAllMovies();
     
-    Movie updateMovie(Movie movie);
+    void updateMovie(Movie movie);
     
-    void deleteMovie(int id);
+    void deleteMovie(Movie movie);
     
 }

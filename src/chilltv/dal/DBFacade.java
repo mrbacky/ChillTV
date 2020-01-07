@@ -43,12 +43,12 @@ public interface DBFacade {
      */
     void deleteCategory(String name);
 
-    void createMovie(String title, int duration, int rating);
+    void createMovie(Movie movie);
     
-    List<String> getAllMovies();
+    List<Movie> getAllMovies();
     
-    Movie updateMovie(Movie movie);
+    void updateMovie(Movie movie);
     
-    void deleteMovie(int id);
+    void deleteMovie(Movie movie);
     
 }
