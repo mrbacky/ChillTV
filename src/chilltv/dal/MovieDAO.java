@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package chilltv.dal;
 
 import chilltv.be.Movie;
@@ -19,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
+ *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class MovieDAO {
@@ -30,11 +29,11 @@ public class MovieDAO {
         List<Movie> allMovies = new ArrayList<>();
         String stat = "SELECT * FROM Movie";
 
-        try (Connection xd = cp.getConnection()) {
+        try ( Connection xd = cp.getConnection()) {
             Statement statement = xd.createStatement();
             ResultSet rs = statement.executeQuery(stat);
             while (rs.next()) {
-                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), rs.getInt("rating"));
+                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
                 allMovies.add(movie);
             }
             return allMovies;
@@ -43,22 +42,25 @@ public class MovieDAO {
             return null;
         }
     }
-    
-    public void createMovie(Movie movie){
-        String stat = "INSERT INTO movie VALUES (?,?,?)";
-        
-        try (Connection xd = cp.getConnection()) {
+
+    public void createMovie(Movie movie) {
+        String stat = "INSERT INTO movie VALUES (?,?,?,?,?,?)";
+
+        try ( Connection xd = cp.getConnection()) {
             PreparedStatement stmt = xd.prepareStatement(stat, PreparedStatement.RETURN_GENERATED_KEYS);
             stmt.setString(1, movie.getTitle());
             stmt.setInt(2, movie.getDuration());
-            stmt.setInt(3, movie.getRating());
+            stmt.setInt(3, movie.getImdbRating());
+            stmt.setInt(4, movie.getMyRating());
+            stmt.setString(5, movie.getFileLink());
+            stmt.setInt(6, movie.getLastView());
             int affectedRows = stmt.executeUpdate();
 
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
 
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+            try ( ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     movie.setId((int) generatedKeys.getLong(1));
                 } else {
@@ -70,11 +72,11 @@ public class MovieDAO {
         } catch (SQLException ex) {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        }
-    
+    }
+
     public void deleteMovie(Movie movie) {
         String stat = "DELETE FROM movie WHERE ID=?";
-        try (Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setInt(1, movie.getId());
             stmt.execute();
@@ -82,17 +84,20 @@ public class MovieDAO {
             System.out.println("Exception " + ex);
         }
     }
-    
+
     public void updateMovie(Movie movie) {
         String stat = "UPDATE movie\n"
-                + "SET name=?, duration=?, rating=?\n"
+                + "SET name=?, duration=?, imdbRating=?, myRating=?, fileLink=?, lastView=?\n"
                 + "WHERE ID=?";
-        try (Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setString(1, movie.getTitle());
             stmt.setInt(2, movie.getDuration());
-            stmt.setInt(3, movie.getRating());
-            stmt.setInt(4, movie.getId());
+            stmt.setInt(3, movie.getImdbRating());
+            stmt.setInt(4, movie.getMyRating());
+            stmt.setString(5, movie.getFileLink());
+            stmt.setInt(6, movie.getLastView());
+            stmt.setInt(7, movie.getId());
             stmt.execute();
         } catch (SQLServerException ex) {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);

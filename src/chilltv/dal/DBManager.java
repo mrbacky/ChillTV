@@ -1,17 +1,14 @@
 package chilltv.dal;
 
 import chilltv.be.Category;
-import java.util.List;
-
-import chilltv.be.Category;
 import chilltv.be.Movie;
 import java.util.List;
 
 public class DBManager implements DBFacade {
 
-
     private final CategoryDAO catDAO;
     private final MovieDAO movDAO;
+
     /**
      * Constructs data access objects.
      */
@@ -48,17 +45,16 @@ public class DBManager implements DBFacade {
     @Override
     public List<Movie> getAllMovies() {
         return movDAO.getAllMovies();
-}
+    }
 
     @Override
     public void updateMovie(Movie movie) {
         movDAO.updateMovie(movie);
-}
+    }
 
     @Override
     public void deleteMovie(Movie movie) {
         movDAO.deleteMovie(movie);
     }
 
-    
 }

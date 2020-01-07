@@ -44,11 +44,11 @@ public interface DBFacade {
     void deleteCategory(String name);
 
     void createMovie(Movie movie);
-    
+
     List<Movie> getAllMovies();
-    
+
     void updateMovie(Movie movie);
-    
+
     void deleteMovie(Movie movie);
-    
+
 }

@@ -44,22 +44,22 @@ public class LogicManager implements LogicFacade {
     }
 
     @Override
-    public void createMovie(Movie movie){
+    public void createMovie(Movie movie) {
         dbManager.createMovie(movie);
     }
-    
+
     @Override
-    public List<Movie> getAllMovies(){
-    return dbManager.getAllMovies();
+    public List<Movie> getAllMovies() {
+        return dbManager.getAllMovies();
     }
-    
+
     @Override
-    public void updateMovie(Movie movie){
+    public void updateMovie(Movie movie) {
         dbManager.updateMovie(movie);
     }
-    
+
     @Override
-    public void deleteMovie(Movie movie){
+    public void deleteMovie(Movie movie) {
         dbManager.deleteMovie(movie);
     }
 }

@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package chilltv.be;
 
 /**
- * 
+ *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class Movie {
@@ -15,10 +14,13 @@ public class Movie {
     private int id;
     private String title;
     private int duration;
-    private int rating;
-    
-    public Movie(int id, String title, int duration, int rating) {
-        
+    private int imdbRating;
+    private int myRating;
+    private String fileLink;
+    private int lastView;
+
+    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, int lastView) {
+
     }
 
     public int getId() {
@@ -45,16 +47,36 @@ public class Movie {
         this.duration = duration;
     }
 
-    public int getRating() {
-        return rating;
+    public int getImdbRating() {
+        return imdbRating;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setImdbRating(int rating) {
+        this.imdbRating = imdbRating;
     }
 
-    
+    public int getMyRating() {
+        return myRating;
+    }
 
-    
+    public void setMyRating(int myRating) {
+        this.myRating = myRating;
+    }
+
+    public String getFileLink() {
+        return fileLink;
+    }
+
+    public void setFileLink(String fileLink) {
+        this.fileLink = fileLink;
+    }
+
+    public int getLastView() {
+        return lastView;
+    }
+
+    public void setLastView(int lastView) {
+        this.lastView = lastView;
+    }
 
 }

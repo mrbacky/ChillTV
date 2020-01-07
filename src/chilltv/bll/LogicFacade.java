@@ -41,15 +41,12 @@ public interface LogicFacade {
      */
     void deleteCategory(String name);
 
-    
-    
-    
     void createMovie(Movie movie);
-    
+
     List<Movie> getAllMovies();
-    
+
     void updateMovie(Movie movie);
-    
+
     void deleteMovie(Movie movie);
-    
+
 }
