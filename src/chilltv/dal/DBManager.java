@@ -3,20 +3,21 @@ package chilltv.dal;
 import chilltv.be.Category;
 import java.util.List;
 
-/**
- * This class manages all operations on the database.
- *
- * @author annem
- */
+import chilltv.be.Category;
+import chilltv.be.Movie;
+import java.util.List;
+
 public class DBManager implements DBFacade {
 
-    private final CategoryDAO catDAO;
 
+    private final CategoryDAO catDAO;
+    private final MovieDAO movDAO;
     /**
      * Constructs data access objects.
      */
     public DBManager() {
         catDAO = new CategoryDAO();
+        movDAO = new MovieDAO();
     }
 
     @Override
@@ -39,4 +40,25 @@ public class DBManager implements DBFacade {
         catDAO.deleteCategory(name);
     }
 
+    @Override
+    public void createMovie(Movie movie) {
+        movDAO.createMovie(movie);
+    }
+
+    @Override
+    public List<Movie> getAllMovies() {
+        return movDAO.getAllMovies();
+}
+
+    @Override
+    public void updateMovie(Movie movie) {
+        movDAO.updateMovie(movie);
+}
+
+    @Override
+    public void deleteMovie(Movie movie) {
+        movDAO.deleteMovie(movie);
+    }
+
+    
 }
