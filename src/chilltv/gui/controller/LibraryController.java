@@ -51,7 +51,7 @@ public class LibraryController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        //Rado told me
     }    
 
     void setContr(PrimaryController pCon) {
