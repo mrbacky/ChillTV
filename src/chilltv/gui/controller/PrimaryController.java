@@ -128,6 +128,7 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private void handle_previous(ActionEvent event) {
+        
     }
 
     @FXML
@@ -138,6 +139,17 @@ public class PrimaryController implements Initializable {
     @FXML
     private void handle_hideBar(MouseEvent event) {
         buttonBar.setOpacity(0.3);
+    }
+
+    @FXML
+    private void handle_volumeSlider(MouseEvent event) {
+        
+        if (mediaPlayer != null) {
+            System.out.println(volumeSlider.getValue());
+            mediaPlayer.setVolume(volumeSlider.getValue() * 100);
+            mediaPlayer.setVolume(volumeSlider.getValue() / 100);
+        }
+        
     }
 
 }
