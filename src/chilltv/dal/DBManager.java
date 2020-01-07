@@ -5,7 +5,7 @@ import chilltv.be.Category;
 import chilltv.be.Movie;
 import java.util.List;
 
-public class DBManager {
+public class DBManager implements DBFacade {
 
 
     private final CategoryDAO catDAO;
