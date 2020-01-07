@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -61,11 +63,45 @@ public class PrimaryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //mediaView.toBack();
-        buttonBar.setOpacity(0.3);
+      //  buttonBar.setOpacity(0.3);
 
         //buttonBar.setAlignment(Pos.TOP_CENTER);
     }
+private void bindPlayerToGUI()
+    {
+        // Binds the currentTimeProperty to a StringProperty on the label
+        // The computeValue() calculates minutes and seconds from the
+        // CurrentTimeProperty, which is a javafx Duration type.
+        lbl_endTime.textProperty().bind(
+            new StringBinding()
+            {
+                // Initialization block 
+                // Somewhat like a constructor without arguments
+                { 
+                    // Makes the StringBinding listen for changes to 
+                    // the currentTimeProperty
+                    super.bind(mediaPlayer.currentTimeProperty());
+                }
 
+                @Override
+                protected String computeValue()
+                {
+                    
+                    String form = String.format("%d hours, %d min, %d sec",
+                        TimeUnit.MILLISECONDS.toHours((long)mediaPlayer.getCurrentTime().toMillis()),
+                        TimeUnit.MILLISECONDS.toMinutes((long)mediaPlayer.getCurrentTime().toMillis()),
+                        TimeUnit.MILLISECONDS.toSeconds((long)mediaPlayer.getCurrentTime().toMillis()) - 
+                        TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(
+                                (long)mediaPlayer.getCurrentTime().toMillis()
+                            )
+                        )
+                    );
+                    
+                    return form;
+                }
+            });
+    }
     @FXML
     private void handle_openLibrary(ActionEvent event) throws IOException {
         Parent root1;
@@ -100,7 +136,10 @@ public class PrimaryController implements Initializable {
             DoubleProperty height = mediaView.fitHeightProperty();
             width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
             height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+            
+            bindPlayerToGUI();
             mediaPlayer.play();
+            
 
         }
 

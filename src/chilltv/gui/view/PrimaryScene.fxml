@@ -18,7 +18,7 @@
    <bottom>
       <VBox fx:id="buttonBar" accessibleRole="NODE" alignment="CENTER" blendMode="SRC_ATOP" minHeight="-Infinity" minWidth="-Infinity" onMouseExited="#handle_hideBar" onMouseMoved="#handle_showBar" prefHeight="35.0" prefWidth="640.0" BorderPane.alignment="BOTTOM_CENTER">
          <children>
-            <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="640.0" styleClass="myBar" stylesheets="@../css/style.css">
+            <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="640.0" styleClass="myBar">
                <children>
                   <Button fx:id="btn_library" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_openLibrary" prefHeight="20.0" prefWidth="20.0">
                      <graphic>
@@ -101,7 +101,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Label fx:id="lbl_startTime" contentDisplay="CENTER" prefHeight="20.0" prefWidth="50.0" text="02:54:26" textFill="WHITE">
+                  <Label fx:id="lbl_startTime" contentDisplay="CENTER" prefHeight="20.0" prefWidth="50.0" text="00.00.00" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -114,7 +114,7 @@
                         <Insets left="5.0" right="5.0" />
                      </padding>
                   </Slider>
-                  <Label fx:id="lbl_endTime" alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="50.0" text="02:54:26" textFill="WHITE">
+                  <Label fx:id="lbl_endTime" alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="50.0" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
                      </font>
