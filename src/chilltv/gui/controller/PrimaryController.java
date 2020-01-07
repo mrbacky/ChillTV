@@ -69,6 +69,7 @@ public class PrimaryController implements Initializable {
         //buttonBar.setAlignment(Pos.TOP_CENTER);
     }
 
+    @FXML
     private void handle_openLibrary(ActionEvent event) throws IOException {
         Parent root1;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/LibraryScene.fxml"));
@@ -83,7 +84,6 @@ public class PrimaryController implements Initializable {
         libraryStage.show();
     }
 
-    @FXML
     private void handle_openFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(

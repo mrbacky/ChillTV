@@ -106,7 +106,7 @@
          </graphic>
       </Button>
       <TextField fx:id="txt_movieSearch" layoutX="390.0" layoutY="345.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="368.0" />
-      <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="766.0" layoutY="349.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="icon_search" fitHeight="20.0" fitWidth="20.0" layoutX="766.0" layoutY="349.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../MyTunesC/src/mytunes/gui/assets/icons8-search-30.png" />
          </image>

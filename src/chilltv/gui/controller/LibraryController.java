@@ -1,10 +1,14 @@
 package chilltv.gui.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -12,13 +16,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class LibraryController implements Initializable {
 
     @FXML
     private Button btn_addMovie;
 
-    private PrimaryController pCon;
+    
     @FXML
     private TableView<?> tbv_Categories;
     @FXML
@@ -65,6 +71,10 @@ public class LibraryController implements Initializable {
     private TableColumn<?, Integer> col_iMDBRating;
     @FXML
     private TableColumn<?, String> col_LastView;
+    
+    private PrimaryController pCon;
+    @FXML
+    private ImageView icon_search;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,8 +90,6 @@ public class LibraryController implements Initializable {
         col_Duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         col_MyRating.setCellValueFactory(new PropertyValueFactory<>("myRating"));
         col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imbdRating"));
-        
-        
 
     }
 
@@ -94,7 +102,19 @@ public class LibraryController implements Initializable {
     //  openCreateCategory
     //  saveCreateCategory
     @FXML
-    private void btn_openAddMovie(ActionEvent event) {
+    private void btn_openAddMovie(ActionEvent event) throws IOException {
+        Parent root1;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/MovieScene.fxml"));
+        root1 = (Parent) fxmlLoader.load();
+        fxmlLoader.<MovieSceneController>getController().setContr(this);
+
+        Stage libraryStage = new Stage();
+        Scene libraryScene = new Scene(root1);
+
+        //songStage.initStyle(StageStyle.UNDECORATED);
+        libraryStage.setScene(libraryScene);
+        libraryStage.show();
+
     }
 
     @FXML
