@@ -57,7 +57,10 @@ public class LibraryController implements Initializable {
     void setContr(PrimaryController pCon) {
         this.pCon = pCon;
     }
-
+    //  openCreateMovie
+    //  saveCreateMovie
+    //  openCreateCategory
+    //  saveCreateCategory
     @FXML
     private void btn_openAddMovie(ActionEvent event) {
     }
