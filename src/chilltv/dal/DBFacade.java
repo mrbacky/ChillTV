@@ -23,7 +23,7 @@ public interface DBFacade {
      *
      * @return List with all categories.
      */
-    List<String> getAllCategory();
+    List<String> getAllCategories();
 
     /**
      * Updates the name of the category in the database to reflect the values in

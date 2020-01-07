@@ -29,7 +29,7 @@ public class LogicManager implements LogicFacade {
 
     @Override
     public List<String> getAllCategories() {
-        return dbManager.getAllCategory();
+        return dbManager.getAllCategories();
     }
 
     @Override
