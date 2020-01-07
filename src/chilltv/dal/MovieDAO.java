@@ -34,7 +34,7 @@ public class MovieDAO {
             Statement statement = xd.createStatement();
             ResultSet rs = statement.executeQuery(stat);
             while (rs.next()) {
-                Movie movie = new Movie(rs.getInt("id"), rs.getString("name"), rs.getInt("duration"), rs.getInt("rating"));
+                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), rs.getInt("rating"));
                 allMovies.add(movie);
             }
             return allMovies;
@@ -44,12 +44,12 @@ public class MovieDAO {
         }
     }
     
-    public void addMovie(Movie movie){
+    public void createMovie(Movie movie){
         String stat = "INSERT INTO movie VALUES (?,?,?)";
         
         try (Connection xd = cp.getConnection()) {
             PreparedStatement stmt = xd.prepareStatement(stat, PreparedStatement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, movie.getName());
+            stmt.setString(1, movie.getTitle());
             stmt.setInt(2, movie.getDuration());
             stmt.setInt(3, movie.getRating());
             int affectedRows = stmt.executeUpdate();
@@ -89,7 +89,7 @@ public class MovieDAO {
                 + "WHERE ID=?";
         try (Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
-            stmt.setString(1, movie.getName());
+            stmt.setString(1, movie.getTitle());
             stmt.setInt(2, movie.getDuration());
             stmt.setInt(3, movie.getRating());
             stmt.setInt(4, movie.getId());
