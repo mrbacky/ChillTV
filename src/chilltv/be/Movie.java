@@ -13,11 +13,11 @@ package chilltv.be;
 public class Movie {
 
     private int id;
-    private String name;
+    private String title;
     private int duration;
     private int rating;
     
-    public Movie(int id, String name, int duration, int rating) {
+    public Movie(int id, String title, int duration, int rating) {
         
     }
 
@@ -29,12 +29,12 @@ public class Movie {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String name) {
+        this.title = title;
     }
 
     public int getDuration() {
