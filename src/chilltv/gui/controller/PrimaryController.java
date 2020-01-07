@@ -154,7 +154,8 @@ public class PrimaryController implements Initializable {
         }
         
     }
-
+    
+    @FXML
     private void hande_progressSlider(MouseEvent event) {
         //getting duration from file in seconds
         Double time = mediaPlayer.getTotalDuration().toSeconds();
