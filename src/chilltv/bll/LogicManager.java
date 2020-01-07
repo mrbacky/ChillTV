@@ -1,6 +1,7 @@
 package chilltv.bll;
 
 import chilltv.be.Category;
+import chilltv.be.Movie;
 import chilltv.dal.DBFacade;
 import chilltv.dal.DBManager;
 import java.util.List;
@@ -42,4 +43,23 @@ public class LogicManager implements LogicFacade {
         dbManager.deleteCategory(name);
     }
 
+    @Override
+    public void createMovie(String title, int duration, int rating){
+        dbManager.createMovie(title, duration, rating);
+    }
+    
+    @Override
+    public List<String> getAllMovies(){
+    return dbManager.getAllMovies();
+    }
+    
+    @Override
+    public Movie updateMovie(Movie movie){
+        return dbManager.updateMovie(movie);
+    }
+    
+    @Override
+    public void deleteMovie(int id){
+        dbManager.deleteMovie(id);
+    }
 }
