@@ -1,4 +1,3 @@
-
 package chilltv.gui.controller;
 
 import java.net.URL;
@@ -9,8 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class LibraryController implements Initializable {
 
@@ -48,15 +49,46 @@ public class LibraryController implements Initializable {
     private TextField txt_Cat;
     @FXML
     private Button btn_saveCategory;
-    
+    @FXML
+    private TableColumn<?, String> col_Name;
+    @FXML
+    private TableColumn<?, Integer> col_numOfMovies;
+    @FXML
+    private TableColumn<?, String> col_Title;
+    @FXML
+    private TableColumn<?, String> col_Category;
+    @FXML
+    private TableColumn<?, String> col_Duration;
+    @FXML
+    private TableColumn<?, String> col_MyRating;
+    @FXML
+    private TableColumn<?, Integer> col_iMDBRating;
+    @FXML
+    private TableColumn<?, String> col_LastView;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //Rado told me
-    }    
+        //settingTableViews();
+    }
+
+    private void settingTableViews() {
+        //  Category table view
+        //  col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        //  Library table view
+        col_Title.setCellValueFactory(new PropertyValueFactory<>("title"));
+        col_Category.setCellValueFactory(new PropertyValueFactory<>("no sure"));
+        col_Duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        col_MyRating.setCellValueFactory(new PropertyValueFactory<>("myRating"));
+        col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imbdRating"));
+        
+        
+
+    }
 
     void setContr(PrimaryController pCon) {
         this.pCon = pCon;
     }
+
     //  openCreateMovie
     //  saveCreateMovie
     //  openCreateCategory
@@ -88,5 +120,5 @@ public class LibraryController implements Initializable {
     @FXML
     private void handle_saveCategory(ActionEvent event) {
     }
-    
+
 }

@@ -3,9 +3,12 @@ package chilltv.gui.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import javafx.util.Duration;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -66,7 +69,6 @@ public class PrimaryController implements Initializable {
         //buttonBar.setAlignment(Pos.TOP_CENTER);
     }
 
-    @FXML
     private void handle_openLibrary(ActionEvent event) throws IOException {
         Parent root1;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/LibraryScene.fxml"));
@@ -81,6 +83,7 @@ public class PrimaryController implements Initializable {
         libraryStage.show();
     }
 
+    @FXML
     private void handle_openFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
@@ -151,5 +154,31 @@ public class PrimaryController implements Initializable {
         }
         
     }
+    
+    @FXML
+    private void hande_progressSlider(MouseEvent event) {
+        //getting duration from file in seconds
+        Double time = mediaPlayer.getTotalDuration().toSeconds();
+        /*
+        Get the currentTime and add change listner, which will be notified whenever 
+        the value of the ObservableValue changes and that we get the new value and set it to the slider
+        */
+        mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                progressSlider.setValue(newValue.toSeconds());
+            }
+        });  
+        progressSlider.maxProperty().bind(Bindings.createDoubleBinding(() -> 
+                mediaPlayer.getTotalDuration().toSeconds(), 
+                mediaPlayer.totalDurationProperty()));
+
+        progressSlider.setOnMouseClicked((MouseEvent mouseEvent) -> { //This Method shows the progress of the progress bar
+            mediaPlayer.seek(Duration.seconds(progressSlider.getValue())); //It seeks the duration in seconds ofc. 
+        });
+
+    }
+
+    
 
 }

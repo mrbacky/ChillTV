@@ -15,18 +15,18 @@
    <children>
       <TableView fx:id="tbv_Categories" layoutX="10.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="350.0">
         <columns>
-          <TableColumn prefWidth="314.0" text="Name" />
-          <TableColumn minWidth="0.0" prefWidth="35.0" text="#" />
+          <TableColumn fx:id="col_Name" prefWidth="314.0" text="Name" />
+          <TableColumn fx:id="col_numOfMovies" minWidth="0.0" prefWidth="35.0" text="#" />
         </columns>
       </TableView>
       <TableView fx:id="tbv_Movies" layoutX="10.0" layoutY="380.0" prefHeight="200.0" prefWidth="780.0">
         <columns>
-          <TableColumn prefWidth="302.0" text="Title" />
-          <TableColumn minWidth="0.0" prefWidth="249.0" text="Category" />
-            <TableColumn prefWidth="64.0" text="Duration" />
-            <TableColumn prefWidth="48.0" text="   My &#10;Rating" />
-            <TableColumn prefWidth="46.0" text=" iMDB &#10;Rating" />
-            <TableColumn prefWidth="67.0" text="Last view" />
+          <TableColumn fx:id="col_Title" prefWidth="302.0" text="Title" />
+          <TableColumn fx:id="col_Category" minWidth="0.0" prefWidth="249.0" text="Category" />
+            <TableColumn fx:id="col_Duration" prefWidth="64.0" text="Duration" />
+            <TableColumn fx:id="col_MyRating" prefWidth="48.0" text="   My &#10;Rating" />
+            <TableColumn fx:id="col_iMDBRating" prefWidth="46.0" text=" iMDB &#10;Rating" />
+            <TableColumn fx:id="col_LastView" prefWidth="67.0" text="Last view" />
         </columns>
       </TableView>
       <ListView fx:id="lv_Category" layoutX="390.0" layoutY="55.0" prefHeight="236.0" prefWidth="400.0" />
