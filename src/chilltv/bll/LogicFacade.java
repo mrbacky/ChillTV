@@ -1,6 +1,7 @@
 package chilltv.bll;
 
 import chilltv.be.Category;
+import chilltv.be.Movie;
 import java.util.List;
 
 /**
@@ -40,4 +41,15 @@ public interface LogicFacade {
      */
     void deleteCategory(String name);
 
+    
+    
+    
+    void createMovie(String title, int duration, int rating);
+    
+    List<String> getAllMovies();
+    
+    Movie updateMovie(Movie movie);
+    
+    void deleteMovie(int id);
+    
 }
