@@ -33,8 +33,17 @@ public class MovieDAO {
             Statement statement = xd.createStatement();
             ResultSet rs = statement.executeQuery(stat);
             while (rs.next()) {
-                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
-                allMovies.add(movie);
+                int id = rs.getInt("id");
+                String title = rs.getString("title");
+                int duration = rs.getInt("duration");
+                int imdbRating = rs.getInt("imdbRating");
+                int myRating = rs.getInt("myRating");
+                String fileLink = rs.getString("fileLink");
+                int lastView = rs.getInt("lastView");
+                
+//                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
+//                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
+                allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView));
             }
             return allMovies;
         } catch (SQLException ex) {

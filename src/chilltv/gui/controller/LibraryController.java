@@ -5,6 +5,7 @@ import chilltv.gui.model.MovieModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -63,7 +64,7 @@ public class LibraryController implements Initializable {
     private TableColumn<?, Integer> col_numOfMovies;
     
     @FXML
-    private TableView<Movie> tbv_Movies;
+    private TableView<Movie> tbv_Library;
     @FXML
     private TableColumn<Movie, String> col_Title;
     @FXML
@@ -79,12 +80,13 @@ public class LibraryController implements Initializable {
     
     
     private PrimaryController pCon;
-    
+    private Movie movie;
     private MovieModel movieModel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         settingTableViews();
+        
     }
 
     private void settingTableViews() {
@@ -98,8 +100,12 @@ public class LibraryController implements Initializable {
         col_Duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         col_MyRating.setCellValueFactory(new PropertyValueFactory<>("myRating"));
         col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
+        col_LastView.setCellValueFactory(new PropertyValueFactory<>("lastView"));
         //  displaying content
-        tbv_Movies.setItems(movieModel.getAllMovies());
+        //ObservableList<Movie> allMovies = FXCollections.observableList(movieModel.getAllMovies());
+        
+        //tbv_Library.setItems(movieModel.getAllMovies());
+        
         
         
         
