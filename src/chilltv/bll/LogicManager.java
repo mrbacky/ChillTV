@@ -2,6 +2,7 @@ package chilltv.bll;
 
 import chilltv.be.Category;
 import chilltv.be.Movie;
+import chilltv.bll.util.TimeConverter;
 import chilltv.dal.DBFacade;
 import chilltv.dal.DBManager;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 public class LogicManager implements LogicFacade {
 
     private final DBFacade dbManager;
+    private final TimeConverter timeConverter;
 
     /**
      * Creates a connection to the database. Constructs a TimeConverter and
@@ -21,6 +23,8 @@ public class LogicManager implements LogicFacade {
      */
     public LogicManager() {
         dbManager = new DBManager();
+        timeConverter = new TimeConverter();
+        
     }
 
     @Override
@@ -71,5 +75,15 @@ public class LogicManager implements LogicFacade {
     @Override
     public void deleteMovie(Movie movie) {
         dbManager.deleteMovie(movie);
+    }
+
+    @Override
+    public String sec_To_Format(int sec) {
+        return timeConverter.sec_To_Format(sec);    
+    }
+
+    @Override
+    public int format_To_Sec(String timeString) {
+        return timeConverter.format_To_Sec(timeString);
     }
 }

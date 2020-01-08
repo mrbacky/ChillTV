@@ -1,4 +1,4 @@
-package appletv.be.util;
+package chilltv.bll.util;
 
 /**
  * TimeConverter Class is used to convert the time value in seconds to the
@@ -23,7 +23,7 @@ public class TimeConverter {
         hours = (int) ((sec / 60) / 60);
         secs = sec % 60;
         String stringTime = String.format("%02d:%02d:%02d", hours, mins, secs);
-        return stringTime;// format:   hh:mm:ss
+        return stringTime;
     }
 
     /**

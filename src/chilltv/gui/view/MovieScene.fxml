@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="350.0" prefWidth="550.0" styleClass="bg" stylesheets="@../css/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="chilltv.gui.controller.MovieSceneController">
+<AnchorPane prefHeight="350.0" prefWidth="550.0" styleClass="bg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chilltv.gui.controller.MovieSceneController">
    <children>
       <Label layoutX="78.0" layoutY="97.0" text="Title:" textFill="WHITE">
          <font>
@@ -47,7 +47,7 @@
             <Font name="Arial" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="txtField_duration" layoutX="156.0" layoutY="178.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="60.0" text="14:51:48" />
+      <TextField fx:id="txtField_duration" layoutX="156.0" layoutY="178.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="60.0" />
       <Label layoutX="78.0" layoutY="224.0" prefHeight="20.0" prefWidth="35.0" text="File:" textFill="WHITE">
          <font>
             <Font name="Arial" size="15.0" />

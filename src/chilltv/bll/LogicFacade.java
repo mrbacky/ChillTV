@@ -66,4 +66,8 @@ public interface LogicFacade {
     void updateMovie(Movie movie);
 
     void deleteMovie(Movie movie);
+
+    String sec_To_Format(int sec);
+
+    int format_To_Sec(String timeString);
 }

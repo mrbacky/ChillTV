@@ -24,5 +24,32 @@ public class MovieModel {
         
         return libraryList;
     }
+    
+    public void createMovie(String title, asdasdasdasdassd ){
+    
+    }
+    
+    
+    /**
+     * Converts the time from the format hh:mm:ss to seconds.
+     *
+     * @param timeString The time in the format hh:mm:ss.
+     * @return The time in seconds.
+     */
+    public int format_To_Sec(String timeString) {
+        return logicManager.format_To_Sec(timeString);
+    }
+
+    /**
+     * Converts the time from seconds to the format hh:mm:ss.
+     *
+     * @param sec The time in seconds.
+     * @return The formatted time.
+     */
+    public String sec_To_Format(int sec) {
+        return logicManager.sec_To_Format(sec);
+    }
+    
+    
 
 }
