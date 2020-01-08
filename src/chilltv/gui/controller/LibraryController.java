@@ -1,8 +1,11 @@
 package chilltv.gui.controller;
 
+import chilltv.be.Movie;
+import chilltv.gui.model.MovieModel;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,12 +26,11 @@ public class LibraryController implements Initializable {
 
     @FXML
     private Button btn_addMovie;
-
-    
+    @FXML
+    private ImageView icon_search;
     @FXML
     private TableView<?> tbv_Categories;
-    @FXML
-    private TableView<?> tbv_Movies;
+   
     @FXML
     private ListView<?> lv_Category;
     @FXML
@@ -59,38 +61,48 @@ public class LibraryController implements Initializable {
     private TableColumn<?, String> col_Name;
     @FXML
     private TableColumn<?, Integer> col_numOfMovies;
+    
     @FXML
-    private TableColumn<?, String> col_Title;
+    private TableView<Movie> tbv_Movies;
     @FXML
-    private TableColumn<?, String> col_Category;
+    private TableColumn<Movie, String> col_Title;
     @FXML
-    private TableColumn<?, String> col_Duration;
+    private TableColumn<Movie, String> col_Category;
     @FXML
-    private TableColumn<?, String> col_MyRating;
+    private TableColumn<Movie, Integer> col_Duration;
     @FXML
-    private TableColumn<?, Integer> col_iMDBRating;
+    private TableColumn<Movie, Integer> col_MyRating;
     @FXML
-    private TableColumn<?, String> col_LastView;
+    private TableColumn<Movie, Integer> col_iMDBRating;
+    @FXML
+    private TableColumn<Movie, Integer> col_LastView;
+    
     
     private PrimaryController pCon;
-    @FXML
-    private ImageView icon_search;
+    
+    private MovieModel movieModel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //settingTableViews();
+        settingTableViews();
     }
 
     private void settingTableViews() {
+        movieModel = new MovieModel();
+        
         //  Category table view
         //  col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
         //  Library table view
         col_Title.setCellValueFactory(new PropertyValueFactory<>("title"));
-        col_Category.setCellValueFactory(new PropertyValueFactory<>("no sure"));
+        //col_Category.setCellValueFactory(new PropertyValueFactory<>("category"));
         col_Duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         col_MyRating.setCellValueFactory(new PropertyValueFactory<>("myRating"));
-        col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imbdRating"));
-
+        col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
+        //  displaying content
+        tbv_Movies.setItems(movieModel.getAllMovies());
+        
+        
+        
     }
 
     void setContr(PrimaryController pCon) {
