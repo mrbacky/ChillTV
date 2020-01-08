@@ -115,7 +115,7 @@ public class CategoryDAO {
                 String fileLink = rs.getString("fileLink");
                 String title = rs.getString("title");
 
-                categories.get(categoryId).addMovie(new Movie(id, title, duration, "imdbRating", "myRating", fileLink, "lastView"));
+                categories.get(categoryId).addMovie(new Movie(id, title, duration, 5, 9, fileLink, 9));
             }
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
