@@ -24,23 +24,33 @@ public class LogicManager implements LogicFacade {
     }
 
     @Override
-    public void createCategory(String name) {
-        dbManager.createCategory(name);
+    public Category createCategory(Category category) {
+        return dbManager.createCategory(category);
     }
 
     @Override
-    public List<String> getAllCategories() {
+    public List<Category> getAllCategories() {
         return dbManager.getAllCategories();
     }
 
     @Override
-    public Category updateCategory(Category category, String editedName) {
-        return dbManager.updateCategory(category, editedName);
+    public Category updateCategory(Category category) {
+        return dbManager.updateCategory(category);
     }
 
     @Override
-    public void deleteCategory(String name) {
-        dbManager.deleteCategory(name);
+    public void deleteCategory(Category category) {
+        dbManager.deleteCategory(category);
+    }
+
+    @Override
+    public Category addMovieToCategory(Category category, Movie movie) {
+        return dbManager.addMovieToCategory(category, movie);
+    }
+
+    @Override
+    public void deleteMovieFromCategory(Category category, Movie movie) {
+        dbManager.deleteMovieFromCategory(category, movie);
     }
 
     @Override

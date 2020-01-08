@@ -15,33 +15,51 @@ public interface DBFacade {
     /**
      * Creates and adds a new category to the database.
      *
-     * @param name The name of the category.
+     * @param category The category to create.
+     * @return The newly created category.
      */
-    void createCategory(String name);
+    Category createCategory(Category category);
 
     /**
-     * Gets a list with the names of all the categories in the database.
+     * Gets a list with the names of all the categories and their respective
+     * contents (movies) in the database.
      *
      * @return List with all categories.
      */
-    List<String> getAllCategories();
+    List<Category> getAllCategories();
 
     /**
      * Updates the name of the category in the database to reflect the values in
      * the given Movie objects.
      *
      * @param category The category to be updated.
-     * @param editedName
      * @return The updated category.
      */
-    Category updateCategory(Category category, String editedName);
+    Category updateCategory(Category category);
 
     /**
      * Deletes a category in the database.
      *
-     * @param name The name of the category.
+     * @param category The category to delete.
      */
-    void deleteCategory(String name);
+    void deleteCategory(Category category);
+
+    /**
+     * Adds a movie to a category in the database.
+     *
+     * @param category The category the movie should be added to.
+     * @param movie The movie to be added to the category.
+     * @return Category with the added movie.
+     */
+    Category addMovieToCategory(Category category, Movie movie);
+
+    /**
+     * Deletes a movie from a category in the database.
+     *
+     * @param category The category of the movie.
+     * @param movie The movie to delete from the category.
+     */
+    void deleteMovieFromCategory(Category category, Movie movie);
 
     void createMovie(Movie movie);
 
