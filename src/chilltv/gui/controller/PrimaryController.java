@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.net.URL;
 import javafx.util.Duration;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -68,6 +70,41 @@ public class PrimaryController implements Initializable {
 
         //buttonBar.setAlignment(Pos.TOP_CENTER);
     }
+    /* private void bindPlayerToGUI()
+    {
+        // Binds the currentTimeProperty to a StringProperty on the label
+        // The computeValue() calculates minutes and seconds from the
+        // CurrentTimeProperty, which is a javafx Duration type.
+        lbl_endTime.textProperty().bind(
+            new StringBinding()
+            {
+                // Initialization block 
+                // Somewhat like a constructor without arguments
+                { 
+                    // Makes the StringBinding listen for changes to 
+                    // the currentTimeProperty
+                    super.bind(mediaPlayer.currentTimeProperty());
+                }
+
+                @Override
+                protected String computeValue()
+                {
+                    
+                    String form = String.format("%d hours, %d min, %d sec",
+                        TimeUnit.MILLISECONDS.toHours((long)mediaPlayer.getCurrentTime().toMillis()),
+                        TimeUnit.MILLISECONDS.toMinutes((long)mediaPlayer.getCurrentTime().toMillis()),
+                        TimeUnit.MILLISECONDS.toSeconds((long)mediaPlayer.getCurrentTime().toMillis()) - 
+                        TimeUnit.MINUTES.toSeconds(
+                            TimeUnit.MILLISECONDS.toMinutes(
+                                (long)mediaPlayer.getCurrentTime().toMillis()
+                            )
+                        )
+                    );
+                    
+                    return form;
+                }
+            });
+    }*/
 
     @FXML
     private void handle_openLibrary(ActionEvent event) throws IOException {
