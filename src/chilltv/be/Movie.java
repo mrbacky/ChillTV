@@ -18,10 +18,19 @@ public class Movie {
     private int myRating;
     private String fileLink;
     private int lastView;
-
+    //  JSoup for imDB Rating
+    //  tmdb
     public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, int lastView) {
-
+        this.id = id;
+        this.title = title;
+        this.duration = duration;
+        this.imdbRating = imdbRating;
+        this.myRating = myRating;
+        this.fileLink = fileLink;
+        this.lastView = lastView;
     }
+
+    
 
     public int getId() {
         return id;
@@ -35,7 +44,7 @@ public class Movie {
         return title;
     }
 
-    public void setTitle(String name) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -51,7 +60,7 @@ public class Movie {
         return imdbRating;
     }
 
-    public void setImdbRating(int rating) {
+    public void setImdbRating(int imdbRating) {
         this.imdbRating = imdbRating;
     }
 

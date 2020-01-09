@@ -49,7 +49,6 @@ public class MovieSceneController implements Initializable {
     @FXML
     private Button btn_createCategory;
     private LibraryController libraryController;
-    private MovieModel movieModel;
     boolean edit = false;
     private Movie movieToEdit;
 
@@ -92,6 +91,7 @@ public class MovieSceneController implements Initializable {
                     Duration movieDuration = media.getDuration();
                     time = (int) (movieDuration.toSeconds());
                     System.out.println(time);
+                    MovieModel movieModel = MovieModel.getInstance();
                     txtField_duration.setText(movieModel.sec_To_Format(time));
                 }
             });
@@ -103,9 +103,7 @@ public class MovieSceneController implements Initializable {
 
     @FXML
     private void handle_saveMovie(ActionEvent event) {
-        if (!edit) {
-            movieModel.createMovie(movieee)
-        }
+        
     }
     
     public void editMode(Movie selectedMovie) {

@@ -13,27 +13,36 @@ public class MovieModel {
 
     private LogicFacade logicManager;
     private final ObservableList<Movie> libraryList = FXCollections.observableArrayList();
-
-    public MovieModel() {
+    private static MovieModel movieModel;
+    
+    public static MovieModel getInstance(){
+        if(movieModel==null)
+            movieModel = new MovieModel();
+        return movieModel;
+    }
+    
+    private MovieModel() {
         logicManager = new LogicManager();
-
     }
 
-    public ObservableList<Movie> getAllMovies() {
-        List<Movie> allMovies = logicManager.getAllMovies();
+    public void loadAllMovies() {
+        libraryList.clear();
+        List<Movie> allMovies = logicManager.getAllMovies();    
+        libraryList.addAll(allMovies);
         
+    }
+    
+    public ObservableList<Movie> getObsMovies() {
         return libraryList;
     }
     
-    public void createMovie(String title, asdasdasdasdassd ){
     
-    }
     
     
     /**
-     * Converts the time from the format hh:mm:ss to seconds.
+     * Converts the time from the format hh:movieModel:ss to seconds.
      *
-     * @param timeString The time in the format hh:mm:ss.
+     * @param timeString The time in the format hh:movieModel:ss.
      * @return The time in seconds.
      */
     public int format_To_Sec(String timeString) {
@@ -41,7 +50,7 @@ public class MovieModel {
     }
 
     /**
-     * Converts the time from seconds to the format hh:mm:ss.
+     * Converts the time from seconds to the format hh:movieModel:ss.
      *
      * @param sec The time in seconds.
      * @return The formatted time.
@@ -49,6 +58,8 @@ public class MovieModel {
     public String sec_To_Format(int sec) {
         return logicManager.sec_To_Format(sec);
     }
+
+    
     
     
 

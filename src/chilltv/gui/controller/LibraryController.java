@@ -64,7 +64,7 @@ public class LibraryController implements Initializable {
     private TableColumn<?, Integer> col_numOfMovies;
     
     @FXML
-    private TableView<Movie> tbv_Library;
+    private TableView<Movie> tbv_Movies;
     @FXML
     private TableColumn<Movie, String> col_Title;
     @FXML
@@ -76,7 +76,7 @@ public class LibraryController implements Initializable {
     @FXML
     private TableColumn<Movie, Integer> col_iMDBRating;
     @FXML
-    private TableColumn<Movie, Integer> col_LastView;
+    private TableColumn<Movie, String> col_LastView;    //LocalDateTime
     
     
     private PrimaryController pCon;
@@ -90,7 +90,7 @@ public class LibraryController implements Initializable {
     }
 
     private void settingTableViews() {
-        movieModel = new MovieModel();
+        movieModel =  MovieModel.getInstance();
         
         //  Category table view
         //  col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -102,9 +102,10 @@ public class LibraryController implements Initializable {
         col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
         col_LastView.setCellValueFactory(new PropertyValueFactory<>("lastView"));
         //  displaying content
-        //ObservableList<Movie> allMovies = FXCollections.observableList(movieModel.getAllMovies());
         
-        //tbv_Library.setItems(movieModel.getAllMovies());
+        
+        tbv_Movies.setItems(movieModel.getObsMovies());
+        movieModel.loadAllMovies();
         
         
         
