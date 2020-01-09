@@ -5,6 +5,9 @@
  */
 package chilltv.gui.controller;
 
+import chilltv.be.Movie;
+import chilltv.gui.model.MovieModel;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -47,10 +50,12 @@ public class MovieSceneController implements Initializable {
     @FXML
     private Button btn_createCategory;
     private LibraryController libraryController;
-
+    private boolean edit;
+    private Movie movieToEdit;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        edit = false;
     }
 
     void setContr(LibraryController libraryController) {

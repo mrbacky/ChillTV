@@ -37,8 +37,8 @@ public class MovieModel {
     }
 
     public void createMovie(String title, int duration, int myRating, int imdbRating, String filelink, String lastView){
-        //Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView);
-        //libraryList.add(movie);
+        Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView);
+        libraryList.add(movie);
     }
     
 

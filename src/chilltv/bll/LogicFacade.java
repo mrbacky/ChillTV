@@ -59,7 +59,7 @@ public interface LogicFacade {
      */
     void deleteMovieFromCategory(Category category, Movie movie);
 
-    void createMovie(Movie movie);
+    Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView);
 
     List<Movie> getAllMovies();
 

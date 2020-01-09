@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package chilltv.dal;
 
 import chilltv.be.Movie;
@@ -39,7 +34,7 @@ public class MovieDAO {
                 int imdbRating = rs.getInt("imdbRating");
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
-                int lastView = rs.getInt("lastView");
+                String lastView = rs.getString("lastView");
                 
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
@@ -52,26 +47,26 @@ public class MovieDAO {
         }
     }
 
-    public void createMovie(Movie movie) {
-        String stat = "INSERT INTO movie VALUES (?,?,?,?,?,?)";
-
-        try ( Connection xd = cp.getConnection()) {
-            PreparedStatement stmt = xd.prepareStatement(stat, PreparedStatement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, movie.getTitle());
-            stmt.setInt(2, movie.getDuration());
-            stmt.setInt(3, movie.getImdbRating());
-            stmt.setInt(4, movie.getMyRating());
-            stmt.setString(5, movie.getFileLink());
-            stmt.setInt(6, movie.getLastView());
-            int affectedRows = stmt.executeUpdate();
+    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
+        try ( Connection con = cp.getConnection()) {
+            String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
+            PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, title);
+            pstmt.setInt(2, duration);
+            pstmt.setInt(3, imdbRating);
+            pstmt.setInt(4, myRating);
+            pstmt.setString(5, fileLink);
+            pstmt.setString(6, lastView);
+            int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
 
-            try ( ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    movie.setId((int) generatedKeys.getLong(1));
+            try ( ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    int id = rs.getInt(1);
+                    return new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView);
                 } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
@@ -81,6 +76,7 @@ public class MovieDAO {
         } catch (SQLException ex) {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     }
 
     public void deleteMovie(Movie movie) {
@@ -105,7 +101,7 @@ public class MovieDAO {
             stmt.setInt(3, movie.getImdbRating());
             stmt.setInt(4, movie.getMyRating());
             stmt.setString(5, movie.getFileLink());
-            stmt.setInt(6, movie.getLastView());
+            stmt.setString(6, movie.getLastView());
             stmt.setInt(7, movie.getId());
             stmt.execute();
         } catch (SQLServerException ex) {
