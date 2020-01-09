@@ -31,7 +31,7 @@ public class LibraryController implements Initializable {
     private ImageView icon_search;
     @FXML
     private TableView<?> tbv_Categories;
-   
+
     @FXML
     private ListView<?> lv_Category;
     @FXML
@@ -62,7 +62,7 @@ public class LibraryController implements Initializable {
     private TableColumn<?, String> col_Name;
     @FXML
     private TableColumn<?, Integer> col_numOfMovies;
-    
+
     @FXML
     private TableView<Movie> tbv_Movies;
     @FXML
@@ -77,8 +77,7 @@ public class LibraryController implements Initializable {
     private TableColumn<Movie, Integer> col_iMDBRating;
     @FXML
     private TableColumn<Movie, String> col_LastView;    //LocalDateTime
-    
-    
+
     private PrimaryController pCon;
     private Movie movie;
     private MovieModel movieModel;
@@ -86,12 +85,12 @@ public class LibraryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         settingTableViews();
-        
+
     }
 
     private void settingTableViews() {
-        movieModel =  MovieModel.getInstance();
-        
+        movieModel = MovieModel.getInstance();
+
         //  Category table view
         //  col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
         //  Library table view
@@ -102,14 +101,10 @@ public class LibraryController implements Initializable {
         col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
         col_LastView.setCellValueFactory(new PropertyValueFactory<>("lastView"));
         //  displaying content
-        
-        
+
         tbv_Movies.setItems(movieModel.getObsMovies());
         movieModel.loadAllMovies();
-        
-        
-        
-        
+
     }
 
     void setContr(PrimaryController pCon) {
@@ -142,7 +137,7 @@ public class LibraryController implements Initializable {
         Parent root1;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/MovieScene.fxml"));
         root1 = (Parent) fxmlLoader.load();
-        
+
         MovieSceneController controller = (MovieSceneController) fxmlLoader.getController();
         controller.setContr(this);
         controller.editMode(selectedMovie);
@@ -156,7 +151,21 @@ public class LibraryController implements Initializable {
     }
 
     @FXML
-    private void handle_deleteMovie(ActionEvent event) {
+    private void handle_deleteMovie(ActionEvent event) throws IOException {
+        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
+        Parent root;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/DeleteMoviePopUp.fxml"));
+        root = (Parent) fxmlLoader.load();
+        DeleteMoviePopUpController controller = (DeleteMoviePopUpController) fxmlLoader.getController();
+        controller.setContr(this);
+        controller.setDeleteMovieLabel(selectedMovie);
+
+        Stage songStage = new Stage();
+        Scene songScene = new Scene(root);
+
+        //songStage.initStyle(StageStyle.UNDECORATED);
+        songStage.setScene(songScene);
+        songStage.show();
     }
 
     @FXML

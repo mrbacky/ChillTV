@@ -80,11 +80,12 @@ public class MovieDAO {
     }
 
     public void deleteMovie(Movie movie) {
-        String stat = "DELETE FROM movie WHERE id = ?";
+        //When the movie is deleted, it should also be removed from all categories. DOES IT?
         try ( Connection con = cp.getConnection()) {
-            PreparedStatement stmt = con.prepareStatement(stat);
-            stmt.setInt(1, movie.getId());
-            stmt.execute();
+            String sql = "DELETE FROM Movie WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, movie.getId());
+            pstmt.execute();
         } catch (SQLException ex) {
             System.out.println("Exception " + ex);
         }

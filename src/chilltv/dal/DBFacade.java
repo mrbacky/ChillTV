@@ -68,5 +68,4 @@ public interface DBFacade {
     void updateMovie(Movie movie);
 
     void deleteMovie(Movie movie);
-
 }

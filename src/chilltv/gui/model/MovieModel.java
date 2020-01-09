@@ -64,8 +64,20 @@ public class MovieModel {
      */
     public void updateMovie(Movie movie) {
         logicManager.updateMovie(movie);
-        int index = libraryList.indexOf(movie);         
+        int index = libraryList.indexOf(movie);
         libraryList.set(index, movie);
+    }
+
+    /**
+     * Deletes a movie from the library list. The method calls the BLL to delete
+     * a movie from the database. The deleted song is deleted from the library
+     * list and all other playlists.
+     *
+     * @param movie The movie to delete.
+     */
+    public void deleteMovie(Movie movie) {
+        logicManager.deleteMovie(movie);
+        libraryList.remove(movie);
     }
 
     /**
