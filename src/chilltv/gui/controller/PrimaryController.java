@@ -93,7 +93,7 @@ private void bindPlayerToGUI()
                         TimeUnit.MILLISECONDS.toSeconds((long)mediaPlayer.getCurrentTime().toMillis()) - 
                         TimeUnit.MINUTES.toSeconds(
                             TimeUnit.MILLISECONDS.toMinutes(
-                                 //   TimeUnit.SECONDS.toHours(         -----> I am not sure about this, but needs code for hours aswell.
+                                 //   TimeUnit.SECONDS.toHours( --- I am not sure about this, but needs code for hours aswell.
                                 (long)mediaPlayer.getCurrentTime().toMillis()
                             )
                         )
