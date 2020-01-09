@@ -137,7 +137,22 @@ public class LibraryController implements Initializable {
     }
 
     @FXML
-    private void handle_openEditMovie(ActionEvent event) {
+    private void handle_openEditMovie(ActionEvent event) throws IOException {
+        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
+        Parent root1;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/MovieScene.fxml"));
+        root1 = (Parent) fxmlLoader.load();
+        
+        MovieSceneController controller = (MovieSceneController) fxmlLoader.getController();
+        controller.setContr(this);
+        controller.editMode(selectedMovie);
+
+        Stage libraryStage = new Stage();
+        Scene libraryScene = new Scene(root1);
+
+        //songStage.initStyle(StageStyle.UNDECORATED);
+        libraryStage.setScene(libraryScene);
+        libraryStage.show();
     }
 
     @FXML

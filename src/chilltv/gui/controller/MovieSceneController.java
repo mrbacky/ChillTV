@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package chilltv.gui.controller;
 
 import chilltv.be.Movie;
@@ -23,14 +18,23 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * The MovieSceneController is the controller for the MovieScene. It sends
+ * requests to the MovieModel when creating and updating a movie. The default
+ * mode is to create a movie. The mode can be changed to edit a movie.
+ *
+ * @author annem
+ */
 public class MovieSceneController implements Initializable {
 
     @FXML
     private TextField txtField_title;
     @FXML
-    private ChoiceBox<?> choiceBox_Category;
+    private ChoiceBox<String> choiceBox_Category;
     @FXML
     private Button btn_createVisible;
+    @FXML
+    private Button btn_createCategory;
     @FXML
     private Button btn_deleteCategory;
     @FXML
@@ -47,18 +51,30 @@ public class MovieSceneController implements Initializable {
     private Button btn_cancel;
     @FXML
     private Label lbl_Categories;
-    @FXML
-    private Button btn_createCategory;
+
     private LibraryController libraryController;
+    private MovieModel movieModel;
     private boolean edit;
     private Movie movieToEdit;
-    
+
+    /**
+     * Initializes the controller class. Upon initialization, the mode is set to
+     * create a movie. The MovieModel and CategoryModel are initialized. All
+     * categories are added to the ChoiceBox.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         edit = false;
+        movieModel = MovieModel.getInstance();
+        //catModel = CategoryModel.getInstance();
     }
 
-    void setContr(LibraryController libraryController) {
+    /**
+     * Sets the controller for the LibraryScene
+     *
+     * @param libraryController LibraryController.
+     */
+    public void setContr(LibraryController libraryController) {
         this.libraryController = libraryController;
     }
 
@@ -70,6 +86,10 @@ public class MovieSceneController implements Initializable {
     private void handle_deleteCategory(ActionEvent event) {
     }
 
+    /**
+     * Uses the FileChooser class to choose a file for the movie. The duration
+     * of the movie is automatically added for the user.
+     */
     @FXML
     private void handle_openFileChooser(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -90,46 +110,70 @@ public class MovieSceneController implements Initializable {
                     int time, hours, mins, secs;
                     Duration movieDuration = media.getDuration();
                     time = (int) (movieDuration.toSeconds());
-                    System.out.println(time);
-                    MovieModel movieModel = MovieModel.getInstance();
                     txtField_duration.setText(movieModel.sec_To_Format(time));
                 }
             });
         }
-
     }
 
+    /**
+     * Checks the selected mode (new or edit) and saves the movie.
+     */
     @FXML
     private void handle_saveMovie(ActionEvent event) {
-        MovieModel movieModel = MovieModel.getInstance();
-        movieModel.createMovie(
-                txtField_title.getText().trim(),
-                movieModel.format_To_Sec(txtField_duration.getText()),
-                9,
-                7,
-                txtField_filePath.getText(),
-                "2018");
+        if (!edit) {
+            movieModel.createMovie(
+                    txtField_title.getText().trim(),
+                    movieModel.format_To_Sec(txtField_duration.getText()),
+                    //category TO DO!!
+                    9, //imdbRating TO DO!!
+                    7, //myRating TO DO!!
+                    txtField_filePath.getText(),
+                    "2018"); //lastView TO DO!!
+        } else {
+            movieToEdit.setTitle(txtField_title.getText().trim());
+            //not getting the time of the new file T-T
+            movieToEdit.setDuration(movieModel.format_To_Sec(txtField_duration.getText()));
+            //category
+            movieToEdit.setImdbRating(5); //imdbRating TO DO!!
+            movieToEdit.setMyRating(3); //myRating TO DO!!
+            movieToEdit.setFileLink(txtField_filePath.getText());
+            movieToEdit.setLastView("2020"); //lastView TO DO!!
+            movieModel.updateMovie(movieToEdit);
+        }
+
         Stage stage;
         stage = (Stage) btn_saveMovie.getScene().getWindow();
         stage.close();
-
     }
 
+    /**
+     * Enables the edit mode, so the movie can be edited. The existing info of
+     * the selected movie is displayed.
+     *
+     * @param selectedMovie The movie to edit.
+     */
     public void editMode(Movie selectedMovie) {
         edit = true;
         movieToEdit = selectedMovie;
 
+        //sets the existing info of the selected movie.
         txtField_title.setText(movieToEdit.getTitle());
+        //category TO DO!!
+        txtField_duration.setText(movieToEdit.getStringDuration());
         txtField_filePath.setText(movieToEdit.getFileLink());
-
     }
 
+    /**
+     * Closes the stage.
+     */
     @FXML
     private void handle_cancelMovieScene(ActionEvent event) {
+        Stage stage = (Stage) btn_cancel.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     private void handle_createCategory(ActionEvent event) {
     }
-
 }

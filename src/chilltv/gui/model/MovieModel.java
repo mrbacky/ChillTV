@@ -1,4 +1,3 @@
-
 package chilltv.gui.model;
 
 import chilltv.be.Movie;
@@ -28,6 +27,10 @@ public class MovieModel {
     public void loadAllMovies() {
         libraryList.clear();
         List<Movie> allMovies = logicManager.getAllMovies();
+        for (Movie movie : allMovies) {
+            //Save the converted time in the hh:mm:ss format before adding the movie to an ObservableList.
+            movie.setStringDuration(sec_To_Format(movie.getDuration()));
+        }
         libraryList.addAll(allMovies);
 
     }
@@ -36,11 +39,34 @@ public class MovieModel {
         return libraryList;
     }
 
-    public void createMovie(String title, int duration, int myRating, int imdbRating, String filelink, String lastView){
+    /**
+     * Creates and adds a new movie. The method calls the BLL to create a movie
+     * in the database. The created movie is added to the library list (the
+     * library consists of all the songs).
+     *
+     * @param title The title of the movie.
+     * @param duration The duration of the movie.
+     * @param myRating The rating given by the user.
+     * @param imdbRating The rating from imdb.
+     * @param filelink The location of the movie.
+     * @param lastView The date for when the user last viewed the movie.
+     */
+    public void createMovie(String title, int duration, int myRating, int imdbRating, String filelink, String lastView) {
         Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView);
         libraryList.add(movie);
     }
-    
+
+    /**
+     * Updates a movie. The method calls the BLL to update an edited movie in
+     * the database.
+     *
+     * @param movie The movie to update.
+     */
+    public void updateMovie(Movie movie) {
+        logicManager.updateMovie(movie);
+        int index = libraryList.indexOf(movie);         
+        libraryList.set(index, movie);
+    }
 
     /**
      * Converts the time from the format hh:movieModel:ss to seconds.

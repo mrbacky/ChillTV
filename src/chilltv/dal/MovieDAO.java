@@ -80,7 +80,7 @@ public class MovieDAO {
     }
 
     public void deleteMovie(Movie movie) {
-        String stat = "DELETE FROM movie WHERE ID=?";
+        String stat = "DELETE FROM movie WHERE id = ?";
         try ( Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setInt(1, movie.getId());
@@ -92,8 +92,8 @@ public class MovieDAO {
 
     public void updateMovie(Movie movie) {
         String stat = "UPDATE movie\n"
-                + "SET title=?, duration=?, imdbRating=?, myRating=?, fileLink=?, lastView=?\n"
-                + "WHERE ID=?";
+                + "SET title = ?, duration = ?, imdbRating = ?, myRating = ?, fileLink = ?, lastView = ?\n"
+                + "WHERE id = ?";
         try ( Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setString(1, movie.getTitle());

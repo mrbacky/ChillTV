@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package chilltv.be;
 
 /**
@@ -18,6 +13,8 @@ public class Movie {
     private int myRating;
     private String fileLink;
     private String lastView;
+    private String stringDuration;
+
     //  JSoup for imDB Rating
     //  tmdb
     public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
@@ -29,8 +26,6 @@ public class Movie {
         this.fileLink = fileLink;
         this.lastView = lastView;
     }
-
-    
 
     public int getId() {
         return id;
@@ -54,6 +49,14 @@ public class Movie {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public String getStringDuration() {
+        return stringDuration;
+    }
+
+    public void setStringDuration(String stringDuration) {
+        this.stringDuration = stringDuration;
     }
 
     public int getImdbRating() {
@@ -87,5 +90,4 @@ public class Movie {
     public void setLastView(String lastView) {
         this.lastView = lastView;
     }
-
 }
