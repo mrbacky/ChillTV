@@ -1,12 +1,11 @@
+
 package chilltv.gui.model;
 
 import chilltv.be.Movie;
 import chilltv.bll.LogicFacade;
 import chilltv.bll.LogicManager;
-import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 
 public class MovieModel {
@@ -14,31 +13,35 @@ public class MovieModel {
     private LogicFacade logicManager;
     private final ObservableList<Movie> libraryList = FXCollections.observableArrayList();
     private static MovieModel movieModel;
-    
-    public static MovieModel getInstance(){
-        if(movieModel==null)
+
+    public static MovieModel getInstance() {
+        if (movieModel == null) {
             movieModel = new MovieModel();
+        }
         return movieModel;
     }
-    
+
     private MovieModel() {
         logicManager = new LogicManager();
     }
 
     public void loadAllMovies() {
         libraryList.clear();
-        List<Movie> allMovies = logicManager.getAllMovies();    
+        List<Movie> allMovies = logicManager.getAllMovies();
         libraryList.addAll(allMovies);
-        
+
     }
-    
+
     public ObservableList<Movie> getObsMovies() {
         return libraryList;
     }
+
+    public void createMovie(String title, int duration, int myRating, int imdbRating, String filelink, String lastView){
+        //Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView);
+        //libraryList.add(movie);
+    }
     
-    
-    
-    
+
     /**
      * Converts the time from the format hh:movieModel:ss to seconds.
      *
@@ -58,9 +61,5 @@ public class MovieModel {
     public String sec_To_Format(int sec) {
         return logicManager.sec_To_Format(sec);
     }
-
-    
-    
-    
 
 }

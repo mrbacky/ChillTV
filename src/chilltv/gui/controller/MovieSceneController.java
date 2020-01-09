@@ -5,9 +5,6 @@
  */
 package chilltv.gui.controller;
 
-import chilltv.be.Movie;
-import chilltv.gui.model.MovieModel;
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -20,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MovieSceneController implements Initializable {
@@ -49,19 +47,16 @@ public class MovieSceneController implements Initializable {
     @FXML
     private Button btn_createCategory;
     private LibraryController libraryController;
-    boolean edit = false;
-    private Movie movieToEdit;
 
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
+
+    }
+
     void setContr(LibraryController libraryController) {
         this.libraryController = libraryController;
     }
-    
-    
+
     @FXML
     private void handle_createVisible(ActionEvent event) {
     }
@@ -77,7 +72,7 @@ public class MovieSceneController implements Initializable {
                 new FileChooser.ExtensionFilter("mp4 Files", "*.mp4"),
                 new FileChooser.ExtensionFilter("mpeg4 Files", "*.mpeg4")
         );
-        
+
         File movieFile = fileChooser.showOpenDialog(null);
         if (movieFile != null) {
             String moviePath = movieFile.getAbsolutePath();
@@ -96,25 +91,34 @@ public class MovieSceneController implements Initializable {
                 }
             });
         }
-        
-        
-            
+
     }
 
     @FXML
     private void handle_saveMovie(ActionEvent event) {
-        
+        MovieModel movieModel = MovieModel.getInstance();
+        movieModel.createMovie(
+                txtField_title.getText().trim(),
+                movieModel.format_To_Sec(txtField_duration.getText()),
+                9,
+                7,
+                txtField_filePath.getText(),
+                "2018");
+        Stage stage;
+        stage = (Stage) btn_saveMovie.getScene().getWindow();
+        stage.close();
+
     }
-    
+
     public void editMode(Movie selectedMovie) {
         edit = true;
         movieToEdit = selectedMovie;
-        
+
         txtField_title.setText(movieToEdit.getTitle());
         txtField_filePath.setText(movieToEdit.getFileLink());
-        
+
     }
-    
+
     @FXML
     private void handle_cancelMovieScene(ActionEvent event) {
     }
@@ -123,6 +127,4 @@ public class MovieSceneController implements Initializable {
     private void handle_createCategory(ActionEvent event) {
     }
 
-    
-    
 }
