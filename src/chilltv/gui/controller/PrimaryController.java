@@ -3,11 +3,14 @@ package chilltv.gui.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import javafx.util.Duration;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,11 +66,11 @@ public class PrimaryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //mediaView.toBack();
-      //  buttonBar.setOpacity(0.3);
+        buttonBar.setOpacity(0.3);
 
         //buttonBar.setAlignment(Pos.TOP_CENTER);
     }
-private void bindPlayerToGUI()
+    private void bindPlayerToGUI()
     {
         // Binds the currentTimeProperty to a StringProperty on the label
         // The computeValue() calculates minutes and seconds from the
@@ -86,23 +89,24 @@ private void bindPlayerToGUI()
                 @Override
                 protected String computeValue()
                 {
-                    
+
                     String form = String.format("%d hours, %d min, %d sec",
                         TimeUnit.MILLISECONDS.toHours((long)mediaPlayer.getCurrentTime().toMillis()),
                         TimeUnit.MILLISECONDS.toMinutes((long)mediaPlayer.getCurrentTime().toMillis()),
                         TimeUnit.MILLISECONDS.toSeconds((long)mediaPlayer.getCurrentTime().toMillis()) - 
                         TimeUnit.MINUTES.toSeconds(
                             TimeUnit.MILLISECONDS.toMinutes(
-                                 //   TimeUnit.SECONDS.toHours( --- I am not sure about this, but needs code for hours aswell.
+                                    TimeUnit.MINUTES.toHours(
                                 (long)mediaPlayer.getCurrentTime().toMillis()
                             )
-                        )
+                        ))
                     );
-                    
+
                     return form;
                 }
             });
     }
+
     @FXML
     private void handle_openLibrary(ActionEvent event) throws IOException {
         Parent root1;
@@ -137,10 +141,7 @@ private void bindPlayerToGUI()
             DoubleProperty height = mediaView.fitHeightProperty();
             width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
             height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
-            
-            bindPlayerToGUI();
             mediaPlayer.play();
-            
 
         }
 
@@ -191,5 +192,31 @@ private void bindPlayerToGUI()
         }
         
     }
+    
+    @FXML
+    private void hande_progressSlider(MouseEvent event) {
+        //getting duration from file in seconds
+        Double time = mediaPlayer.getTotalDuration().toSeconds();
+        /*
+        Get the currentTime and add change listner, which will be notified whenever 
+        the value of the ObservableValue changes and that we get the new value and set it to the slider
+        */
+        mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                progressSlider.setValue(newValue.toSeconds());
+            }
+        });  
+        progressSlider.maxProperty().bind(Bindings.createDoubleBinding(() -> 
+                mediaPlayer.getTotalDuration().toSeconds(), 
+                mediaPlayer.totalDurationProperty()));
+
+        progressSlider.setOnMouseClicked((MouseEvent mouseEvent) -> { //This Method shows the progress of the progress bar
+            mediaPlayer.seek(Duration.seconds(progressSlider.getValue())); //It seeks the duration in seconds ofc. 
+        });
+
+    }
+
+    
 
 }
