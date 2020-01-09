@@ -129,6 +129,11 @@ public class CategoryDAO {
         return unhashedCategories;
     }
 
+    public List<Category> getAllCategoriesForMovie() throws SQLException{
+    
+        return null;
+    }
+    
     /**
      * Updates the name of the category in the database.
      *

@@ -96,7 +96,7 @@ public class MovieDAO {
 
     public void updateMovie(Movie movie) {
         String stat = "UPDATE movie\n"
-                + "SET name=?, duration=?, imdbRating=?, myRating=?, fileLink=?, lastView=?\n"
+                + "SET title=?, duration=?, imdbRating=?, myRating=?, fileLink=?, lastView=?\n"
                 + "WHERE ID=?";
         try ( Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
