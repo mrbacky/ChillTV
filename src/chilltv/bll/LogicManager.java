@@ -2,6 +2,7 @@ package chilltv.bll;
 
 import chilltv.be.Category;
 import chilltv.be.Movie;
+import chilltv.bll.util.SearchFilter;
 import chilltv.bll.util.TimeConverter;
 import chilltv.dal.DBFacade;
 import chilltv.dal.DBManager;
@@ -16,6 +17,7 @@ public class LogicManager implements LogicFacade {
 
     private final DBFacade dbManager;
     private final TimeConverter timeConverter;
+    private final SearchFilter searcher;
 
     /**
      * Creates a connection to the database. Constructs a TimeConverter and
@@ -24,7 +26,8 @@ public class LogicManager implements LogicFacade {
     public LogicManager() {
         dbManager = new DBManager();
         timeConverter = new TimeConverter();
-        
+        searcher = new SearchFilter();
+
     }
 
     @Override
@@ -61,7 +64,7 @@ public class LogicManager implements LogicFacade {
     public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
         return dbManager.createMovie(title, duration, imdbRating, myRating, fileLink, lastView);
     }
-    
+
     @Override
     public List<Movie> getAllMovies() {
         return dbManager.getAllMovies();
@@ -79,11 +82,22 @@ public class LogicManager implements LogicFacade {
 
     @Override
     public String sec_To_Format(int sec) {
-        return timeConverter.sec_To_Format(sec);    
+        return timeConverter.sec_To_Format(sec);
     }
 
     @Override
     public int format_To_Sec(String timeString) {
         return timeConverter.format_To_Sec(timeString);
     }
+
+    @Override
+    public List<Movie> searchMovies(List<Movie> searchBase, String query) {
+        return searcher.searchMovies(searchBase, query);
+    }
+
+    @Override
+    public List<Category> searchCategories(List<Category> searchBase, String query) {
+        return searcher.searchCategory(searchBase, query);
+    }
+    
 }

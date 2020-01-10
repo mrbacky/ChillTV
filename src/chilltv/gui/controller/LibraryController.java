@@ -94,7 +94,8 @@ public class LibraryController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         settingTableViews();
         edit = false;
-
+        setSearchMovies();
+        setSearchCategories();
     }
 
     private void settingTableViews() {
@@ -125,6 +126,22 @@ public class LibraryController implements Initializable {
         moviesInPlaylist.clear();
         moviesInPlaylist.addAll(tbv_Categories.getSelectionModel().getSelectedItem().getMovies());
         lv_Category.setItems(moviesInPlaylist);
+    }
+
+    private void setSearchMovies() {
+        //Set the filter Predicate when the filter changes. Any changes to the
+        //search textfield activates the filter.
+        txt_movieSearch.textProperty().addListener((obs, oldVal, newVal) -> {
+            movieModel.filteredMovies(newVal);
+        });
+    }
+    
+    private void setSearchCategories() {
+        //Set the filter Predicate when the filter changes. Any changes to the
+        //search textfield activates the filter.
+        txt_catSearch.textProperty().addListener((obs, oldVal, newVal) -> {
+            catModel.filteredCategories(newVal);
+        });
     }
 
     void setContr(PrimaryController pCon) {
@@ -218,7 +235,7 @@ public class LibraryController implements Initializable {
         txt_Cat.setVisible(false); //makes the textfield invisible.
         btn_saveCategory.setVisible(false); //makes the button invisible.
     }
-    
+
     @FXML
     private void handle_deleteCategory(ActionEvent event) throws IOException {
         Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();

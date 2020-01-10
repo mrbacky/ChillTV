@@ -70,4 +70,22 @@ public interface LogicFacade {
     String sec_To_Format(int sec);
 
     int format_To_Sec(String timeString);
+    
+    /**
+     * Searches for all movies which matches the given query.
+     *
+     * @param searchBase
+     * @param query The search query
+     * @return A list of movies that matches the search query.
+     */
+    List<Movie> searchMovies(List<Movie> searchBase, String query);
+    
+    /**
+     * Searches for all categories which matches the given query.
+     *
+     * @param searchBase
+     * @param query The search query
+     * @return A list of categories that matches the search query.
+     */
+    List<Category> searchCategories(List<Category> searchBase, String query);
 }
