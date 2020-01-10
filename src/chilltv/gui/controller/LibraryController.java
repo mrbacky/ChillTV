@@ -16,8 +16,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -25,6 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class LibraryController implements Initializable {
 
@@ -80,6 +87,7 @@ public class LibraryController implements Initializable {
     @FXML
     private Button btn_deleteCategory;
 
+
     @FXML
     private ListView<Movie> lv_Category;
 
@@ -89,6 +97,16 @@ public class LibraryController implements Initializable {
     private CategoryModel catModel;
     private boolean edit;
     private Category categoryToEdit;
+    @FXML
+    private ContextMenu con_ContextMenu;
+    @FXML
+    private MenuItem menuItem_Edit;
+    @FXML
+    private MenuItem menuItem_Delete;
+    @FXML
+    private Menu qee;
+    @FXML
+    private SeparatorMenuItem separator;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -96,7 +114,10 @@ public class LibraryController implements Initializable {
         edit = false;
         setSearchMovies();
         setSearchCategories();
+        
     }
+
+    
 
     private void settingTableViews() {
         movieModel = MovieModel.getInstance();
@@ -135,7 +156,7 @@ public class LibraryController implements Initializable {
             movieModel.filteredMovies(newVal);
         });
     }
-    
+
     private void setSearchCategories() {
         //Set the filter Predicate when the filter changes. Any changes to the
         //search textfield activates the filter.
@@ -262,4 +283,6 @@ public class LibraryController implements Initializable {
             lbl_Category.setText(selectedCategory.getName());
         }
     }
+
+    
 }
