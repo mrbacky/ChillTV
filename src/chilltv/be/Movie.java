@@ -104,4 +104,9 @@ public class Movie {
     public void setLastView(String lastView) {
         this.lastView = lastView;
     }
+    
+    @Override
+    public String toString() {
+        return title;
+    }
 }

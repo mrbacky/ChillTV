@@ -68,58 +68,57 @@ public class PrimaryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         //mediaView.toBack();
         buttonBar.setOpacity(0.3);
-       // to test with a movie
-       //handle_openFile(null);
-        
+        // to test with a movie
+        //handle_openFile(null);
+
         //buttonBar.setAlignment(Pos.TOP_CENTER);
     }
-    private void bindPlayerToGUI(StringProperty sp, boolean end)
-    {
+
+    private void bindPlayerToGUI(StringProperty sp, boolean end) {
         // Binds the currentTimeProperty to a StringProperty on the label
         // The computeValue() calculates minutes and seconds from the
         // CurrentTimeProperty, which is a javafx Duration type.
         sp.bind(
-                new StringBinding()
+                new StringBinding() {
+            // Initialization block 
+            // Somewhat like a constructor without arguments
             {
-                // Initialization block 
-                // Somewhat like a constructor without arguments
-                { 
-                    super.bind(mediaPlayer.currentTimeProperty());
+                super.bind(mediaPlayer.currentTimeProperty());
             }
-                  @Override
-                  
-                protected String computeValue(){
-                    long timeMillis = (long) mediaPlayer.getCurrentTime().toMillis();
-                    if(end)
-                        timeMillis = -timeMillis+ (long) mediaPlayer.getMedia().getDuration().toMillis();
-                    
-                    String form = String.format("%d:%d:%d",
-                            
-                            TimeUnit.MILLISECONDS.toHours(timeMillis),
-                            TimeUnit.MILLISECONDS.toMinutes(timeMillis)
-                            - TimeUnit.HOURS.toMinutes(
-                                    TimeUnit.MILLISECONDS.toHours(
-                                            timeMillis
-                                    )
-                            ),
-                            TimeUnit.MILLISECONDS.toSeconds(timeMillis)
-                            - TimeUnit.MINUTES.toSeconds(
-                                    TimeUnit.MILLISECONDS.toMinutes(
-                                            timeMillis
-                      
-                      
-                        )
-                            )
-                    );
-                    
-                    return form;
+
+            @Override
+
+            protected String computeValue() {
+                long timeMillis = (long) mediaPlayer.getCurrentTime().toMillis();
+                if (end) {
+                    timeMillis = -timeMillis + (long) mediaPlayer.getMedia().getDuration().toMillis();
                 }
-            });
-    
+
+                String form = String.format("%02d:%02d:%02d",
+                        TimeUnit.MILLISECONDS.toHours(timeMillis),
+                        TimeUnit.MILLISECONDS.toMinutes(timeMillis)
+                        - TimeUnit.HOURS.toMinutes(
+                                TimeUnit.MILLISECONDS.toHours(
+                                        timeMillis
+                                )
+                        ),
+                        TimeUnit.MILLISECONDS.toSeconds(timeMillis)
+                        - TimeUnit.MINUTES.toSeconds(
+                                TimeUnit.MILLISECONDS.toMinutes(
+                                        timeMillis
+                                )
+                        )
+                );
+
+                return form;
+            }
+        });
+
     }
+
     @FXML
     private void handle_openLibrary(ActionEvent event) throws IOException {
         Parent root1;
@@ -177,8 +176,6 @@ public class PrimaryController implements Initializable {
         mediaPlayer.stop();
     }
 
-    
-
     @FXML
     private void handle_showBar(MouseEvent event) {
         buttonBar.setOpacity(1);
@@ -191,15 +188,15 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private void handle_volumeSlider(MouseEvent event) {
-        
+
         if (mediaPlayer != null) {
             System.out.println(volumeSlider.getValue());
             mediaPlayer.setVolume(volumeSlider.getValue() * 100);
             mediaPlayer.setVolume(volumeSlider.getValue() / 100);
         }
-        
+
     }
-    
+
     @FXML
     private void hande_progressSlider(MouseEvent event) {
         //getting duration from file in seconds
@@ -207,17 +204,17 @@ public class PrimaryController implements Initializable {
         /*
         Get the currentTime and add change listner, which will be notified whenever 
         the value of the ObservableValue changes and that we get the new value and set it to the slider
-        */
+         */
         mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                 progressSlider.setValue(newValue.toSeconds());
             }
-        });  
+        });
         progressSlider.maxProperty().bind(Bindings.createDoubleBinding(()
                 -> mediaPlayer.getTotalDuration().toSeconds(),
                 mediaPlayer.totalDurationProperty()));
-        
+
         progressSlider.setOnMouseClicked((MouseEvent mouseEvent) -> { //This Method shows the progress of the progress bar
             mediaPlayer.seek(Duration.seconds(progressSlider.getValue())); //It seeks the duration in seconds ofc. 
         });
@@ -231,7 +228,5 @@ public class PrimaryController implements Initializable {
     @FXML
     private void handle_next(ActionEvent event) {
     }
-
-    
 
 }
