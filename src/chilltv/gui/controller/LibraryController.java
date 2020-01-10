@@ -46,8 +46,6 @@ public class LibraryController implements Initializable {
     @FXML
     private Button btn_deleteMovie;
     @FXML
-    private Button btn_addCategory;
-    @FXML
     private Button btn_editCategory;
     @FXML
     private Button btn_deleteCategory;
@@ -87,6 +85,8 @@ public class LibraryController implements Initializable {
     private Movie movie;
     private MovieModel movieModel;
     private CategoryModel catModel;
+    @FXML
+    private Button btn_addCategoryVisible;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -184,9 +184,6 @@ public class LibraryController implements Initializable {
         songStage.show();
     }
 
-    @FXML
-    private void handle_addCategory(ActionEvent event) {
-    }
 
     @FXML
     private void handle_editCategory(ActionEvent event) {
@@ -207,5 +204,9 @@ public class LibraryController implements Initializable {
             getMoviesInCategory();
             lbl_Category.setText(selectedCategory.getName());
         }
+    }
+
+    @FXML
+    private void handle_addCategoryVisible(ActionEvent event) {
     }
 }
