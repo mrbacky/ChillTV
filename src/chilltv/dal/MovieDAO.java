@@ -37,7 +37,7 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
-                String category = cc.getCategoriesOnMovies(id);
+                String category = cc.getCategoriesOnMovies(id); //calls method from CategoryConverter and gets categories for movie and makes it into a string
                 
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
