@@ -1,6 +1,7 @@
 package chilltv.dal;
 
 import chilltv.be.Movie;
+import chilltv.dal.util.CategoryConverter;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
 public class MovieDAO {
 
     DBConnectionProvider cp = new DBConnectionProvider();
+    CategoryConverter cc = new CategoryConverter();
 
     public List<Movie> getAllMovies() {
         List<Movie> allMovies = new ArrayList<>();
@@ -35,10 +37,11 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
-                
+                String category = cc.getCategoriesOnMovies(id);
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
-                allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView));
+                                allMovies.add(new Movie(id, title, category, duration, imdbRating, myRating, fileLink, lastView));
+
             }
             return allMovies;
         } catch (SQLException ex) {
@@ -58,6 +61,7 @@ public class MovieDAO {
             pstmt.setString(5, fileLink);
             pstmt.setString(6, lastView);
             int affectedRows = pstmt.executeUpdate();
+            String category = "No Category Added Yet";
 
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
@@ -66,7 +70,7 @@ public class MovieDAO {
             try ( ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     int id = rs.getInt(1);
-                    return new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView);
+                    return new Movie(id, title, category, duration, imdbRating, myRating, fileLink, lastView);
                 } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }

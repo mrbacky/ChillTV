@@ -14,12 +14,14 @@ public class Movie {
     private String fileLink;
     private String lastView;
     private String stringDuration;
+    private String category;
 
     //  JSoup for imDB Rating
     //  tmdb
-    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
+    public Movie(int id, String title, String category, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
         this.id = id;
         this.title = title;
+        this.category = category;
         this.duration = duration;
         this.imdbRating = imdbRating;
         this.myRating = myRating;
@@ -43,6 +45,14 @@ public class Movie {
         this.title = title;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    
     public int getDuration() {
         return duration;
     }
