@@ -16,19 +16,23 @@ public class Movie {
     private String stringDuration;
     private String category;
 
-    //  JSoup for imDB Rating
-    //  tmdb
-    public Movie(int id, String title, String category, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
+    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, String category) {
         this.id = id;
         this.title = title;
-        this.category = category;
         this.duration = duration;
         this.imdbRating = imdbRating;
         this.myRating = myRating;
         this.fileLink = fileLink;
         this.lastView = lastView;
+        this.category = category;
     }
 
+   
+
+    
+
+    //  JSoup for imDB Rating
+    //  tmdb
     public int getId() {
         return id;
     }
@@ -52,7 +56,7 @@ public class Movie {
     public void setCategory(String category) {
         this.category = category;
     }
-    
+
     public int getDuration() {
         return duration;
     }

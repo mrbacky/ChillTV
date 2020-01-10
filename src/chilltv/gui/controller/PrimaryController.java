@@ -1,5 +1,6 @@
 package chilltv.gui.controller;
 
+import chilltv.be.Movie;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -9,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
+import javafx.scene.control.SelectionModel;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -65,47 +68,58 @@ public class PrimaryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         //mediaView.toBack();
         buttonBar.setOpacity(0.3);
-
+       // to test with a movie
+       //handle_openFile(null);
+        
         //buttonBar.setAlignment(Pos.TOP_CENTER);
     }
-    /* private void bindPlayerToGUI()
+    private void bindPlayerToGUI(StringProperty sp, boolean end)
     {
         // Binds the currentTimeProperty to a StringProperty on the label
         // The computeValue() calculates minutes and seconds from the
         // CurrentTimeProperty, which is a javafx Duration type.
-        lbl_endTime.textProperty().bind(
-            new StringBinding()
+        sp.bind(
+                new StringBinding()
             {
                 // Initialization block 
                 // Somewhat like a constructor without arguments
                 { 
-                    // Makes the StringBinding listen for changes to 
-                    // the currentTimeProperty
                     super.bind(mediaPlayer.currentTimeProperty());
-                }
-
-                @Override
-                protected String computeValue()
-                {
+            }
+                  @Override
+                  
+                protected String computeValue(){
+                    long timeMillis = (long) mediaPlayer.getCurrentTime().toMillis();
+                    if(end)
+                        timeMillis = -timeMillis+ (long) mediaPlayer.getMedia().getDuration().toMillis();
                     
-                    String form = String.format("%d hours, %d min, %d sec",
-                        TimeUnit.MILLISECONDS.toHours((long)mediaPlayer.getCurrentTime().toMillis()),
-                        TimeUnit.MILLISECONDS.toMinutes((long)mediaPlayer.getCurrentTime().toMillis()),
-                        TimeUnit.MILLISECONDS.toSeconds((long)mediaPlayer.getCurrentTime().toMillis()) - 
-                        TimeUnit.MINUTES.toSeconds(
-                            TimeUnit.MILLISECONDS.toMinutes(
-                                (long)mediaPlayer.getCurrentTime().toMillis()
-                            )
+                    String form = String.format("%d:%d:%d",
+                            
+                            TimeUnit.MILLISECONDS.toHours(timeMillis),
+                            TimeUnit.MILLISECONDS.toMinutes(timeMillis)
+                            - TimeUnit.HOURS.toMinutes(
+                                    TimeUnit.MILLISECONDS.toHours(
+                                            timeMillis
+                                    )
+                            ),
+                            TimeUnit.MILLISECONDS.toSeconds(timeMillis)
+                            - TimeUnit.MINUTES.toSeconds(
+                                    TimeUnit.MILLISECONDS.toMinutes(
+                                            timeMillis
+                      
+                      
                         )
+                            )
                     );
                     
                     return form;
                 }
             });
-    }*/
-
+    
+    }
     @FXML
     private void handle_openLibrary(ActionEvent event) throws IOException {
         Parent root1;
@@ -135,6 +149,8 @@ public class PrimaryController implements Initializable {
             Media media = new Media(filePath);
             mediaPlayer = new MediaPlayer(media);
             mediaView.setMediaPlayer(mediaPlayer);
+            bindPlayerToGUI(lbl_endTime.textProperty(), true);
+            bindPlayerToGUI(lbl_startTime.textProperty(), false);
 
             DoubleProperty width = mediaView.fitWidthProperty();
             DoubleProperty height = mediaView.fitHeightProperty();
@@ -161,15 +177,7 @@ public class PrimaryController implements Initializable {
         mediaPlayer.stop();
     }
 
-    @FXML
-    private void handle_next(ActionEvent event) {
-
-    }
-
-    @FXML
-    private void handle_previous(ActionEvent event) {
-        
-    }
+    
 
     @FXML
     private void handle_showBar(MouseEvent event) {
@@ -206,14 +214,22 @@ public class PrimaryController implements Initializable {
                 progressSlider.setValue(newValue.toSeconds());
             }
         });  
-        progressSlider.maxProperty().bind(Bindings.createDoubleBinding(() -> 
-                mediaPlayer.getTotalDuration().toSeconds(), 
+        progressSlider.maxProperty().bind(Bindings.createDoubleBinding(()
+                -> mediaPlayer.getTotalDuration().toSeconds(),
                 mediaPlayer.totalDurationProperty()));
-
+        
         progressSlider.setOnMouseClicked((MouseEvent mouseEvent) -> { //This Method shows the progress of the progress bar
             mediaPlayer.seek(Duration.seconds(progressSlider.getValue())); //It seeks the duration in seconds ofc. 
         });
 
+    }
+
+    @FXML
+    private void handle_previous(ActionEvent event) {
+    }
+
+    @FXML
+    private void handle_next(ActionEvent event) {
     }
 
     
