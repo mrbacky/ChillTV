@@ -1,6 +1,8 @@
 package chilltv.gui.controller;
 
+import chilltv.be.Category;
 import chilltv.be.Movie;
+import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
 import java.io.IOException;
 import java.net.URL;
@@ -21,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class LibraryController implements Initializable {
@@ -29,11 +32,7 @@ public class LibraryController implements Initializable {
     private Button btn_addMovie;
     @FXML
     private ImageView icon_search;
-    @FXML
-    private TableView<?> tbv_Categories;
 
-    @FXML
-    private ListView<?> lv_Category;
     @FXML
     private Label lbl_Categories;
     @FXML
@@ -58,10 +57,6 @@ public class LibraryController implements Initializable {
     private TextField txt_Cat;
     @FXML
     private Button btn_saveCategory;
-    @FXML
-    private TableColumn<?, String> col_Name;
-    @FXML
-    private TableColumn<?, Integer> col_numOfMovies;
 
     @FXML
     private TableView<Movie> tbv_Movies;
@@ -78,9 +73,20 @@ public class LibraryController implements Initializable {
     @FXML
     private TableColumn<Movie, String> col_LastView;    //LocalDateTime
 
+    @FXML
+    private TableView<Category> tbv_Categories;
+    @FXML
+    private TableColumn<Category, String> col_Name;
+    @FXML
+    private TableColumn<Category, Integer> col_numOfMovies;
+
+    @FXML
+    private ListView<Movie> lv_Category;
+
     private PrimaryController pCon;
     private Movie movie;
     private MovieModel movieModel;
+    private CategoryModel catModel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -90,9 +96,8 @@ public class LibraryController implements Initializable {
 
     private void settingTableViews() {
         movieModel = MovieModel.getInstance();
+        catModel = CategoryModel.getInstance();
 
-        //  Category table view
-        //  col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
         //  Library table view
         col_Title.setCellValueFactory(new PropertyValueFactory<>("title"));
         //col_Category.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -101,10 +106,22 @@ public class LibraryController implements Initializable {
         col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
         col_LastView.setCellValueFactory(new PropertyValueFactory<>("lastView"));
         //  displaying content
-
         tbv_Movies.setItems(movieModel.getObsMovies());
         movieModel.loadAllMovies();
 
+        //  Category table view
+        col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        col_numOfMovies.setCellValueFactory(new PropertyValueFactory<>("numberOfMovies"));
+        // In order to display, set reference to one ObservableList.
+        tbv_Categories.setItems(catModel.getObsCategories());
+        catModel.loadAllCategories();
+    }
+
+    private void getMoviesInCategory() {
+        ObservableList<Movie> moviesInPlaylist = FXCollections.observableArrayList();
+        moviesInPlaylist.clear();
+        moviesInPlaylist.addAll(tbv_Categories.getSelectionModel().getSelectedItem().getMovies());
+        lv_Category.setItems(moviesInPlaylist);
     }
 
     void setContr(PrimaryController pCon) {
@@ -128,7 +145,6 @@ public class LibraryController implements Initializable {
         //songStage.initStyle(StageStyle.UNDECORATED);
         libraryStage.setScene(libraryScene);
         libraryStage.show();
-
     }
 
     @FXML
@@ -184,4 +200,12 @@ public class LibraryController implements Initializable {
     private void handle_saveCategory(ActionEvent event) {
     }
 
+    @FXML
+    private void handle_getCategoryContent(MouseEvent event) {
+        Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
+        if (selectedCategory != null) {
+            getMoviesInCategory();
+            lbl_Category.setText(selectedCategory.getName());
+        }
+    }
 }

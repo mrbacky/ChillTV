@@ -104,7 +104,7 @@ public class CategoryDAO {
         HashMap<Integer, Category> categories = getAllCategories();
         try ( //Get a connection to the database.
                  Connection con = connectDAO.getConnection()) {
-            String sql = "SELECT CatMovie.movieId, Movie.id, Movie.title, Movie.duration, Movie.fileLink, CatMovie.catergoryId\n"
+            String sql = "SELECT CatMovie.movieId, Movie.id, Movie.title, Movie.duration, Movie.fileLink, CatMovie.categoryId\n"
                     + "FROM CatMovie LEFT JOIN Movie ON CatMovie.movieId = Movie.id";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
