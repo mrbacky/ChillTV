@@ -2,6 +2,7 @@ package chilltv.dal;
 
 import chilltv.be.Category;
 import chilltv.be.Movie;
+import chilltv.dal.util.CategoryConverter;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +25,7 @@ import java.util.logging.Logger;
 public class CategoryDAO {
 
     private final DBConnectionProvider connectDAO;
-
+    CategoryConverter cc = new CategoryConverter();
     /**
      * Constructor, which creates the connection with the database.
      */
@@ -114,8 +115,10 @@ public class CategoryDAO {
                 int duration = rs.getInt("duration");
                 String fileLink = rs.getString("fileLink");
                 String title = rs.getString("title");
+                String category = cc.getCategoriesOnMovies(id);
+                //keep an eye on this, wøbbe
 
-                categories.get(categoryId).addMovie(new Movie(id, title, duration, 5, 9, fileLink, "2019"));
+                categories.get(categoryId).addMovie(new Movie(id, title, category, duration, 5, 9, fileLink, "2019"));
             }
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
