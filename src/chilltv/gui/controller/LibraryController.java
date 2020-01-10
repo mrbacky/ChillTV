@@ -32,7 +32,6 @@ public class LibraryController implements Initializable {
     private Button btn_addMovie;
     @FXML
     private ImageView icon_search;
-
     @FXML
     private Label lbl_Categories;
     @FXML
@@ -46,17 +45,7 @@ public class LibraryController implements Initializable {
     @FXML
     private Button btn_deleteMovie;
     @FXML
-    private Button btn_addCategory;
-    @FXML
-    private Button btn_editCategory;
-    @FXML
-    private Button btn_deleteCategory;
-    @FXML
     private TextField txt_movieSearch;
-    @FXML
-    private TextField txt_Cat;
-    @FXML
-    private Button btn_saveCategory;
 
     @FXML
     private TableView<Movie> tbv_Movies;
@@ -81,16 +70,30 @@ public class LibraryController implements Initializable {
     private TableColumn<Category, Integer> col_numOfMovies;
 
     @FXML
+    private Button btn_addCategoryVisible;
+    @FXML
+    private TextField txt_Cat;
+    @FXML
+    private Button btn_saveCategory;
+    @FXML
+    private Button btn_editCategory;
+    @FXML
+    private Button btn_deleteCategory;
+
+    @FXML
     private ListView<Movie> lv_Category;
 
     private PrimaryController pCon;
     private Movie movie;
     private MovieModel movieModel;
     private CategoryModel catModel;
+    private boolean edit;
+    private Category categoryToEdit;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         settingTableViews();
+        edit = false;
 
     }
 
@@ -185,19 +188,53 @@ public class LibraryController implements Initializable {
     }
 
     @FXML
-    private void handle_addCategory(ActionEvent event) {
+    private void handle_addCategoryVisible(ActionEvent event) {
+        txt_Cat.setVisible(true);
+        btn_saveCategory.setVisible(true);
     }
 
     @FXML
     private void handle_editCategory(ActionEvent event) {
+        edit = true;
+        txt_Cat.setVisible(true);
+        btn_saveCategory.setVisible(true);
+        Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
+        //sets the existing info of the selected playlist.
+        txt_Cat.setText(selectedCategory.getName());
     }
 
     @FXML
-    private void handle_deleteCategory(ActionEvent event) {
-    }
+    public void handle_saveCategory(ActionEvent event) {
+        if (!edit) {
+            Category category = new Category(0, txt_Cat.getText().trim());
+            catModel.createCategory(category);
+        } else {
+            //update the edited name
+            Category categoryToEdit = tbv_Categories.getSelectionModel().getSelectedItem();
+            categoryToEdit.setName(txt_Cat.getText().trim());
+            catModel.updateCategory(categoryToEdit);
+        }
 
+        txt_Cat.setVisible(false); //makes the textfield invisible.
+        btn_saveCategory.setVisible(false); //makes the button invisible.
+    }
+    
     @FXML
-    private void handle_saveCategory(ActionEvent event) {
+    private void handle_deleteCategory(ActionEvent event) throws IOException {
+        Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
+        Parent root;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/DeleteCategoryPopUp.fxml"));
+        root = (Parent) fxmlLoader.load();
+        DeleteCategoryPopUpController controller = (DeleteCategoryPopUpController) fxmlLoader.getController();
+        controller.setContr(this);
+        controller.setDeleteCategoryLabel(selectedCategory);
+
+        Stage songStage = new Stage();
+        Scene songScene = new Scene(root);
+
+        //songStage.initStyle(StageStyle.UNDECORATED);
+        songStage.setScene(songScene);
+        songStage.show();
     }
 
     @FXML

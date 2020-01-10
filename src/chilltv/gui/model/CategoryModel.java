@@ -1,6 +1,7 @@
 package chilltv.gui.model;
 
 import chilltv.be.Category;
+import chilltv.be.Movie;
 import chilltv.bll.LogicFacade;
 import chilltv.bll.LogicManager;
 import java.util.List;
@@ -32,5 +33,21 @@ public class CategoryModel {
 
     public ObservableList<Category> getObsCategories() {
         return categoryList;
+    }
+
+    public void createCategory(Category category) {
+        logicManager.createCategory(category);
+        categoryList.add(category);
+    }
+    
+    public void updateCategory(Category category){
+        logicManager.updateCategory(category);
+        int index = categoryList.indexOf(category);
+        categoryList.set(index, category);
+    }
+    
+    public void deleteCategory(Category category){
+        logicManager.deleteCategory(category);
+        categoryList.remove(category);
     }
 }
