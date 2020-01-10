@@ -28,7 +28,7 @@ public class MovieModel {
         libraryList.clear();
         List<Movie> allMovies = logicManager.getAllMovies();
         for (Movie movie : allMovies) {
-            //Save the converted time in the hh:mm:ss format before adding the movie to an ObservableList.
+            //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
             movie.setStringDuration(sec_To_Format(movie.getDuration()));
         }
         libraryList.addAll(allMovies);
