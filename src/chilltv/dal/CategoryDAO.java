@@ -119,7 +119,7 @@ public class CategoryDAO {
                 String category = cc.getCategoriesOnMovies(id);
                 //keep an eye on this, wøbbe
 
-                categories.get(categoryId).addMovie(new Movie(id, title, category, duration, 5, 9, fileLink, "2019"));
+                categories.get(categoryId).addMovie(new Movie(id, title, duration, 888, 99, fileLink, title, category));
             }
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);

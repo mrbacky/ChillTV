@@ -40,7 +40,7 @@ public class MovieDAO {
                 String category = cc.getCategoriesOnMovies(id);
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
-                                allMovies.add(new Movie(id, title, category, duration, imdbRating, myRating, fileLink, lastView));
+                                allMovies.add(new Movie(id, title, duration, 999, 888, fileLink, lastView, category));
 
             }
             return allMovies;
@@ -70,7 +70,7 @@ public class MovieDAO {
             try ( ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     int id = rs.getInt(1);
-                    return new Movie(id, title, category, duration, imdbRating, myRating, fileLink, lastView);
+                    return new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category);
                 } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
