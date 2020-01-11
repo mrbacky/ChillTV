@@ -5,6 +5,7 @@ import chilltv.be.Movie;
 import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -16,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -87,11 +89,10 @@ public class LibraryController implements Initializable {
     @FXML
     private Button btn_deleteCategory;
 
-
     @FXML
     private ListView<Movie> lv_Category;
 
-    private PrimaryController pCon;
+    private PlayerController pCon;
     private Movie movie;
     private MovieModel movieModel;
     private CategoryModel catModel;
@@ -104,20 +105,39 @@ public class LibraryController implements Initializable {
     @FXML
     private MenuItem menuItem_Delete;
     @FXML
-    private Menu qee;
-    @FXML
     private SeparatorMenuItem separator;
+    @FXML
+    private MenuItem menuItem_playMovie;
+    @FXML
+    private Menu menu_Category;
+    @FXML
+    private RadioMenuItem rawAction;
+    @FXML
+    private RadioMenuItem rawDrama;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        settingTableViews();
         edit = false;
+        settingTableViews();
         setSearchMovies();
         setSearchCategories();
-        
+        setCategoriesIntoMenu();
     }
 
-    
+    public void setCategoriesIntoMenu() {
+        catModel.getObsCategories();
+        for (Category cat : catModel.getObsCategories()) {
+            menu_Category.getItems().add(new CheckMenuItem(cat.toString()));
+        }
+
+    }
+
+    public void showScene(Parent root) {
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     private void settingTableViews() {
         movieModel = MovieModel.getInstance();
@@ -143,10 +163,10 @@ public class LibraryController implements Initializable {
     }
 
     private void getMoviesInCategory() {
-        ObservableList<Movie> moviesInPlaylist = FXCollections.observableArrayList();
-        moviesInPlaylist.clear();
-        moviesInPlaylist.addAll(tbv_Categories.getSelectionModel().getSelectedItem().getMovies());
-        lv_Category.setItems(moviesInPlaylist);
+        ObservableList<Movie> moviesInChosenCategory = FXCollections.observableArrayList();
+        moviesInChosenCategory.clear();
+        moviesInChosenCategory.addAll(tbv_Categories.getSelectionModel().getSelectedItem().getMovies());
+        lv_Category.setItems(moviesInChosenCategory);
     }
 
     private void setSearchMovies() {
@@ -165,7 +185,7 @@ public class LibraryController implements Initializable {
         });
     }
 
-    void setContr(PrimaryController pCon) {
+    void setContr(PlayerController pCon) {
         this.pCon = pCon;
     }
 
@@ -175,36 +195,25 @@ public class LibraryController implements Initializable {
     //  saveCreateCategory
     @FXML
     private void btn_openAddMovie(ActionEvent event) throws IOException {
-        Parent root1;
+        Parent root;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/MovieScene.fxml"));
-        root1 = (Parent) fxmlLoader.load();
+        root = (Parent) fxmlLoader.load();
         fxmlLoader.<MovieSceneController>getController().setContr(this);
-
-        Stage libraryStage = new Stage();
-        Scene libraryScene = new Scene(root1);
-
-        //songStage.initStyle(StageStyle.UNDECORATED);
-        libraryStage.setScene(libraryScene);
-        libraryStage.show();
+        showScene(root);
     }
 
     @FXML
     private void handle_openEditMovie(ActionEvent event) throws IOException {
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
-        Parent root1;
+        Parent root;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/MovieScene.fxml"));
-        root1 = (Parent) fxmlLoader.load();
+        root = (Parent) fxmlLoader.load();
 
-        MovieSceneController controller = (MovieSceneController) fxmlLoader.getController();
-        controller.setContr(this);
-        controller.editMode(selectedMovie);
+        MovieSceneController movieSceneController = (MovieSceneController) fxmlLoader.getController();
+        movieSceneController.setContr(this);
+        movieSceneController.editMode(selectedMovie);
+        showScene(root);
 
-        Stage libraryStage = new Stage();
-        Scene libraryScene = new Scene(root1);
-
-        //songStage.initStyle(StageStyle.UNDECORATED);
-        libraryStage.setScene(libraryScene);
-        libraryStage.show();
     }
 
     @FXML
@@ -216,13 +225,8 @@ public class LibraryController implements Initializable {
         DeleteMoviePopUpController controller = (DeleteMoviePopUpController) fxmlLoader.getController();
         controller.setContr(this);
         controller.setDeleteMovieLabel(selectedMovie);
+        showScene(root);
 
-        Stage songStage = new Stage();
-        Scene songScene = new Scene(root);
-
-        //songStage.initStyle(StageStyle.UNDECORATED);
-        songStage.setScene(songScene);
-        songStage.show();
     }
 
     @FXML
@@ -266,13 +270,8 @@ public class LibraryController implements Initializable {
         DeleteCategoryPopUpController controller = (DeleteCategoryPopUpController) fxmlLoader.getController();
         controller.setContr(this);
         controller.setDeleteCategoryLabel(selectedCategory);
+        showScene(root);
 
-        Stage songStage = new Stage();
-        Scene songScene = new Scene(root);
-
-        //songStage.initStyle(StageStyle.UNDECORATED);
-        songStage.setScene(songScene);
-        songStage.show();
     }
 
     @FXML
@@ -284,5 +283,19 @@ public class LibraryController implements Initializable {
         }
     }
 
-    
+    @FXML
+    private void handle_openPlayer(ActionEvent event) throws IOException, URISyntaxException {
+        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
+        Parent root;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/PlayerScene.fxml"));
+        root = (Parent) fxmlLoader.load();
+        PlayerController playerController = (PlayerController) fxmlLoader.getController();
+
+        playerController.setContr(this);
+
+        playerController.playFile(selectedMovie);
+        showScene(root);
+
+    }
+
 }

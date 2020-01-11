@@ -94,4 +94,10 @@ public class Category {
         movies.remove(movie);
         numberOfMovies--;
     }
+    
+    @Override
+    public String toString() {
+        return name;
+    }
+    
 }

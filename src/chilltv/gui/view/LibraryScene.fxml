@@ -36,18 +36,20 @@
          <contextMenu>
             <ContextMenu fx:id="con_ContextMenu">
               <items>
+                  <MenuItem fx:id="menuItem_playMovie" mnemonicParsing="false" onAction="#handle_openPlayer" text="Play" />
                 <MenuItem fx:id="menuItem_Edit" mnemonicParsing="false" onAction="#handle_openEditMovie" text="Edit" />
                   <MenuItem fx:id="menuItem_Delete" mnemonicParsing="false" onAction="#handle_deleteMovie" text="Delete" />
                   <SeparatorMenuItem fx:id="separator" mnemonicParsing="false" />
-                  <Menu fx:id="qee" mnemonicParsing="false" text="Category">
+                  <Menu fx:id="menu_Category" mnemonicParsing="false" text="Category">
                      <items>
-                        <RadioMenuItem mnemonicParsing="false" text="Comedy" />
-                        <RadioMenuItem mnemonicParsing="false" text="Action" />
-                        <RadioMenuItem mnemonicParsing="false" text="qdwqwd" />
-                        <RadioMenuItem mnemonicParsing="false" text="Drama" />
-                        <RadioMenuItem mnemonicParsing="false" text="Horror" />
-                        <RadioMenuItem mnemonicParsing="false" text="Crime" />
+                        <RadioMenuItem fx:id="rawAction" mnemonicParsing="false" text="rawAction" />
+                        <RadioMenuItem fx:id="rawDrama" mnemonicParsing="false" text="rawDrama" />
                      </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="My Rating">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Action 1" />
+                    </items>
                   </Menu>
               </items>
             </ContextMenu>

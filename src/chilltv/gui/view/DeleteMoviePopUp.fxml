@@ -32,7 +32,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="lbl_movieTitle" layoutX="184.0" layoutY="104.0" text="&quot;movie title&quot;" textFill="WHITE">
+      <Label fx:id="lbl_movieTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="104.0" prefHeight="21.0" prefWidth="450.0" text="&quot;movie title&quot;" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>

@@ -13,6 +13,7 @@ public class CategoryModel {
     private static CategoryModel catModel;
     private LogicFacade logicManager;
     private final ObservableList<Category> categoryList = FXCollections.observableArrayList();
+    private ObservableList<Movie> moviesInCatList = FXCollections.observableArrayList();
 
     public static CategoryModel getInstance() {
         if (catModel == null) {
@@ -31,6 +32,11 @@ public class CategoryModel {
         categoryList.addAll(allCategories);
     }
 
+//    public void loadMoviesInCategory(){
+//        moviesInCatList.clear();
+//        List<Movie>  
+//    }
+//    
     public ObservableList<Category> getObsCategories() {
         return categoryList;
     }

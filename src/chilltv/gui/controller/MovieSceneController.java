@@ -107,10 +107,14 @@ public class MovieSceneController implements Initializable {
             mediaPlayer.setOnReady(new Runnable() {
                 @Override
                 public void run() {
-                    int time, hours, mins, secs;
                     Duration movieDuration = media.getDuration();
-                    time = (int) (movieDuration.toSeconds());
-                    txtField_duration.setText(movieModel.sec_To_Format(time));
+                    if (movieDuration != null) {
+                        int time = (int) (movieDuration.toSeconds());
+                        String stringTime = movieModel.sec_To_Format(time);
+                        //  bug: stringTime is not showing sometimes after choosing file
+                        txtField_duration.setText(stringTime);
+                    }
+
                 }
             });
         }
