@@ -18,6 +18,7 @@ public class Movie {
     private String lastView;
     private String stringDuration;
     private List<Category> category;
+    private String stringCat;
 
     public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, List<Category> category) {
         this.id = id;
@@ -27,9 +28,8 @@ public class Movie {
         this.myRating = myRating;
         this.fileLink = fileLink;
         this.lastView = lastView;
-        category = new ArrayList();
+        this.category = category;
     }
-
 
     //  JSoup for imDB Rating
     //  tmdb
@@ -104,9 +104,17 @@ public class Movie {
     public void setLastView(String lastView) {
         this.lastView = lastView;
     }
-    
+
     @Override
     public String toString() {
         return title;
+    }
+
+    public String getStringCat() {
+        return stringCat;
+    }
+
+    public void setStringCat(String stringCat) {
+        this.stringCat = stringCat;
     }
 }

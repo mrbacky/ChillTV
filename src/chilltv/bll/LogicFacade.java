@@ -71,6 +71,8 @@ public interface LogicFacade {
 
     int format_To_Sec(String timeString);
     
+    String convertCategory(Movie movie);
+    
     /**
      * Searches for all movies which matches the given query.
      *

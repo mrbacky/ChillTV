@@ -118,6 +118,7 @@ public class LibraryController implements Initializable {
     private RadioMenuItem rawAction;
     @FXML
     private CheckMenuItem rawHorror;
+    CheckMenuItem catItem;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -140,8 +141,8 @@ public class LibraryController implements Initializable {
         //catModel.getObsCategories();
         menu_Category.getItems().clear();
         for (Category cat : catModel.getObsCategories()) {
-            CheckMenuItem catItem = new CheckMenuItem(cat.toString());
-            menu_Category.getItems().add(catItem);            
+            catItem = new CheckMenuItem(cat.toString());
+            catItem.setUserData(cat);
         }
 
     }
@@ -149,6 +150,9 @@ public class LibraryController implements Initializable {
     public void setCheckedCategoriesForMovie() {
         //  get selected movie. get its categories checked
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
+        catItem.selectedProperty().addListener(((observable, oldValue, newValue) -> {
+//                selectedMovie.getCategories();
+        }));
         
 
     }

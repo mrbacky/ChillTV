@@ -18,6 +18,7 @@ public class CategoryModel {
 
     public static CategoryModel getInstance() {
         if (catModel == null) {
+            
             catModel = new CategoryModel();
         }
         return catModel;

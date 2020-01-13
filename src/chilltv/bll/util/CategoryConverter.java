@@ -15,16 +15,18 @@ import java.util.List;
  * @author Martin
  */
 public class CategoryConverter {
-    
-    public String convertCategory(Movie movie){
-        ArrayList categoryArray = new ArrayList();
+
+    public String convertCategory(Movie movie) {
         List<Category> categoryList = movie.getCategory();
-        for (Category category : categoryList) {
-            categoryArray.add(category.getName());
-        }
-       
-        String ac = String.join(", ",categoryArray);
-            return ac;
+        ArrayList<String> categoryArrayList = new ArrayList<>();
+        System.out.println("this is from BE    "+categoryList);
+//        for (Category category : categoryList) {
+//            categoryArrayList.add(category.getName());
+//
+//        }
+
+        String ac = String.join(", ", categoryArrayList.toString());
+        return ac;
     }
-    
+
 }

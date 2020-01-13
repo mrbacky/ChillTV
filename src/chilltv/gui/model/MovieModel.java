@@ -31,11 +31,17 @@ public class MovieModel {
         for (Movie movie : allMovies) {
             //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
             movie.setStringDuration(sec_To_Format(movie.getDuration()));
+            movie.setStringCat(convert(movie));
+            
         }
         libraryList.addAll(allMovies);
 
     }
 
+    public String convert(Movie movie){
+        return logicManager.convertCategory(movie);
+    }
+    
     
     public ObservableList<Movie> getObsMovies() {
         return libraryList;
