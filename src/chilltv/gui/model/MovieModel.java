@@ -1,5 +1,6 @@
 package chilltv.gui.model;
 
+import chilltv.be.Category;
 import chilltv.be.Movie;
 import chilltv.bll.LogicFacade;
 import chilltv.bll.LogicManager;
@@ -24,7 +25,7 @@ public class MovieModel {
         logicManager = new LogicManager();
     }
 
-    public void loadAllMovies() {
+    public void loadMoviesFromCategory(Category category) {
         libraryList.clear();
         List<Movie> allMovies = logicManager.getAllMovies();
         for (Movie movie : allMovies) {
@@ -35,6 +36,7 @@ public class MovieModel {
 
     }
 
+    
     public ObservableList<Movie> getObsMovies() {
         return libraryList;
     }

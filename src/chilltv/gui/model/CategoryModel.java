@@ -14,6 +14,7 @@ public class CategoryModel {
     private LogicFacade logicManager;
     private final ObservableList<Category> categoryList = FXCollections.observableArrayList();
     private ObservableList<Movie> moviesInCatList = FXCollections.observableArrayList();
+//    private ObservableList<>
 
     public static CategoryModel getInstance() {
         if (catModel == null) {
@@ -26,6 +27,11 @@ public class CategoryModel {
         logicManager = new LogicManager();
     }
 
+    public void setCategoriesForMovie(){
+        
+        
+    }
+    
     public void loadAllCategories() {
         categoryList.clear();
         List<Category> allCategories = logicManager.getAllCategories();

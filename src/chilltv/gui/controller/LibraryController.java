@@ -4,10 +4,13 @@ import chilltv.be.Category;
 import chilltv.be.Movie;
 import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
+import java.awt.color.ICC_ColorSpace;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -122,13 +125,23 @@ public class LibraryController implements Initializable {
         settingTableViews();
         setSearchMovies();
         setSearchCategories();
+        lv_Category.setItems(movieModel.getObsMovies());
+
+        CategoryModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                loadCategoriesIntoMenu();
+            }
+        });
         loadCategoriesIntoMenu();
     }
 
     public void loadCategoriesIntoMenu() {
-        catModel.getObsCategories();
+        //catModel.getObsCategories();
+        menu_Category.getItems().clear();
         for (Category cat : catModel.getObsCategories()) {
-            menu_Category.getItems().add(new CheckMenuItem(cat.toString()));
+            CheckMenuItem catItem = new CheckMenuItem(cat.toString());
+            menu_Category.getItems().add(catItem);            
         }
 
     }
@@ -137,10 +150,9 @@ public class LibraryController implements Initializable {
         //  get selected movie. get its categories checked
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
         
+
     }
 
-    
-    
     public void showScene(Parent root) {
         Stage stage = new Stage();
         Scene scene = new Scene(root);
@@ -161,7 +173,7 @@ public class LibraryController implements Initializable {
         col_LastView.setCellValueFactory(new PropertyValueFactory<>("lastView"));
         //  displaying content
         tbv_Movies.setItems(movieModel.getObsMovies());
-        movieModel.loadAllMovies();
+        movieModel.loadMoviesFromCategory(categoryToEdit);
 
         //  Category table view
         col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -172,10 +184,9 @@ public class LibraryController implements Initializable {
     }
 
     private void getMoviesInCategory() {
-        ObservableList<Movie> moviesInChosenCategory = FXCollections.observableArrayList();
-        moviesInChosenCategory.clear();
-        moviesInChosenCategory.addAll(tbv_Categories.getSelectionModel().getSelectedItem().getMovies());
-        lv_Category.setItems(moviesInChosenCategory);
+        
+        
+//        movieModel.loadAllMovies();
     }
 
     private void setSearchMovies() {
