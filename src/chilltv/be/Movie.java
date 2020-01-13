@@ -1,5 +1,7 @@
 package chilltv.be;
 
+import java.util.List;
+
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
@@ -15,6 +17,7 @@ public class Movie {
     private String lastView;
     private String stringDuration;
     private String category;
+    private List<Category> categories;
 
     public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, String category) {
         this.id = id;
@@ -25,6 +28,14 @@ public class Movie {
         this.fileLink = fileLink;
         this.lastView = lastView;
         this.category = category;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
    

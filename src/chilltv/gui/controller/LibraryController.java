@@ -9,8 +9,10 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -110,10 +112,9 @@ public class LibraryController implements Initializable {
     private MenuItem menuItem_playMovie;
     @FXML
     private Menu menu_Category;
-    @FXML
     private RadioMenuItem rawAction;
     @FXML
-    private RadioMenuItem rawDrama;
+    private CheckMenuItem rawHorror;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -121,10 +122,10 @@ public class LibraryController implements Initializable {
         settingTableViews();
         setSearchMovies();
         setSearchCategories();
-        setCategoriesIntoMenu();
+        loadCategoriesIntoMenu();
     }
 
-    public void setCategoriesIntoMenu() {
+    public void loadCategoriesIntoMenu() {
         catModel.getObsCategories();
         for (Category cat : catModel.getObsCategories()) {
             menu_Category.getItems().add(new CheckMenuItem(cat.toString()));
@@ -132,6 +133,14 @@ public class LibraryController implements Initializable {
 
     }
 
+    public void setCheckedCategoriesForMovie() {
+        //  get selected movie. get its categories checked
+        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
+        
+    }
+
+    
+    
     public void showScene(Parent root) {
         Stage stage = new Stage();
         Scene scene = new Scene(root);
