@@ -19,7 +19,6 @@ public class CategoryConverter {
     public String convertCategory(Movie movie) {
         List<Category> categoryList = movie.getCategory();
         ArrayList<String> categoryArrayList = new ArrayList<>();
-        System.out.println("this is from BE    "+categoryList);
 //        for (Category category : categoryList) {
 //            categoryArrayList.add(category.getName());
 //

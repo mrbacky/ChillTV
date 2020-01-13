@@ -17,7 +17,9 @@ public class Movie {
     private String fileLink;
     private String lastView;
     private String stringDuration;
+    //  
     private List<Category> category;
+    
     private String stringCat;
 
     public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, List<Category> category) {

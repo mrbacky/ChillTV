@@ -126,9 +126,8 @@ public class LibraryController implements Initializable {
         settingTableViews();
         setSearchMovies();
         setSearchCategories();
-        lv_Category.setItems(movieModel.getObsMovies());
 
-        CategoryModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
+        catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 loadCategoriesIntoMenu();
@@ -153,7 +152,6 @@ public class LibraryController implements Initializable {
         catItem.selectedProperty().addListener(((observable, oldValue, newValue) -> {
 //                selectedMovie.getCategories();
         }));
-        
 
     }
 
@@ -176,21 +174,20 @@ public class LibraryController implements Initializable {
         col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
         col_LastView.setCellValueFactory(new PropertyValueFactory<>("lastView"));
         //  displaying content
+
         tbv_Movies.setItems(movieModel.getObsMovies());
-        movieModel.loadMoviesFromCategory(categoryToEdit);
+        movieModel.loadAllMovies();
 
         //  Category table view
         col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_numOfMovies.setCellValueFactory(new PropertyValueFactory<>("numberOfMovies"));
+        //  displaying content
         // In order to display, set reference to one ObservableList.
+
         tbv_Categories.setItems(catModel.getObsCategories());
         catModel.loadAllCategories();
-    }
 
-    private void getMoviesInCategory() {
-        
-        
-//        movieModel.loadAllMovies();
+        //  content of listView is displayed after choosing category - handle_getCategoryContent
     }
 
     private void setSearchMovies() {
@@ -213,10 +210,6 @@ public class LibraryController implements Initializable {
         this.pCon = pCon;
     }
 
-    //  openCreateMovie
-    //  saveCreateMovie
-    //  openCreateCategory
-    //  saveCreateCategory
     @FXML
     private void btn_openAddMovie(ActionEvent event) throws IOException {
         Parent root;
@@ -302,7 +295,8 @@ public class LibraryController implements Initializable {
     private void handle_getCategoryContent(MouseEvent event) {
         Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
         if (selectedCategory != null) {
-            getMoviesInCategory();
+            lv_Category.setItems(catModel.getObsMoviesOfCategory());
+            catModel.loadMoviesToCategories(selectedCategory);
             lbl_Category.setText(selectedCategory.getName());
         }
     }

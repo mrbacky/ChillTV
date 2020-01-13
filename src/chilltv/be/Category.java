@@ -27,6 +27,7 @@ public class Category {
         this.id = id;
         this.name = name;
         movies = new ArrayList();
+        
         numberOfMovies = movies.size();
     }
 

@@ -130,7 +130,7 @@ public class MovieSceneController implements Initializable {
                     txtField_title.getText().trim(),
                     movieModel.format_To_Sec(txtField_duration.getText()),
                     //category TO DO!!
-                    9, //imdbRating TO DO!!
+                    8, //imdbRating TO DO!!
                     7, //myRating TO DO!!
                     txtField_filePath.getText(),
                     "2018"); //lastView TO DO!!

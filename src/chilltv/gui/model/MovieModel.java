@@ -1,6 +1,6 @@
 package chilltv.gui.model;
 
-import chilltv.be.Category;
+
 import chilltv.be.Movie;
 import chilltv.bll.LogicFacade;
 import chilltv.bll.LogicManager;
@@ -25,15 +25,15 @@ public class MovieModel {
         logicManager = new LogicManager();
     }
 
-    public void loadMoviesFromCategory(Category category) {
-        libraryList.clear();
+    public void loadAllMovies() {
+        
         List<Movie> allMovies = logicManager.getAllMovies();
         for (Movie movie : allMovies) {
             //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
             movie.setStringDuration(sec_To_Format(movie.getDuration()));
             movie.setStringCat(convert(movie));
-            
         }
+        libraryList.clear();
         libraryList.addAll(allMovies);
 
     }

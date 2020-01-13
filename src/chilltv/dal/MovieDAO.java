@@ -26,7 +26,7 @@ public class MovieDAO {
         List<Movie> allMovies = new ArrayList<>();
         String stat = "SELECT * FROM Movie";
 
-        try ( Connection xd = cp.getConnection()) {
+        try (Connection xd = cp.getConnection()) {
             Statement statement = xd.createStatement();
             ResultSet rs = statement.executeQuery(stat);
             while (rs.next()) {
@@ -40,7 +40,7 @@ public class MovieDAO {
                 List<Category> category = catDao.getAllCategoriesOfMovie(id);
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
-                                allMovies.add(new Movie(id, title, duration, 999, 888, fileLink, lastView, category));
+                allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category));
 
             }
             return allMovies;
@@ -51,7 +51,7 @@ public class MovieDAO {
     }
 
     public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
-        try ( Connection con = cp.getConnection()) {
+        try (Connection con = cp.getConnection()) {
             String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, title);
@@ -67,7 +67,7 @@ public class MovieDAO {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
 
-            try ( ResultSet rs = pstmt.getGeneratedKeys()) {
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     int id = rs.getInt(1);
                     return new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category);
@@ -85,7 +85,7 @@ public class MovieDAO {
 
     public void deleteMovie(Movie movie) {
         //When the movie is deleted, it should also be removed from all categories. DOES IT?
-        try ( Connection con = cp.getConnection()) {
+        try (Connection con = cp.getConnection()) {
             String sql = "DELETE FROM Movie WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, movie.getId());
@@ -99,7 +99,7 @@ public class MovieDAO {
         String stat = "UPDATE movie\n"
                 + "SET title = ?, duration = ?, imdbRating = ?, myRating = ?, fileLink = ?, lastView = ?\n"
                 + "WHERE id = ?";
-        try ( Connection con = cp.getConnection()) {
+        try (Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setString(1, movie.getTitle());
             stmt.setInt(2, movie.getDuration());
