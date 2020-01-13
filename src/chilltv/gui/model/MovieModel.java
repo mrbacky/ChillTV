@@ -26,7 +26,6 @@ public class MovieModel {
     }
 
     public void loadAllMovies() {
-        
         List<Movie> allMovies = logicManager.getAllMovies();
         for (Movie movie : allMovies) {
             //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
@@ -61,6 +60,8 @@ public class MovieModel {
      */
     public void createMovie(String title, int duration, int myRating, int imdbRating, String filelink, String lastView) {
         Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView);
+        movie.setStringDuration(sec_To_Format(movie.getDuration()));
+        movie.setStringCat(convert(movie));
         libraryList.add(movie);
     }
 

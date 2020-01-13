@@ -296,7 +296,7 @@ public class LibraryController implements Initializable {
         Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
         if (selectedCategory != null) {
             lv_Category.setItems(catModel.getObsMoviesOfCategory());
-            catModel.loadMoviesToCategories(selectedCategory);
+            catModel.loadMoviesToCategory(selectedCategory);
             lbl_Category.setText(selectedCategory.getName());
         }
     }

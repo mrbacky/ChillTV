@@ -28,12 +28,13 @@ public class CategoryModel {
         logicManager = new LogicManager();
     }
 
-    public void loadMoviesToCategories(Category selectedCategory){
+    public void loadMoviesToCategory(Category selectedCategory){
         List<Movie> movies = selectedCategory.getMovies();
         moviesOfCategory.clear();
         moviesOfCategory.addAll(movies);
     }
     public ObservableList<Movie> getObsMoviesOfCategory(){
+        
         return moviesOfCategory;
     }
     

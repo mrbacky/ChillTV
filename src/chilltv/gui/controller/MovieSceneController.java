@@ -145,7 +145,9 @@ public class MovieSceneController implements Initializable {
             movieToEdit.setLastView("2020"); //lastView TO DO!!
             movieModel.updateMovie(movieToEdit);
         }
-
+        
+        
+        
         Stage stage;
         stage = (Stage) btn_saveMovie.getScene().getWindow();
         stage.close();
