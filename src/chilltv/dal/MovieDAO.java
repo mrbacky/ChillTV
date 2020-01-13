@@ -1,7 +1,7 @@
 package chilltv.dal;
 
+import chilltv.be.Category;
 import chilltv.be.Movie;
-import chilltv.dal.util.CategoryConverter;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class MovieDAO {
 
     DBConnectionProvider cp = new DBConnectionProvider();
-    CategoryConverter cc = new CategoryConverter();
+    CategoryDAO catDao = new CategoryDAO();
 
     public List<Movie> getAllMovies() {
         List<Movie> allMovies = new ArrayList<>();
@@ -37,7 +37,7 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
-                String category = cc.getCategoriesOnMovies(id);
+                List<Category> category = catDao.getAllCategoriesOfMovie(id);
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
                                 allMovies.add(new Movie(id, title, duration, 999, 888, fileLink, lastView, category));
@@ -61,7 +61,7 @@ public class MovieDAO {
             pstmt.setString(5, fileLink);
             pstmt.setString(6, lastView);
             int affectedRows = pstmt.executeUpdate();
-            String category = "No Category Added Yet";
+            List<Category> category = null;
 
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");

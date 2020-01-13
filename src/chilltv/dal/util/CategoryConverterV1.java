@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Martin
  */
-public class CategoryConverter {
+public class CategoryConverterV1 {
 
     DBConnectionProvider cp = new DBConnectionProvider();
 
