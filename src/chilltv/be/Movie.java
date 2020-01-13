@@ -1,5 +1,6 @@
 package chilltv.be;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,10 +17,9 @@ public class Movie {
     private String fileLink;
     private String lastView;
     private String stringDuration;
-    private String category;
-    private List<Category> categories;
+    private List<Category> category;
 
-    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, String category) {
+    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, List<Category> category) {
         this.id = id;
         this.title = title;
         this.duration = duration;
@@ -27,20 +27,9 @@ public class Movie {
         this.myRating = myRating;
         this.fileLink = fileLink;
         this.lastView = lastView;
-        this.category = category;
+        category = new ArrayList();
     }
 
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-   
-
-    
 
     //  JSoup for imDB Rating
     //  tmdb
@@ -60,11 +49,11 @@ public class Movie {
         this.title = title;
     }
 
-    public String getCategory() {
+    public List<Category> getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(List<Category> category) {
         this.category = category;
     }
 

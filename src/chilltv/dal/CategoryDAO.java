@@ -2,7 +2,7 @@ package chilltv.dal;
 
 import chilltv.be.Category;
 import chilltv.be.Movie;
-import chilltv.dal.util.CategoryConverter;
+import chilltv.dal.util.CategoryConverterV1;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public class CategoryDAO {
 
     private final DBConnectionProvider connectDAO;
-    CategoryConverter cc = new CategoryConverter();
+    CategoryConverterV1 cc = new CategoryConverterV1();
 
     /**
      * Constructor, which creates the connection with the database.
@@ -116,7 +116,7 @@ public class CategoryDAO {
                 int duration = rs.getInt("duration");
                 String fileLink = rs.getString("fileLink");
                 String title = rs.getString("title");
-                String category = cc.getCategoriesOnMovies(id);
+                List<Category> category = getAllCategoriesOfMovie(id);
                 //keep an eye on this, wøbbe
 
                 categories.get(categoryId).addMovie(new Movie(id, title, duration, 888, 99, fileLink, title, category));
@@ -133,24 +133,22 @@ public class CategoryDAO {
         return unhashedCategories;
     }
 
-    public List<Category> getAllCategoriesOfMovie(Movie selectedMovie) throws SQLException {
-        List<Category> categoryForMovieList = new ArrayList<>();
-        try (
-                Connection con = connectDAO.getConnection()) {
-            /**     (1)Drama   (14)it
-             *      (2)Horror  (14)it
-             *      (3)Sci-Fi  (14)it
-             */
-            String sql = "SELECT CatMovie WHERE movieid(?) = categoryid";  
+    public ArrayList getAllCategoriesOfMovie(int id) throws SQLException {
+        ArrayList categoryForMovieList = new ArrayList<>();
+        try (Connection con = connectDAO.getConnection()) {
+            String sql = "SELECT category.name, CatMovie.* FROM Category\n" +
+                "LEFT JOIN CatMovie on categoryid = Category.id\n" +
+                "WHERE CatMovie.movieID = "+ id + " ORDER BY Category.id";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                int movieId = rs.getInt("movieid");
+                categoryForMovieList.add(rs.getInt("categoryId"));
+                categoryForMovieList.add(rs.getString("name"));
             }
 
         } catch (Exception e) {
         }
-        return null;
+        return categoryForMovieList;
     }
 
     /**
