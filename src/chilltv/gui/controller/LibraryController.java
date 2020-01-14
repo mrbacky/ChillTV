@@ -8,6 +8,8 @@ import java.awt.color.ICC_ColorSpace;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -118,7 +120,7 @@ public class LibraryController implements Initializable {
     private RadioMenuItem rawAction;
     @FXML
     private CheckMenuItem rawHorror;
-    CheckMenuItem catItem;
+    private CheckMenuItem catItem;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -127,31 +129,55 @@ public class LibraryController implements Initializable {
         setSearchMovies();
         setSearchCategories();
 
+        loadCategoriesIntoMenu();
+        //setCheckedCategoriesForMovie();
+
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 loadCategoriesIntoMenu();
+                //setCheckedCategoriesForMovie();
+                System.out.println("asdasd");
             }
         });
-        loadCategoriesIntoMenu();
+
     }
 
     public void loadCategoriesIntoMenu() {
-        //catModel.getObsCategories();
+
         menu_Category.getItems().clear();
         for (Category cat : catModel.getObsCategories()) {
             catItem = new CheckMenuItem(cat.toString());
             catItem.setUserData(cat);
+            menu_Category.getItems().add(catItem);
         }
+    }
 
+    @FXML
+    private void handle_loadCheckedCategories(MouseEvent event) {
+        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
+        if (selectedMovie != null) {
+            for (Category cat : catModel.getObsCategories()) {
+                if (cat.getMovies().contains(selectedMovie)) {
+                    catItem.setSelected(true);
+                    System.out.println("asd");
+                }
+
+            }
+
+        }
     }
 
     public void setCheckedCategoriesForMovie() {
         //  get selected movie. get its categories checked
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
-        catItem.selectedProperty().addListener(((observable, oldValue, newValue) -> {
-//                selectedMovie.getCategories();
-        }));
+        //catItem.selectedProperty().addListener(((observable, oldValue, newValue) -> {
+        for (Category cat : catModel.getObsCategories()) {
+            if (cat.getMovies().contains(selectedMovie)) {
+                catItem.setSelected(true);
+            }
+
+        }
 
     }
 
