@@ -30,7 +30,7 @@ public class MovieModel {
         for (Movie movie : allMovies) {
             //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
             movie.setStringDuration(sec_To_Format(movie.getDuration()));
-            movie.setStringCat(convert(movie));
+            //movie.setStringCat(convert(movie));
         }
         libraryList.clear();
         libraryList.addAll(allMovies);
@@ -47,7 +47,7 @@ public class MovieModel {
         for (Movie movie : allMovies) {
             //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
             movie.setStringDuration(sec_To_Format(movie.getDuration()));
-            movie.setStringCat(convert(movie));
+            //movie.setStringCat(convert(movie));
         }
         libraryList.clear();
         libraryList.addAll(allMovies);

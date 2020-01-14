@@ -17,14 +17,20 @@ import java.util.List;
 public class CategoryConverter {
 
     public String convertCategory(Movie movie) {
-        List<Category> categoryList = movie.getCategory();
-        ArrayList<String> categoryArrayList = new ArrayList<>();
-        if (categoryList==null) {
-            //  "no category"
+        List<Category> categories = movie.getCategory();
+        List<String> stringCats = new ArrayList<>();
+        if (categories!=null) {
+            
+            for (Category category : categories) {
+                stringCats.add(category.getName());
+                //  id...
+            }
+            
+            System.out.println(stringCats);
         }
 
-        String ac = String.join(", ", categoryArrayList.toString());
-        return ac;
+        //String ac = String.join(", ", categoryArrayList.toString());
+        return "asd";
     }
 
 }

@@ -29,6 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -62,7 +63,6 @@ public class PlayerController implements Initializable {
     private Label lbl_endTime;
     @FXML
     private MediaView mediaView;
-    @FXML
     private VBox buttonBar;
     @FXML
     private Button btn_stop;
@@ -70,6 +70,10 @@ public class PlayerController implements Initializable {
     private String filePath;
     private MediaPlayer mediaPlayer;
     private LibraryController libraryController;
+    @FXML
+    private VBox vBox_buttonBar;
+    @FXML
+    private HBox hBox_buttonBar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -121,20 +125,7 @@ public class PlayerController implements Initializable {
 
     }
 
-    @FXML
-    private void handle_openLibrary(ActionEvent event) throws IOException {
-        Parent root1;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/LibraryScene.fxml"));
-        root1 = (Parent) fxmlLoader.load();
-        fxmlLoader.<LibraryController>getController().setContr(this);
-
-        Stage libraryStage = new Stage();
-        Scene libraryScene = new Scene(root1);
-
-        //songStage.initStyle(StageStyle.UNDECORATED);
-        libraryStage.setScene(libraryScene);
-        libraryStage.show();
-    }
+    
 
 //    private void handle_openFile(ActionEvent event) {
 //        FileChooser fileChooser = new FileChooser();

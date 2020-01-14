@@ -50,12 +50,7 @@ public class LibraryController implements Initializable {
     private ImageView icon_search;
     @FXML
     private Label lbl_Categories;
-    @FXML
     private TextField txt_catSearch;
-    @FXML
-    private Label lbl_Category;
-    @FXML
-    private Label lbl_Library;
     @FXML
     private Button btn_editMovie;
     @FXML
@@ -78,26 +73,14 @@ public class LibraryController implements Initializable {
     @FXML
     private TableColumn<Movie, String> col_LastView;    //LocalDateTime
 
-    @FXML
     private TableView<Category> tbv_Categories;
-    @FXML
     private TableColumn<Category, String> col_Name;
-    @FXML
     private TableColumn<Category, Integer> col_numOfMovies;
 
-    @FXML
-    private Button btn_addCategoryVisible;
     @FXML
     private TextField txt_Cat;
     @FXML
     private Button btn_saveCategory;
-    @FXML
-    private Button btn_editCategory;
-    @FXML
-    private Button btn_deleteCategory;
-
-    @FXML
-    private ListView<Movie> lv_Category;
 
     private PlayerController pCon;
     private Movie movie;
@@ -121,13 +104,16 @@ public class LibraryController implements Initializable {
     @FXML
     private CheckMenuItem rawHorror;
     private CheckMenuItem catItem;
+    @FXML
+    private Button btn_openCatLib;
+    private LibraryController libraryController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         edit = false;
         settingTableViews();
-        setSearchMovies();
-        setSearchCategories();
+        //setSearchMovies();
+        //setSearchCategories();
 
         loadCategoriesIntoMenu();
         //setCheckedCategoriesForMovie();
@@ -213,15 +199,6 @@ public class LibraryController implements Initializable {
         tbv_Movies.setItems(movieModel.getObsMovies());
         movieModel.loadAllMovies();
 
-        //  Category table view
-        col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        col_numOfMovies.setCellValueFactory(new PropertyValueFactory<>("numberOfMovies"));
-        //  displaying content
-        // In order to display, set reference to one ObservableList.
-
-        tbv_Categories.setItems(catModel.getObsCategories());
-        catModel.loadAllCategories();
-
         //  content of listView is displayed after choosing category - handle_getCategoryContent
     }
 
@@ -241,8 +218,8 @@ public class LibraryController implements Initializable {
         });
     }
 
-    void setContr(PlayerController pCon) {
-        this.pCon = pCon;
+    void setContr(LibraryController libraryController) {
+        this.libraryController = libraryController;
     }
 
     @FXML
@@ -281,14 +258,10 @@ public class LibraryController implements Initializable {
 
     }
 
-    @FXML
-    private void handle_addCategoryVisible(ActionEvent event) {
-        txt_Cat.setVisible(true);
-        btn_saveCategory.setVisible(true);
-    }
-
-    @FXML
-
+//    private void handle_addCategoryVisible(ActionEvent event) {
+//        txt_Cat.setVisible(true);
+//        btn_saveCategory.setVisible(true);
+//    }
     private void handle_editCategory(ActionEvent event) {
         edit = true;
         txt_Cat.setVisible(true);
@@ -301,7 +274,7 @@ public class LibraryController implements Initializable {
     @FXML
     public void handle_saveCategory(ActionEvent event) {
         if (!edit) {
-            Category category = new Category(0, txt_Cat.getText().trim());
+            Category category = new Category(0, txt_Cat.getText());
             catModel.createCategory(category);
         } else {
             //update the edited name
@@ -314,7 +287,6 @@ public class LibraryController implements Initializable {
         btn_saveCategory.setVisible(false); //makes the button invisible.
     }
 
-    @FXML
     private void handle_deleteCategory(ActionEvent event) throws IOException {
         Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
         Parent root;
@@ -327,10 +299,6 @@ public class LibraryController implements Initializable {
 
     }
 
-
-    
-    
-
     @FXML
     private void handle_openPlayer(ActionEvent event) throws IOException, URISyntaxException {
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
@@ -342,6 +310,17 @@ public class LibraryController implements Initializable {
         playerController.setContr(this);
 
         playerController.playFile(selectedMovie);
+        showScene(root);
+
+    }
+
+    @FXML
+    private void handle_openCatLib(ActionEvent event) throws IOException {
+        Parent root;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/CategoryScene.fxml"));
+        root = (Parent) fxmlLoader.load();
+        CategorySceneController controller = (CategorySceneController) fxmlLoader.getController();
+        fxmlLoader.<CategorySceneController>getController().setContr(this);
         showScene(root);
 
     }
