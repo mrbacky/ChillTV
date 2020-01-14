@@ -18,7 +18,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="800.0" styleClass="bg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chilltv.gui.controller.LibraryController">
    <children>
-      <TableView fx:id="tbv_Categories" layoutX="10.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handle_getCategoryContent" prefHeight="200.0" prefWidth="350.0">
+      <TableView fx:id="tbv_Categories" layoutX="10.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="350.0">
         <columns>
           <TableColumn fx:id="col_Name" prefWidth="314.0" text="Name" />
           <TableColumn fx:id="col_numOfMovies" minWidth="0.0" prefWidth="35.0" text="#" />

@@ -19,10 +19,9 @@ public class CategoryConverter {
     public String convertCategory(Movie movie) {
         List<Category> categoryList = movie.getCategory();
         ArrayList<String> categoryArrayList = new ArrayList<>();
-//        for (Category category : categoryList) {
-//            categoryArrayList.add(category.getName());
-//
-//        }
+        if (categoryList==null) {
+            //  "no category"
+        }
 
         String ac = String.join(", ", categoryArrayList.toString());
         return ac;

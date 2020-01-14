@@ -43,6 +43,14 @@ public class MovieModel {
     
     
     public ObservableList<Movie> getObsMovies() {
+        List<Movie> allMovies = logicManager.getAllMovies();
+        for (Movie movie : allMovies) {
+            //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
+            movie.setStringDuration(sec_To_Format(movie.getDuration()));
+            movie.setStringCat(convert(movie));
+        }
+        libraryList.clear();
+        libraryList.addAll(allMovies);
         return libraryList;
     }
 
@@ -60,8 +68,8 @@ public class MovieModel {
      */
     public void createMovie(String title, int duration, int myRating, int imdbRating, String filelink, String lastView) {
         Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView);
-        movie.setStringDuration(sec_To_Format(movie.getDuration()));
-        movie.setStringCat(convert(movie));
+//        movie.setStringDuration(sec_To_Format(movie.getDuration()));
+//        movie.setStringCat(convert(movie));
         libraryList.add(movie);
     }
 
@@ -87,6 +95,7 @@ public class MovieModel {
     public void deleteMovie(Movie movie) {
         logicManager.deleteMovie(movie);
         libraryList.remove(movie);
+        
     }
 
     /**

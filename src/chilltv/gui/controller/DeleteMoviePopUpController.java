@@ -1,6 +1,7 @@
 package chilltv.gui.controller;
 
 import chilltv.be.Movie;
+import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,6 +29,7 @@ public class DeleteMoviePopUpController implements Initializable {
 
     private LibraryController libCon;
     private MovieModel movieModel;
+    private CategoryModel catModel;
     private Movie selectedMovie;
 
     /**
@@ -61,6 +63,8 @@ public class DeleteMoviePopUpController implements Initializable {
     private void handle_confirmDeleteMovie(ActionEvent event) {
         //Deletes the selected movie from the database.
         movieModel.deleteMovie(selectedMovie);
+        
+    
 
         Stage stage;
         stage = (Stage) btn_confirm.getScene().getWindow();

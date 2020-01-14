@@ -135,9 +135,9 @@ public class LibraryController implements Initializable {
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
+                //catModel.loadAllCategories();
                 loadCategoriesIntoMenu();
                 //setCheckedCategoriesForMovie();
-                System.out.println("asdasd");
             }
         });
 
@@ -155,16 +155,25 @@ public class LibraryController implements Initializable {
 
     @FXML
     private void handle_loadCheckedCategories(MouseEvent event) {
+        catItem.setSelected(true);
+        //  hasmap .... key-nameOfCat.....value.category
+        //  
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
         if (selectedMovie != null) {
             for (Category cat : catModel.getObsCategories()) {
+                for (Movie mov : cat.getMovies()) {
+                    for (Category movieCat : mov.getCategory()) {
+                        if (movieCat.getName().equals(cat.getName())) {
+                            catItem.setSelected(true);
+                        }
+                    }
+                }
+
                 if (cat.getMovies().contains(selectedMovie)) {
                     catItem.setSelected(true);
                     System.out.println("asd");
                 }
-
             }
-
         }
     }
 
@@ -279,6 +288,7 @@ public class LibraryController implements Initializable {
     }
 
     @FXML
+
     private void handle_editCategory(ActionEvent event) {
         edit = true;
         txt_Cat.setVisible(true);
@@ -317,15 +327,9 @@ public class LibraryController implements Initializable {
 
     }
 
-    @FXML
-    private void handle_getCategoryContent(MouseEvent event) {
-        Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
-        if (selectedCategory != null) {
-            lv_Category.setItems(catModel.getObsMoviesOfCategory());
-            catModel.loadMoviesToCategory(selectedCategory);
-            lbl_Category.setText(selectedCategory.getName());
-        }
-    }
+
+    
+    
 
     @FXML
     private void handle_openPlayer(ActionEvent event) throws IOException, URISyntaxException {
