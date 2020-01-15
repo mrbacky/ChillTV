@@ -113,6 +113,8 @@ public class LibraryController implements Initializable {
     @FXML
     private Button btn_refresh;
     private boolean edit;
+    @FXML
+    private MenuButton menuButton_filterCategory;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -123,6 +125,7 @@ public class LibraryController implements Initializable {
 
         loadCategoriesIntoMenu();
         //setCheckedCategoriesForMovie();
+        setCategoriesIntoFilter();
 
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
@@ -215,21 +218,9 @@ public class LibraryController implements Initializable {
         //  content of listView is displayed after choosing category - handle_getCategoryContent
     }
 
-    private void setSearchMovies() {
-        //Set the filter Predicate when the filter changes. Any changes to the
-        //search textfield activates the filter.
-        txt_movieSearch.textProperty().addListener((obs, oldVal, newVal) -> {
-            movieModel.filteredMovies(newVal);
-        });
-    }
+    
 
-    private void setSearchCategories() {
-        //Set the filter Predicate when the filter changes. Any changes to the
-        //search textfield activates the filter.
-        txt_catSearch.textProperty().addListener((obs, oldVal, newVal) -> {
-            catModel.filteredCategories(newVal);
-        });
-    }
+   
 
     void setContr(LibraryController libraryController) {
         this.libraryController = libraryController;

@@ -76,7 +76,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <TextField fx:id="txt_movieSearch" layoutX="490.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="368.0" promptText="title" />
+      <TextField fx:id="txt_movieSearch" layoutX="490.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#searchByTitle" prefHeight="25.0" prefWidth="368.0" promptText="title" />
       <ImageView fx:id="icon_search" fitHeight="20.0" fitWidth="20.0" layoutX="862.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../MyTunesC/src/mytunes/gui/assets/icons8-search-30.png" />
@@ -98,15 +98,6 @@
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Label>
-      <MenuButton layoutX="10.0" layoutY="70.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="170.0" text="Filter">
-         <items>
-            <CheckMenuItem mnemonicParsing="false" text="Drama" />
-            <CheckMenuItem mnemonicParsing="false" text="Crime" />
-         </items>
-         <font>
-            <Font size="15.0" />
-         </font>
-      </MenuButton>
       <Button fx:id="btn_refresh" alignment="CENTER" contentDisplay="CENTER" layoutX="330.0" layoutY="33.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_refresh" prefHeight="20.0" prefWidth="20.0">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -116,7 +107,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <MenuButton fx:id="menuButton_filterCategory" layoutX="573.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#filterCategory" text="Category" />
+      <MenuButton fx:id="menuButton_filterCategory" layoutX="39.0" layoutY="79.0" mnemonicParsing="false" onMouseClicked="#filterCategory" prefHeight="25.0" prefWidth="113.0" text="Category" />
       
    </children>
 </AnchorPane>
