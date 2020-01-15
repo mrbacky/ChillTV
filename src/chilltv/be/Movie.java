@@ -32,6 +32,17 @@ public class Movie {
         this.stringCat = stringCat;
     }
 
+    public Movie(int id, String title, int duration, List<Category> categoryList, float imdbRating, int myRating, String fileLink, String lastView) {
+        this.id = id;
+        this.title = title;
+        this.duration = duration;
+        this.imdbRating = imdbRating;
+        this.myRating = myRating;
+        this.fileLink = fileLink;
+        this.lastView = lastView;
+        this.categoryList = categoryList;
+    }
+        
     public int getId() {
         return id;
     }

@@ -21,17 +21,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-
 public class MovieDAO {
 
-    DBConnectionProvider cp = new DBConnectionProvider();
-    CategoryDAO catDao = new CategoryDAO();
+    private final DBConnectionProvider cp;
+    private final CatMovieDAO catMovDAO;
+    private final CategoryDAO catDAO;
+
+    public MovieDAO() {
+        cp = new DBConnectionProvider();
+        catDAO = new CategoryDAO();
+        catMovDAO = new CatMovieDAO();
+    }
 
     public List<Movie> getAllMovies() {
         List<Movie> allMovies = new ArrayList<>();
         String stat = "SELECT * FROM Movie";
 
-        try (Connection xd = cp.getConnection()) {
+        try ( Connection xd = cp.getConnection()) {
             Statement statement = xd.createStatement();
             ResultSet rs = statement.executeQuery(stat);
             while (rs.next()) {
@@ -42,9 +48,9 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
-                String stringCat = catDao.getAllCategoriesOfMovie(id);
-                List<Category> categoryList =  catDao.getAllCategoriesForCatList(id);//
-                
+                String stringCat = catDAO.getAllCategoriesOfMovie(id);
+                List<Category> categoryList = catDAO.getAllCategoriesForCatList(id);//
+
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
                 allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList, stringCat));
@@ -54,20 +60,28 @@ public class MovieDAO {
             System.out.println("Exception " + ex);
             return null;
         }
-           
+
     }
 
-    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView) {
-        try (Connection con = cp.getConnection()) {
+    public Movie createMovie(String title, int duration, List<Category> cats, float imdbRating, int myRating, String fileLink, String lastView) {
+        try ( Connection con = cp.getConnection()) {
             String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
-            PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); //Prepared or Stat?
             pstmt.setString(1, title);
             pstmt.setInt(2, duration);
             pstmt.setFloat(3, imdbRating);
             pstmt.setInt(4, myRating);
             pstmt.setString(5, fileLink);
             pstmt.setString(6, lastView);
-            int affectedRows = pstmt.executeUpdate();
+            pstmt.executeUpdate();
+
+            ResultSet rs = pstmt.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt(1);
+            Movie movie = new Movie(id, title, duration, cats, imdbRating, myRating, fileLink, lastView);
+            catMovDAO.addCategoriesToMovie(movie, cats);
+            return movie;
+            /*int affectedRows = pstmt.executeUpdate();
             List<Category> category = null;
             String stringCat = "asd";
 
@@ -82,7 +96,7 @@ public class MovieDAO {
                 } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
-            }
+            }*/
         } catch (SQLServerException ex) {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -93,7 +107,7 @@ public class MovieDAO {
 
     public void deleteMovie(Movie movie) {
         //When the movie is deleted, it should also be removed from all categories. DOES IT?
-        try (Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {
             String sql = "DELETE FROM Movie WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, movie.getId());
@@ -107,7 +121,7 @@ public class MovieDAO {
         String stat = "UPDATE movie\n"
                 + "SET title = ?, duration = ?, imdbRating = ?, myRating = ?, fileLink = ?, lastView = ?\n"
                 + "WHERE id = ?";
-        try (Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setString(1, movie.getTitle());
             stmt.setInt(2, movie.getDuration());
@@ -165,7 +179,7 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
-                String stringCat = catDao.getAllCategoriesOfMovie(id);
+                String stringCat = catDAO.getAllCategoriesOfMovie(id);
                 List<Category> categoryList = null;
                 filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList, stringCat));
                 //This list has duplicates. Searching for x categories, will add x rows to the ResultSet.
