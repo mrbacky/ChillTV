@@ -43,7 +43,7 @@ public class MovieDAO {
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
                 String stringCat = catDao.getAllCategoriesOfMovie(id);
-                List<Category> categoryList =  null;//
+                List<Category> categoryList =  catDao.getAllCategoriesForCatList(id);//
                 
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));

@@ -162,6 +162,25 @@ public class CategoryDAO {
         return ac;
     }
 
+    
+    
+    public ArrayList getAllCategoriesForCatList(int id) throws SQLException {
+        ArrayList movCatList = new ArrayList<String>();
+        try ( Connection con = connectDAO.getConnection()) {
+            String sql = "SELECT category.name, CatMovie.* FROM Category\n"
+                    + "LEFT JOIN CatMovie on categoryid = Category.id\n"
+                    + "WHERE CatMovie.movieID = " + id + " ORDER BY Category.id";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                movCatList.add(rs.getInt("id"));
+                movCatList.add(rs.getString("name"));
+            }
+
+        } catch (Exception e) {
+        }
+        return movCatList;
+    }
     /**
      * Updates the name of the category in the database.
      *
