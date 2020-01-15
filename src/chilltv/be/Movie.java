@@ -12,7 +12,7 @@ public class Movie {
     private int id;
     private String title;
     private int duration;
-    private int imdbRating;
+    private float imdbRating;
     private int myRating;
     private String fileLink;
     private String lastView;
@@ -20,7 +20,7 @@ public class Movie {
     private List<Category> categoryList;
     private String stringCat;
 
-    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, List<Category> categoryList, String stringCat) {
+    public Movie(int id, String title, int duration, float imdbRating, int myRating, String fileLink, String lastView, List<Category> categoryList, String stringCat) {
         this.id = id;
         this.title = title;
         this.duration = duration;
@@ -56,11 +56,11 @@ public class Movie {
         this.duration = duration;
     }
 
-    public int getImdbRating() {
+    public float getImdbRating() {
         return imdbRating;
     }
 
-    public void setImdbRating(int imdbRating) {
+    public void setImdbRating(float imdbRating) {
         this.imdbRating = imdbRating;
     }
 
@@ -112,6 +112,4 @@ public class Movie {
         this.stringCat = stringCat;
     }
 
-   
-    
 }

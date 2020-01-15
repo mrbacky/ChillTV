@@ -65,7 +65,7 @@ public class MovieModel {
      * @param filelink The location of the movie.
      * @param lastView The date for when the user last viewed the movie.
      */
-    public void createMovie(String title, int duration, int myRating, int imdbRating, String filelink, String lastView) {
+    public void createMovie(String title, int duration, int myRating, float imdbRating, String filelink, String lastView) {
         Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView);
 //        movie.setStringDuration(sec_To_Format(movie.getDuration()));
 //        movie.setStringCat(convert(movie));

@@ -38,7 +38,7 @@ public class MovieDAO {
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
                 int duration = rs.getInt("duration");
-                int imdbRating = rs.getInt("imdbRating");
+                float imdbRating = rs.getFloat("imdbRating");
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
@@ -57,13 +57,13 @@ public class MovieDAO {
            
     }
 
-    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
+    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView) {
         try (Connection con = cp.getConnection()) {
             String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, title);
             pstmt.setInt(2, duration);
-            pstmt.setInt(3, imdbRating);
+            pstmt.setFloat(3, imdbRating);
             pstmt.setInt(4, myRating);
             pstmt.setString(5, fileLink);
             pstmt.setString(6, lastView);
@@ -111,7 +111,7 @@ public class MovieDAO {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setString(1, movie.getTitle());
             stmt.setInt(2, movie.getDuration());
-            stmt.setInt(3, movie.getImdbRating());
+            stmt.setFloat(3, movie.getImdbRating());
             stmt.setInt(4, movie.getMyRating());
             stmt.setString(5, movie.getFileLink());
             stmt.setString(6, movie.getLastView());
@@ -161,7 +161,7 @@ public class MovieDAO {
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
                 int duration = rs.getInt("duration");
-                int imdbRating = rs.getInt("imdbRating");
+                float imdbRating = rs.getFloat("imdbRating");
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
