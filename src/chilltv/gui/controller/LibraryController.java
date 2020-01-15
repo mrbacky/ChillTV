@@ -106,6 +106,8 @@ public class LibraryController implements Initializable {
     @FXML
     private CheckMenuItem rawHorror;
     private List<CheckMenuItem> catItemList = new ArrayList<>();
+    
+    
     private CheckMenuItem catItem;
     @FXML
     private Button btn_openCatLib;
@@ -139,8 +141,8 @@ public class LibraryController implements Initializable {
     }
 
     public void loadCategoriesIntoMenu() {
-        ObservableList<Category> allCategories = catModel.getObsCategories();
-        System.out.println("these are all cats   "+allCategories);
+        //ObservableList<Category> allCategories = catModel.getObsCategories();
+        //System.out.println("these are all cats   " + allCategories);
 //        menu_Category.getItems().clear();
 //        int counter = 0;
 //        for (CheckMenuItem checkMenuItem : catItemList) {
@@ -152,7 +154,16 @@ public class LibraryController implements Initializable {
 //            }
 //        }
 
-        
+        ObservableList<Category> allCategories = catModel.getObsCategories();
+        //Add all the categories as created CheckMenuItems. Add MenuItems to the MenuButton.
+        menu_Category.getItems().clear();
+        for (Category allCat : allCategories) {
+            CheckMenuItem mi = new CheckMenuItem(allCat.toString());
+            menu_Category.getItems().add(mi);
+            //Add userdata from the Category objects to the MenuItems.
+            mi.setUserData(allCat);
+        };
+
     }
 
     @FXML
@@ -198,6 +209,7 @@ public class LibraryController implements Initializable {
     }
 
     private void settingTableViews() {
+        //  get models
         movieModel = MovieModel.getInstance();
         catModel = CategoryModel.getInstance();
 
@@ -208,19 +220,16 @@ public class LibraryController implements Initializable {
         col_MyRating.setCellValueFactory(new PropertyValueFactory<>("myRating"));
         col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));
         col_LastView.setCellValueFactory(new PropertyValueFactory<>("lastView"));
-        //  displaying content
 
+        //  displaying content of library list
         tbv_Movies.setItems(movieModel.getObsMovies());
+        //  loading all movies from DB
         movieModel.loadAllMovies();
+        //  loading all categories from DB
         catModel.loadAllCategories();
-        
 
         //  content of listView is displayed after choosing category - handle_getCategoryContent
     }
-
-    
-
-   
 
     void setContr(LibraryController libraryController) {
         this.libraryController = libraryController;
@@ -274,8 +283,6 @@ public class LibraryController implements Initializable {
         //sets the existing info of the selected playlist.
         txt_Cat.setText(selectedCategory.getName());
     }
-
-    
 
     private void handle_deleteCategory(ActionEvent event) throws IOException {
         Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
@@ -331,7 +338,7 @@ public class LibraryController implements Initializable {
     private void searchByTitle(KeyEvent event) {
         movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter()));
     }
-    
+
     @FXML
     private void filterCategory(MouseEvent event) {
         //Get access to the CheckMenuItem in the MenuButton.
@@ -347,10 +354,11 @@ public class LibraryController implements Initializable {
                         cats.add((Category) item.getUserData());
                     }
                 }
-                movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter()));           
+                movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter()));
             });
         }
-    }    
+    }
+
     @FXML
     private void handle_openCatLib(ActionEvent event) throws IOException {
         Parent root;

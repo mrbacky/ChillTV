@@ -163,6 +163,7 @@ public class MovieSceneController implements Initializable {
         edit = true;
         movieToEdit = selectedMovie;
 
+
         //sets the existing info of the selected movie.
         txtField_title.setText(movieToEdit.getTitle());
         //category TO DO!!

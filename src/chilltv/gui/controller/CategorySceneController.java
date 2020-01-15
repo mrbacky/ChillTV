@@ -5,6 +5,7 @@ import chilltv.gui.model.CategoryModel;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,25 +38,34 @@ public class CategorySceneController implements Initializable {
     private boolean edit;
     private CategoryModel catModel;
     private LibraryController libraryController;
-    private Category categoryToEdit;
+    private Category selectedCategory;
     @FXML
     private ChoiceBox<Category> choiceBox_category;
-    
+    @FXML
+    private Button btn_editCat;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        //getAllCatsForCheckBox();
+        //  gets model
         catModel = CategoryModel.getInstance();
+
+        //  gets categories into checkboxes
         getAllCatsForCheckBox();
-        catModel.getObsCategories();
+
+        catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                //catModel.loadAllCategories();
+                getAllCatsForCheckBox();
+                //setCheckedCategoriesForMovie();
+            }
+        });
+
     }
 
     private void getAllCatsForCheckBox() {
-        
-        
+        choiceBox_category.getItems().clear();
         ObservableList<Category> allCats = catModel.getObsCategories();
-        System.out.println("obs cats in contr  "+ allCats);
         for (Category cat : allCats) {
             choiceBox_category.getItems().add(cat);
         }
@@ -66,23 +76,22 @@ public class CategorySceneController implements Initializable {
 
         if (!edit) {
             catModel.createCategory(txt_createCategory.getText().trim());
-            String catName = txt_createCategory.getText().trim();
-            //choiceBox_category.getItems().add(catName);
+            txt_createCategory.setText("");
 
         } else {
-            categoryToEdit.setName(txt_createCategory.getText().trim());
-            catModel.updateCategory(categoryToEdit);
-            
-            
+            selectedCategory.setName(txt_createCategory.getText().trim());
+            catModel.updateCategory(selectedCategory);
 
             //update the edited name
             //categoryToEdit.setName(txt_createCategory.getText().trim());
             //catModel.updateCategory(categoryToEdit);
         }
 
-        //txt_Cat.setVisible(false); //makes the textfield invisible.
-        //btn_saveCategory.setVisible(false); //makes the button invisible.
+        hideControls();
+        
     }
+
+    
 
     @FXML
     private void handle_confirmCat(ActionEvent event) {
@@ -95,17 +104,46 @@ public class CategorySceneController implements Initializable {
 
     @FXML
     private void handle_deleteCategory(ActionEvent event) {
+        Category catToDelete = choiceBox_category.getSelectionModel().getSelectedItem();
+        catModel.deleteCategory(catToDelete);
+
     }
 
     @FXML
+
     private void handle_addCategoryVisible(ActionEvent event) {
+        setVisible();
+    }
+
+    private void setVisible() {
+
         btn_createCat.setVisible(true);
         lbl_newCat.setVisible(true);
         txt_createCategory.setVisible(true);
+
+    }
+
+    private void hideControls() {
+        btn_createCat.setVisible(false);
+        lbl_newCat.setVisible(false);
+        txt_createCategory.setVisible(false);
     }
 
     void setContr(LibraryController libraryController) {
         this.libraryController = libraryController;
+    }
+
+    @FXML
+    private void handle_editCatVisible(ActionEvent event) {
+        setVisible();
+        selectedCategory = choiceBox_category.getSelectionModel().getSelectedItem();
+        editMode(selectedCategory);
+        
+    }
+    
+    public void editMode(Category selectedCategory) {
+        edit = true;
+        txt_createCategory.setText(selectedCategory.getName());
     }
 
 }

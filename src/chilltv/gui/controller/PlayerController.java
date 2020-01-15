@@ -11,6 +11,8 @@ import java.net.URLEncoder;
 import javafx.util.Duration;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
@@ -78,6 +80,13 @@ public class PlayerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+//        Stage currentStage = (Stage) btn_stop.getScene().getWindow();
+//        currentStage.onCloseRequestProperty().addListener(new InvalidationListener() {
+//            @Override
+//            public void invalidated(Observable observable) {
+//                mediaPlayer.stop();
+//            }
+//        });
         vBox_buttonBar.setOpacity(0.3);
         // to test with a movie
         //handle_openFile(null);
@@ -243,7 +252,7 @@ public class PlayerController implements Initializable {
 
     @FXML
     private void handle_play(ActionEvent event) {
-        System.out.println("handle play method");
+        mediaPlayer.play();
     }
 
 }

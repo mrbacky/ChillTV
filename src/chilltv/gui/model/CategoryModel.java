@@ -42,7 +42,6 @@ public class CategoryModel {
     public void loadAllCategories() {
         categoryList.clear();
         List<Category> allCategories = logicManager.getAllCategories();
-        System.out.println("cats in model from logicManager   "+ allCategories);
         categoryList.addAll(allCategories);
     }
 
