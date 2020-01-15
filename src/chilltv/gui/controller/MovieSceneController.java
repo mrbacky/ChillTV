@@ -127,14 +127,16 @@ public class MovieSceneController implements Initializable {
     private void handle_saveMovie(ActionEvent event) {
         if (!edit) {
             movieModel.createMovie(
-                    txtField_title.getText().trim(),
-                    movieModel.format_To_Sec(txtField_duration.getText()),
-                    //category TO DO!!
-                    8, //imdbRating TO DO!!
-                    7, //myRating TO DO!!
-                    txtField_filePath.getText(),
-                    "2018"); //lastView TO DO!!
-        } else {
+                    /*title*/       txtField_title.getText().trim(),
+                    /*duration*/    movieModel.format_To_Sec(txtField_duration.getText()),
+                    /*myRatin*/     8, //imdbRating TO DO!!
+                    /*imdbRating*/  7, //myRating TO DO!!
+                    /*fileLink*/    txtField_filePath.getText(),
+                    /*lastView*/    "2018"); //lastView TO DO!!
+        } 
+        
+        //movieModel.createMovie(title, 0, 0, 0, filelink, lastView);
+        else {
             movieToEdit.setTitle(txtField_title.getText().trim());
             //not getting the time of the new file T-T
             movieToEdit.setDuration(movieModel.format_To_Sec(txtField_duration.getText()));
@@ -145,9 +147,7 @@ public class MovieSceneController implements Initializable {
             movieToEdit.setLastView("2020"); //lastView TO DO!!
             movieModel.updateMovie(movieToEdit);
         }
-        
-        
-        
+
         Stage stage;
         stage = (Stage) btn_saveMovie.getScene().getWindow();
         stage.close();

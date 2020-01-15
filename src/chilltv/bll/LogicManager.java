@@ -34,8 +34,8 @@ public class LogicManager implements LogicFacade {
     }
 
     @Override
-    public Category createCategory(Category category) {
-        return dbManager.createCategory(category);
+    public Category createCategory(String name) {
+        return dbManager.createCategory(name);
     }
 
     @Override

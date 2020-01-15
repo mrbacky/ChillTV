@@ -12,24 +12,23 @@ import java.util.List;
  */
 public class Category {
 
-    private final int id;
+    private int id;
     private String name;
     private List<Movie> movies;
-    private int numberOfMovies;
 
-    /**
-     * Constructs a new category.
-     *
-     * @param id ID of the category.
-     * @param name Name of the category.
-     */
-    public Category(int id, String name) {
+    public Category(int id, String name, List<Movie> movies) {
         this.id = id;
         this.name = name;
         this.movies = movies;
-        
-        
-        numberOfMovies = movies.size();
+    }
+
+   
+    
+    
+    
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 
     /**
@@ -68,14 +67,7 @@ public class Category {
         return movies;
     }
 
-    /**
-     * Gets the number of movies in the category.
-     *
-     * @return The number of movies.
-     */
-    public int getNumberOfMovies() {
-        return numberOfMovies;
-    }
+    
 
     /**
      * Adds a movie to a category.
@@ -84,7 +76,7 @@ public class Category {
      */
     public void addMovie(Movie movie) {
         movies.add(movie);
-        numberOfMovies = movies.size();
+        
     }
 
     /**
@@ -94,7 +86,7 @@ public class Category {
      */
     public void removeMovie(Movie movie) {
         movies.remove(movie);
-        numberOfMovies--;
+        
     }
     
     @Override

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
@@ -79,14 +80,12 @@ public class LibraryController implements Initializable {
 
     @FXML
     private TextField txt_Cat;
-    @FXML
     private Button btn_saveCategory;
 
     private PlayerController pCon;
     private Movie movie;
     private MovieModel movieModel;
     private CategoryModel catModel;
-    private boolean edit;
     private Category categoryToEdit;
     @FXML
     private ContextMenu con_ContextMenu;
@@ -103,10 +102,14 @@ public class LibraryController implements Initializable {
     private RadioMenuItem rawAction;
     @FXML
     private CheckMenuItem rawHorror;
+    private List<CheckMenuItem> catItemList = new ArrayList<>();
     private CheckMenuItem catItem;
     @FXML
     private Button btn_openCatLib;
     private LibraryController libraryController;
+    @FXML
+    private Button btn_refresh;
+    private boolean edit;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -130,27 +133,32 @@ public class LibraryController implements Initializable {
     }
 
     public void loadCategoriesIntoMenu() {
+        ObservableList<Category> allCategories = catModel.getObsCategories();
+        System.out.println("these are all cats   "+allCategories);
+//        menu_Category.getItems().clear();
+//        int counter = 0;
+//        for (CheckMenuItem checkMenuItem : catItemList) {
+//            for (Category cat : catModel.getObsCategories()) {
+//                catItemList.add(new CheckMenuItem(cat.toString()));
+//                //System.out.println(catItemList.get(0));
+//                counter++;
+//
+//            }
+//        }
 
-        menu_Category.getItems().clear();
-        for (Category cat : catModel.getObsCategories()) {
-            catItem = new CheckMenuItem(cat.toString());
-            catItem.setUserData(cat);
-            menu_Category.getItems().add(catItem);
-        }
+        
     }
 
     @FXML
     private void handle_loadCheckedCategories(MouseEvent event) {
-        catItem.setSelected(true);
-        //  hasmap .... key-nameOfCat.....value.category
-        //  
+        /*
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
         if (selectedMovie != null) {
             for (Category cat : catModel.getObsCategories()) {
                 for (Movie mov : cat.getMovies()) {
                     for (Category movieCat : mov.getCategory()) {
                         if (movieCat.getName().equals(cat.getName())) {
-                            catItem.setSelected(true);
+
                         }
                     }
                 }
@@ -160,7 +168,7 @@ public class LibraryController implements Initializable {
                     System.out.println("asd");
                 }
             }
-        }
+        }*/
     }
 
     public void setCheckedCategoriesForMovie() {
@@ -198,6 +206,8 @@ public class LibraryController implements Initializable {
 
         tbv_Movies.setItems(movieModel.getObsMovies());
         movieModel.loadAllMovies();
+        catModel.loadAllCategories();
+        
 
         //  content of listView is displayed after choosing category - handle_getCategoryContent
     }
@@ -271,21 +281,7 @@ public class LibraryController implements Initializable {
         txt_Cat.setText(selectedCategory.getName());
     }
 
-    @FXML
-    public void handle_saveCategory(ActionEvent event) {
-        if (!edit) {
-            Category category = new Category(0, txt_Cat.getText());
-            catModel.createCategory(category);
-        } else {
-            //update the edited name
-            Category categoryToEdit = tbv_Categories.getSelectionModel().getSelectedItem();
-            categoryToEdit.setName(txt_Cat.getText().trim());
-            catModel.updateCategory(categoryToEdit);
-        }
-
-        txt_Cat.setVisible(false); //makes the textfield invisible.
-        btn_saveCategory.setVisible(false); //makes the button invisible.
-    }
+    
 
     private void handle_deleteCategory(ActionEvent event) throws IOException {
         Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
@@ -323,6 +319,11 @@ public class LibraryController implements Initializable {
         fxmlLoader.<CategorySceneController>getController().setContr(this);
         showScene(root);
 
+    }
+
+    @FXML
+    private void handle_refresh(ActionEvent event) {
+        movieModel.loadAllMovies();
     }
 
 }

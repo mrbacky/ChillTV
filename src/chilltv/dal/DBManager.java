@@ -26,18 +26,13 @@ public class DBManager implements DBFacade {
     }
 
     @Override
-    public Category createCategory(Category category) {
-        return catDAO.createCategory(category);
+    public Category createCategory(String name) {
+        return catDAO.createCategory(name);
     }
 
     @Override
     public List<Category> getAllCategories() {
-        try {
-            return catDAO.getAllMoviesInCategories();
-        } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return catDAO.getAllCategories();
     }
 
     @Override
@@ -64,7 +59,7 @@ public class DBManager implements DBFacade {
     public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
         return movDAO.createMovie(title, duration, imdbRating, myRating, fileLink, lastView);
     }
-    
+
     @Override
     public List<Movie> getAllMovies() {
         return movDAO.getAllMovies();

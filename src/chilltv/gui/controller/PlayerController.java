@@ -63,7 +63,7 @@ public class PlayerController implements Initializable {
     private Label lbl_endTime;
     @FXML
     private MediaView mediaView;
-    private VBox buttonBar;
+   
     @FXML
     private Button btn_stop;
 
@@ -78,7 +78,7 @@ public class PlayerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        buttonBar.setOpacity(0.3);
+        vBox_buttonBar.setOpacity(0.3);
         // to test with a movie
         //handle_openFile(null);
 
@@ -165,12 +165,12 @@ public class PlayerController implements Initializable {
 
     @FXML
     private void handle_showBar(MouseEvent event) {
-        buttonBar.setOpacity(1);
+        vBox_buttonBar.setOpacity(1);
     }
 
     @FXML
     private void handle_hideBar(MouseEvent event) {
-        buttonBar.setOpacity(0.3);
+        vBox_buttonBar.setOpacity(0.3);
     }
 
     @FXML

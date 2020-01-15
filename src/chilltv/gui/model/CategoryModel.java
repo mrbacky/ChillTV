@@ -18,7 +18,7 @@ public class CategoryModel {
 
     public static CategoryModel getInstance() {
         if (catModel == null) {
-            
+
             catModel = new CategoryModel();
         }
         return catModel;
@@ -28,44 +28,45 @@ public class CategoryModel {
         logicManager = new LogicManager();
     }
 
-    public void loadMoviesToCategory(Category selectedCategory){
+    public void loadMoviesToCategory(Category selectedCategory) {
         List<Movie> movies = selectedCategory.getMovies();
         moviesOfCategory.clear();
         moviesOfCategory.addAll(movies);
     }
-    public ObservableList<Movie> getObsMoviesOfCategory(){
-        
+
+    public ObservableList<Movie> getObsMoviesOfCategory() {
+
         return moviesOfCategory;
     }
-    
+
     public void loadAllCategories() {
         categoryList.clear();
         List<Category> allCategories = logicManager.getAllCategories();
+        System.out.println("cats in model from logicManager   "+ allCategories);
         categoryList.addAll(allCategories);
     }
 
-    
-    
     public ObservableList<Category> getObsCategories() {
         return categoryList;
     }
 
-    public void createCategory(Category category) {
-        logicManager.createCategory(category);
+    public void createCategory(String name) {
+        Category category = logicManager.createCategory(name);
         categoryList.add(category);
+        
     }
-    
-    public void updateCategory(Category category){
+
+    public void updateCategory(Category category) {
         logicManager.updateCategory(category);
         int index = categoryList.indexOf(category);
         categoryList.set(index, category);
     }
-    
-    public void deleteCategory(Category category){
+
+    public void deleteCategory(Category category) {
         logicManager.deleteCategory(category);
         categoryList.remove(category);
     }
-    
+
     /**
      * Searches for all categories which matches the given query.
      *

@@ -21,7 +21,7 @@
             <Font name="Arial" size="15.0" />
          </font>
       </Label>
-      <ChoiceBox layoutX="136.0" layoutY="100.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="choiceBox_category" layoutX="136.0" layoutY="100.0" prefWidth="150.0" />
       <Button fx:id="btn_deleteCat" layoutX="325.0" layoutY="103.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_deleteCategory" prefHeight="20.0" prefWidth="20.0" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

@@ -40,26 +40,29 @@ public class CategoryDAO {
      * @param category The category to create.
      * @return The newly created category.
      */
-    public Category createCategory(Category category) {
+    public Category createCategory(String name) {
         try ( //Get a connection to the database.
                 Connection con = connectDAO.getConnection()) {
             //Create a prepared statement.
             String sql = "INSERT INTO Category VALUES (?)";
             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             //Set parameter value.
-            pstmt.setString(1, category.getName());
+            pstmt.setString(1, name);
             //Execute SQL query.
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             rs.next();
             int id = rs.getInt(1);
-            
+            List<Movie> movies = null;
+
+            return new Category(id, name, movies);
+
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return category;
+        return null;
     }
 
     /**
@@ -69,29 +72,33 @@ public class CategoryDAO {
      *
      * @return allCategories
      */
-    private HashMap<Integer, Category> getAllCategories() {
+    public List<Category> getAllCategories() {
         //Create a HashMap to store all categories.
-        HashMap<Integer, Category> allCategories = new HashMap<Integer, Category>();
+        //HashMap<Integer, Category> allCategories = new HashMap<Integer, Category>();
+        List<Category> allCats = new ArrayList<>();
+        String stat = "SELECT * FROM Category";
 
         try ( //Get a connection to the database.
                 Connection con = connectDAO.getConnection()) {
             //Create a prepared statement.
-            String sql = "SELECT * FROM Category ORDER BY id ASC";
-            PreparedStatement pstmt = con.prepareStatement(sql);
+            PreparedStatement pstmt = con.prepareStatement(stat);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 //Add the categories to the HashMap.
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                allCategories.put(id, new Category(id, name));
+                List<Movie> movies = null;
+                //allCategories.put(id, new Category(id, name, movies));
+                allCats.add(new Category(id, name, movies));
+                
             }
-
+            return allCats;
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return allCategories;
+        return null;
     }
 
     /**
@@ -102,43 +109,42 @@ public class CategoryDAO {
      * @return unhashedPlaylists
      * @throws SQLException
      */
-    public List<Category> getAllMoviesInCategories() throws SQLException {
-        HashMap<Integer, Category> categories = getAllCategories();
+    public List<Movie> getAllMoviesInCategories(int catid) throws SQLException {
+        List<Movie> allMoviesWithCat = new ArrayList<>();
         try ( //Get a connection to the database.
                 Connection con = connectDAO.getConnection()) {
             String sql = "SELECT CatMovie.movieId, Movie.id, Movie.title, Movie.duration, Movie.fileLink, CatMovie.categoryId\n"
-                    + "FROM CatMovie LEFT JOIN Movie ON CatMovie.movieId = Movie.id";
+                    + "FROM CatMovie LEFT JOIN Movie ON CatMovie.movieId = Movie.id WHERE categoryId = " + catid;
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                int id = rs.getInt("id");
-                int categoryId = rs.getInt("categoryId");
+                int id = rs.getInt("movieId");
+                //int categoryId = rs.getInt("categoryId");
                 int duration = rs.getInt("duration");
                 String fileLink = rs.getString("fileLink");
                 String title = rs.getString("title");
                 List<Category> category = getAllCategoriesOfMovie(id);
                 //keep an eye on this, wøbbe
-
-                categories.get(categoryId).addMovie(new Movie(id, title, duration, 888, 99, fileLink, title, category));
+                
+                allMoviesWithCat.add(new Movie(id, title, duration, duration, duration, fileLink, title, category));
             }
+            return allMoviesWithCat;
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        List<Category> unhashedCategories = new ArrayList<>();
-        for (Map.Entry<Integer, Category> entry : categories.entrySet()) {
-            unhashedCategories.add(entry.getValue());
-        }
-        return unhashedCategories;
+        
+        
+        return null;
     }
 
     public ArrayList getAllCategoriesOfMovie(int id) throws SQLException {
         ArrayList categoryForMovieList = new ArrayList<>();
         try (Connection con = connectDAO.getConnection()) {
-            String sql = "SELECT category.name, CatMovie.* FROM Category\n" +
-                "LEFT JOIN CatMovie on categoryid = Category.id\n" +
-                "WHERE CatMovie.movieID = "+ id + " ORDER BY Category.id";
+            String sql = "SELECT category.name, CatMovie.* FROM Category\n"
+                    + "LEFT JOIN CatMovie on categoryid = Category.id\n"
+                    + "WHERE CatMovie.movieID = " + id + " ORDER BY Category.id";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {

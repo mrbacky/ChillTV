@@ -18,7 +18,7 @@ public interface DBFacade {
      * @param category The category to create.
      * @return The newly created category.
      */
-    Category createCategory(Category category);
+    Category createCategory(String name);
 
     /**
      * Gets a list with the names of all the categories and their respective

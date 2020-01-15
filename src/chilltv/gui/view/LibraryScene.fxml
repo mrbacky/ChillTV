@@ -76,22 +76,13 @@
             </ImageView>
          </graphic>
       </Button>
-      <TextField fx:id="txt_movieSearch" layoutX="490.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="368.0" />
+      <TextField fx:id="txt_movieSearch" layoutX="490.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="368.0" promptText="title" />
       <ImageView fx:id="icon_search" fitHeight="20.0" fitWidth="20.0" layoutX="862.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../MyTunesC/src/mytunes/gui/assets/icons8-search-30.png" />
          </image>
       </ImageView>
       <TextField fx:id="txt_Cat" layoutX="10.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="200.0" visible="false" />
-      <Button fx:id="btn_saveCategory" alignment="CENTER" contentDisplay="CENTER" layoutX="330.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_saveCategory" prefHeight="20.0" prefWidth="20.0" visible="false">
-         <graphic>
-            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/icons8-save-30.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
       <ListView layoutX="10.0" layoutY="116.0" prefHeight="454.0" prefWidth="170.0" />
       <Button fx:id="btn_openCatLib" alignment="CENTER" contentDisplay="CENTER" layoutX="153.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_openCatLib" prefHeight="20.0" prefWidth="20.0">
          <graphic>
@@ -116,6 +107,15 @@
             <Font size="15.0" />
          </font>
       </MenuButton>
+      <Button fx:id="btn_refresh" alignment="CENTER" contentDisplay="CENTER" layoutX="330.0" layoutY="33.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_refresh" prefHeight="20.0" prefWidth="20.0">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/icons8-repeat-50.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
       
    </children>
 </AnchorPane>

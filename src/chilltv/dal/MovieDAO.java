@@ -13,10 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Sammy Guergachi <sguergachi at gmail.com>
- */
+
 public class MovieDAO {
 
     DBConnectionProvider cp = new DBConnectionProvider();
@@ -48,6 +45,7 @@ public class MovieDAO {
             System.out.println("Exception " + ex);
             return null;
         }
+           
     }
 
     public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
