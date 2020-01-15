@@ -1,6 +1,7 @@
 package chilltv.dal;
 
 import chilltv.be.Category;
+import chilltv.be.Filter;
 import chilltv.be.Movie;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
@@ -9,9 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 public class MovieDAO {
@@ -112,5 +120,115 @@ public class MovieDAO {
         } catch (SQLException ex) {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /*SELECT M.*,
+      C.*
+      FROM [PrivateMovieCollection_AL].[dbo].[CatMovie] CM,
+           [PrivateMovieCollection_AL].[dbo].[Movie] M,
+           [PrivateMovieCollection_AL].[dbo].[Category] C
+      WHERE (categoryId = 2 OR categoryId = 5)
+      AND  CM.movieId = M.id
+      AND M.title LIKE '%A%'
+      AND C.id = CM.categoryId
+      
+      SELECT Movie.*, Category.*  FROM Movie  JOIN CatMovie on Movie.id = CatMovie.movieId JOIN Category ON categoryId=Category.id 
+      WHERE Movie.title like '%%' 
+      AND  CatMovie.categoryId = 2 OR CatMovie.categoryId = 3 OR CatMovie.categoryId = 1
+      ORDER BY Movie.title ASC
+     */
+    //public List<Movie> getAllMoviesFiltered(String query, List<Category> cats){
+    public List<Movie> getAllMoviesFiltered(Filter f) {
+        List<Movie> filteredMovies = new ArrayList<>();
+        String sql = "SELECT Movie.* FROM Movie JOIN CatMovie ON Movie.id = CatMovie.movieId WHERE "; //Only adds distinct movies.
+
+        String sqlFinal = prepStatment(sql, f);
+        try ( Connection con = cp.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement(sqlFinal);
+
+            int i = 0;
+            for (Category cat : f.getCats()) {
+                pstmt.setInt(i + 1, cat.getId());
+                i++;
+            }
+
+            pstmt.setString(i + 1, "%" + f.getQuery() + "%");
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String title = rs.getString("title");
+                int duration = rs.getInt("duration");
+                int imdbRating = rs.getInt("imdbRating");
+                int myRating = rs.getInt("myRating");
+                String fileLink = rs.getString("fileLink");
+                String lastView = rs.getString("lastView");
+                String category = cc.getCategoriesOnMovies(id);
+                filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category));
+                //This list has duplicates. Searching for x categories, will add x rows to the ResultSet.
+            }
+
+            Map dublicates = elementsInArray(filteredMovies);
+            return generateCorrectList(dublicates, filteredMovies, f.getCats().size());
+        } catch (SQLException ex) {
+            System.out.println("chilltv.dal.MovieDAO.libraryFilter()" + ex);
+        }
+
+        return null;
+    }
+
+    private String prepStatment(String sql, Filter f) {
+        boolean firstItem = true;
+        for (Category c : f.getCats()) { //last one omits OR.
+            if (firstItem) {
+                sql += "categoryId=? ";
+                firstItem = false;
+            } else {
+                sql += "OR categoryId=? ";
+            }
+        }
+
+        if (f.getCats().size() > 0) { //use AND only if the category filter is used.
+            sql += "AND ";
+        }
+
+        sql += "Movie.title LIKE ? "; //? = %query%
+        System.out.println(sql);
+        return sql;
+    }
+
+    private Map elementsInArray(List<Movie> arrayTofind) {
+
+        Map<Integer, Integer> dupElements = new HashMap<Integer, Integer>(); //movieId + count
+
+        for (int i = 0; i < arrayTofind.size(); i++) {
+            if (!dupElements.containsKey(arrayTofind.get(i).getId())) { //Set key for HashMap
+                dupElements.put(arrayTofind.get(i).getId(), 0); //Set value for HashMap for all to 0
+            }
+        }
+        for (int i = 0; i < arrayTofind.size(); i++) {
+            Integer newInt = dupElements.get(arrayTofind.get(i).getId());
+            newInt = newInt + 1;
+            dupElements.replace(arrayTofind.get(i).getId(), newInt); //Change the value for duplicates. +1 for each duplicate.
+        }
+        return dupElements;
+    }
+
+    private List<Movie> generateCorrectList(Map duplicates, List<Movie> movListWithDup, int filterSize) {
+        List<Movie> movList = new ArrayList<Movie>();
+
+        Iterator entries = duplicates.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry entry = (Map.Entry) entries.next();
+            Integer key = (Integer) entry.getKey();
+            Integer value = (Integer) entry.getValue();
+            for (Movie movie : movListWithDup) {
+                if (movie.getId() == key && value > filterSize - 1) {
+                    movList.add(movie);
+                    break;
+                }
+            }
+        }
+        return movList;
     }
 }

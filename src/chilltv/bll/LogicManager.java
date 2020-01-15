@@ -1,6 +1,7 @@
 package chilltv.bll;
 
 import chilltv.be.Category;
+import chilltv.be.Filter;
 import chilltv.be.Movie;
 import chilltv.bll.util.CategoryConverter;
 import chilltv.bll.util.SearchFilter;
@@ -22,8 +23,8 @@ public class LogicManager implements LogicFacade {
     private final CategoryConverter categoryConverter;
 
     /**
-     * Creates a connection to the database. Constructs a TimeConverter and
-     * SearchFilter.
+     * Creates a connection to the database. Constructs a TimeConverter.
+     *
      */
     public LogicManager() {
         dbManager = new DBManager();
@@ -94,13 +95,8 @@ public class LogicManager implements LogicFacade {
     }
 
     @Override
-    public List<Movie> searchMovies(List<Movie> searchBase, String query) {
-        return searcher.searchMovies(searchBase, query);
-    }
-
-    @Override
-    public List<Category> searchCategories(List<Category> searchBase, String query) {
-        return searcher.searchCategory(searchBase, query);
+    public List<Movie> getAllMoviesFiltered(Filter f) {
+        return dbManager.getAllMoviesFiltered(f);
     }
 
     @Override

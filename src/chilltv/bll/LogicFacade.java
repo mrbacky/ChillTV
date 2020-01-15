@@ -1,6 +1,7 @@
 package chilltv.bll;
 
 import chilltv.be.Category;
+import chilltv.be.Filter;
 import chilltv.be.Movie;
 import java.util.List;
 
@@ -70,6 +71,8 @@ public interface LogicFacade {
     String sec_To_Format(int sec);
 
     int format_To_Sec(String timeString);
+        
+    List<Movie> getAllMoviesFiltered(Filter f);
     
     String convertCategory(Movie movie);
     

@@ -1,6 +1,7 @@
 package chilltv.dal;
 
 import chilltv.be.Category;
+import chilltv.be.Filter;
 import chilltv.be.Movie;
 import java.sql.SQLException;
 import java.util.List;
@@ -73,5 +74,10 @@ public class DBManager implements DBFacade {
     @Override
     public void deleteMovie(Movie movie) {
         movDAO.deleteMovie(movie);
+    }
+
+    @Override
+    public List<Movie> getAllMoviesFiltered(Filter f) {
+        return movDAO.getAllMoviesFiltered(f);
     }
 }

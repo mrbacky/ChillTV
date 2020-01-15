@@ -1,6 +1,7 @@
 package chilltv.gui.model;
 
-
+import chilltv.be.Category;
+import chilltv.be.Filter;
 import chilltv.be.Movie;
 import chilltv.bll.LogicFacade;
 import chilltv.bll.LogicManager;
@@ -97,19 +98,6 @@ public class MovieModel {
         libraryList.remove(movie);
         
     }
-
-    /**
-     * Searches for all movies which matches the given query.
-     *
-     * @param query The search query
-     */
-    public void filteredMovies(String query) {
-        //Create a temporary list which contains the movies obtained from the search method.
-        List<Movie> temp = logicManager.searchMovies(logicManager.getAllMovies(), query);
-        //Clear all movies from the library and add the movies from the temporary list to the library list.
-        libraryList.clear();
-        libraryList.addAll(temp);
-    }
     
     /**
      * Converts the time from the format hh:movieModel:ss to seconds.
@@ -131,4 +119,21 @@ public class MovieModel {
         return logicManager.sec_To_Format(sec);
     }
 
+    public List<Movie> getAllMoviesFiltered(Filter f){
+        //Create a temporary list which contains the songs obtained from the search method.
+        List<Movie> temp = logicManager.getAllMoviesFiltered(f);
+        //Clear all songs from the library and add the songs from the temporary list to the library list.
+        libraryList.clear();
+        libraryList.addAll(temp);
+        
+        for (Movie movie : temp) {
+            System.out.println(movie);
+        }
+        
+        return libraryList;
+    }
+    
+    public void test(){
+        
+    }
 }

@@ -1,6 +1,7 @@
 package chilltv.dal;
 
 import chilltv.be.Category;
+import chilltv.be.Filter;
 import chilltv.be.Movie;
 import java.util.List;
 
@@ -68,4 +69,6 @@ public interface DBFacade {
     void updateMovie(Movie movie);
 
     void deleteMovie(Movie movie);
+
+    List<Movie> getAllMoviesFiltered(Filter f);
 }
