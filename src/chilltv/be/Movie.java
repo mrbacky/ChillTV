@@ -17,10 +17,10 @@ public class Movie {
     private String fileLink;
     private String lastView;
     private String stringDuration;
-    private String category;
+    private List<Category> categoryList;
     private String stringCat;
 
-    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, String category) {
+    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, List<Category> categoryList, String stringCat) {
         this.id = id;
         this.title = title;
         this.duration = duration;
@@ -28,19 +28,10 @@ public class Movie {
         this.myRating = myRating;
         this.fileLink = fileLink;
         this.lastView = lastView;
-        this.category = category;
+        this.categoryList = categoryList;
+        this.stringCat = stringCat;
     }
 
-    
-    //  
-    private List<Category> category;
-    
-    private String stringCat;
-
-    
-
-    //  JSoup for imDB Rating
-    //  tmdb
     public int getId() {
         return id;
     }
@@ -57,28 +48,12 @@ public class Movie {
         this.title = title;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public int getDuration() {
         return duration;
     }
 
     public void setDuration(int duration) {
         this.duration = duration;
-    }
-
-    public String getStringDuration() {
-        return stringDuration;
-    }
-
-    public void setStringDuration(String stringDuration) {
-        this.stringDuration = stringDuration;
     }
 
     public int getImdbRating() {
@@ -113,9 +88,20 @@ public class Movie {
         this.lastView = lastView;
     }
 
-    @Override
-    public String toString() {
-        return title;
+    public String getStringDuration() {
+        return stringDuration;
+    }
+
+    public void setStringDuration(String stringDuration) {
+        this.stringDuration = stringDuration;
+    }
+
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
     }
 
     public String getStringCat() {
@@ -125,4 +111,7 @@ public class Movie {
     public void setStringCat(String stringCat) {
         this.stringCat = stringCat;
     }
+
+   
+    
 }

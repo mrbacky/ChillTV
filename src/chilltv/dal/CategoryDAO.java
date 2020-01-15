@@ -123,10 +123,11 @@ public class CategoryDAO {
                 int duration = rs.getInt("duration");
                 String fileLink = rs.getString("fileLink");
                 String title = rs.getString("title");
-                String category = getAllCategoriesOfMovie(id);
+                String stringCat = getAllCategoriesOfMovie(id);
+                List<Category> categoryList = null;
                 //keep an eye on this, wøbbe
                 
-                allMoviesWithCat.add(new Movie(id, title, duration, duration, duration, fileLink, title, category));
+                allMoviesWithCat.add(new Movie(id, title, duration, duration, duration, fileLink, title, categoryList, stringCat));
             }
             return allMoviesWithCat;
         } catch (SQLServerException ex) {

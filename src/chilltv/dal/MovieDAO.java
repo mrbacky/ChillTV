@@ -42,11 +42,12 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
-                List<Category> category = catDao.getAllCategoriesOfMovie(id);
+                String stringCat = catDao.getAllCategoriesOfMovie(id);
+                List<Category> categoryList =  null;//
+                
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
-                allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category));
-
+                allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList, stringCat));
             }
             return allMovies;
         } catch (SQLException ex) {
@@ -68,6 +69,7 @@ public class MovieDAO {
             pstmt.setString(6, lastView);
             int affectedRows = pstmt.executeUpdate();
             List<Category> category = null;
+            String stringCat = "asd";
 
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
@@ -76,7 +78,7 @@ public class MovieDAO {
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     int id = rs.getInt(1);
-                    return new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category);
+                    return new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category,stringCat);
                 } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
@@ -163,8 +165,9 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
-                List<Category> category = catDao.getAllCategoriesOfMovie(id);
-                filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category));
+                String stringCat = catDao.getAllCategoriesOfMovie(id);
+                List<Category> categoryList = null;
+                filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList, stringCat));
                 //This list has duplicates. Searching for x categories, will add x rows to the ResultSet.
             }
 

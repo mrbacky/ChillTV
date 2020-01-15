@@ -203,7 +203,7 @@ public class LibraryController implements Initializable {
 
         //  Library table view
         col_Title.setCellValueFactory(new PropertyValueFactory<>("title"));
-        col_Category.setCellValueFactory(new PropertyValueFactory<>("category"));
+        col_Category.setCellValueFactory(new PropertyValueFactory<>("stringCat"));
         col_Duration.setCellValueFactory(new PropertyValueFactory<>("stringDuration"));
         col_MyRating.setCellValueFactory(new PropertyValueFactory<>("myRating"));
         col_iMDBRating.setCellValueFactory(new PropertyValueFactory<>("imdbRating"));

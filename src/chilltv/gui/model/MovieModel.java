@@ -38,9 +38,7 @@ public class MovieModel {
 
     }
 
-    public String convert(Movie movie){
-        return logicManager.convertCategory(movie);
-    }
+   
     
     
     public ObservableList<Movie> getObsMovies() {
