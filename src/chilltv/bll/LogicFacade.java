@@ -1,6 +1,7 @@
 package chilltv.bll;
 
 import chilltv.be.Category;
+import chilltv.be.Filter;
 import chilltv.be.Movie;
 import java.util.List;
 
@@ -88,4 +89,6 @@ public interface LogicFacade {
      * @return A list of categories that matches the search query.
      */
     List<Category> searchCategories(List<Category> searchBase, String query);
+    
+    List<Movie> getAllMoviesFiltered(Filter f);
 }

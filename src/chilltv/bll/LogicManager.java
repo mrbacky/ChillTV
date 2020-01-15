@@ -1,6 +1,7 @@
 package chilltv.bll;
 
 import chilltv.be.Category;
+import chilltv.be.Filter;
 import chilltv.be.Movie;
 import chilltv.bll.util.SearchFilter;
 import chilltv.bll.util.TimeConverter;
@@ -99,5 +100,9 @@ public class LogicManager implements LogicFacade {
     public List<Category> searchCategories(List<Category> searchBase, String query) {
         return searcher.searchCategory(searchBase, query);
     }
-    
+
+    @Override
+    public List<Movie> getAllMoviesFiltered(Filter f) {
+        return dbManager.getAllMoviesFiltered(f);
+    }
 }

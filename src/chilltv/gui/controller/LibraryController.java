@@ -1,12 +1,15 @@
 package chilltv.gui.controller;
 
 import chilltv.be.Category;
+import chilltv.be.Filter;
 import chilltv.be.Movie;
 import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -24,6 +27,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -33,6 +37,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -115,14 +121,17 @@ public class LibraryController implements Initializable {
     private RadioMenuItem rawAction;
     @FXML
     private CheckMenuItem rawHorror;
+    
+    @FXML
+    private MenuButton menuButton_filterCategory;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         edit = false;
         settingTableViews();
-        setSearchMovies();
         setSearchCategories();
         loadCategoriesIntoMenu();
+        setCategoriesIntoFilter();
     }
 
     public void loadCategoriesIntoMenu() {
@@ -136,11 +145,9 @@ public class LibraryController implements Initializable {
     public void setCheckedCategoriesForMovie() {
         //  get selected movie. get its categories checked
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
-        
+
     }
 
-    
-    
     public void showScene(Parent root) {
         Stage stage = new Stage();
         Scene scene = new Scene(root);
@@ -176,14 +183,6 @@ public class LibraryController implements Initializable {
         moviesInChosenCategory.clear();
         moviesInChosenCategory.addAll(tbv_Categories.getSelectionModel().getSelectedItem().getMovies());
         lv_Category.setItems(moviesInChosenCategory);
-    }
-
-    private void setSearchMovies() {
-        //Set the filter Predicate when the filter changes. Any changes to the
-        //search textfield activates the filter.
-        txt_movieSearch.textProperty().addListener((obs, oldVal, newVal) -> {
-            movieModel.filteredMovies(newVal);
-        });
     }
 
     private void setSearchCategories() {
@@ -307,4 +306,51 @@ public class LibraryController implements Initializable {
 
     }
 
+    public void setCategoriesIntoFilter() {
+        //Get all categories.
+        ObservableList<Category> allCategories = catModel.getObsCategories();
+        //Add all the categories as created CheckMenuItems. Add MenuItems to the MenuButton.
+        for (Category allCat : allCategories) {
+            CheckMenuItem mi = new CheckMenuItem(allCat.toString());
+            menuButton_filterCategory.getItems().add(mi);
+            //Add userdata from the Category objects to the MenuItems.
+            mi.setUserData(allCat);
+        }
+    }
+
+    private List<Category> accessCategoriesinFilter() {
+        List<Category> cats = new ArrayList();
+        for (MenuItem item : menuButton_filterCategory.getItems()) {
+            //If the CheckMenu item is selected, add it (with UserData) to the list). 
+            if (((CheckMenuItem) item).isSelected()) {
+                cats.add((Category) item.getUserData());
+            }
+        }
+        return cats;
+    }
+
+    @FXML
+    private void searchByTitle(KeyEvent event) {
+        movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter()));
+    }
+    
+    @FXML
+    private void filterCategory(MouseEvent event) {
+        //Get access to the CheckMenuItem in the MenuButton.
+        for (MenuItem it : menuButton_filterCategory.getItems()) {
+            //Listen to changes of the MenuItems.
+            CheckMenuItem mi = (CheckMenuItem) it;
+            mi.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                //Make list to store the categories to filter.
+                List<Category> cats = new ArrayList();
+                for (MenuItem item : menuButton_filterCategory.getItems()) {
+                    //If the CheckMenu item is selected, add it (with UserData) to the list). 
+                    if (((CheckMenuItem) item).isSelected()) {
+                        cats.add((Category) item.getUserData());
+                    }
+                }
+                movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter()));           
+            });
+        }
+    }    
 }
