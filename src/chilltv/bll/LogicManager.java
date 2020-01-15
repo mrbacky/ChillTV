@@ -96,10 +96,10 @@ public class LogicManager implements LogicFacade {
         return dbManager.getAllMoviesFiltered(f);
     }
 
-    @Override
+    /*@Override
     public String convertCategory(Movie movie) {
             return categoryConverter.convertCategory(movie);
         }
-
+*/
    
 }

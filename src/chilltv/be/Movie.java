@@ -17,8 +17,10 @@ public class Movie {
     private String fileLink;
     private String lastView;
     private String stringDuration;
+    private String category;
+    private String stringCat;
 
-    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, List<Category> category) {
+    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, String category) {
         this.id = id;
         this.title = title;
         this.duration = duration;
@@ -55,11 +57,11 @@ public class Movie {
         this.title = title;
     }
 
-    public List<Category> getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(List<Category> category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

@@ -2,6 +2,7 @@ package chilltv.gui.controller;
 
 import chilltv.be.Category;
 import chilltv.gui.model.CategoryModel;
+import chilltv.gui.model.MovieModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ public class DeleteCategoryPopUpController implements Initializable {
     private Button btn_cancel;
 
     private CategoryModel catModel;
+    private MovieModel movieModel;
     private LibraryController libCon;
     private Category selectedCategory;
 
@@ -61,7 +63,7 @@ public class DeleteCategoryPopUpController implements Initializable {
     private void handle_confirmDeleteCategory(ActionEvent event) {
         //Deletes the selected category.
         catModel.deleteCategory(selectedCategory);
-
+        //movieModel.loadAllMovies();
         Stage stage;
         stage = (Stage) btn_confirm.getScene().getWindow();
         stage.close();

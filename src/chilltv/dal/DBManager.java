@@ -44,6 +44,7 @@ public class DBManager implements DBFacade {
     @Override
     public void deleteCategory(Category category) {
         catDAO.deleteCategory(category);
+        
     }
 
     @Override
