@@ -25,7 +25,7 @@ public class MovieModel {
         logicManager = new LogicManager();
     }
 
-    public void loadMoviesFromCategory(Category category) {
+    public void loadAllMovies() {
         libraryList.clear();
         List<Movie> allMovies = logicManager.getAllMovies();
         for (Movie movie : allMovies) {

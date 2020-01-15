@@ -177,7 +177,7 @@ public class LibraryController implements Initializable {
         col_LastView.setCellValueFactory(new PropertyValueFactory<>("lastView"));
         //  displaying content
         tbv_Movies.setItems(movieModel.getObsMovies());
-        movieModel.loadMoviesFromCategory(categoryToEdit);
+        movieModel.loadAllMovies();
 
         //  Category table view
         col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -187,11 +187,6 @@ public class LibraryController implements Initializable {
         catModel.loadAllCategories();
     }
 
-    private void getMoviesInCategory() {
-        
-        
-//        movieModel.loadAllMovies();
-    }
 
     private void setSearchMovies() {
         //Set the filter Predicate when the filter changes. Any changes to the
@@ -302,7 +297,6 @@ public class LibraryController implements Initializable {
     private void handle_getCategoryContent(MouseEvent event) {
         Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
         if (selectedCategory != null) {
-            getMoviesInCategory();
             lbl_Category.setText(selectedCategory.getName());
         }
     }

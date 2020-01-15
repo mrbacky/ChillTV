@@ -198,6 +198,7 @@ public class CategoryDAO {
             pstmt.setInt(1, category.getId());
             //Execute SQL query.
             pstmt.executeUpdate();
+            
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
