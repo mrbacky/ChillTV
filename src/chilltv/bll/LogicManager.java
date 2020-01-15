@@ -62,7 +62,7 @@ public class LogicManager implements LogicFacade {
     }
 
     @Override
-    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
+    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView) {
         return dbManager.createMovie(title, duration, imdbRating, myRating, fileLink, lastView);
     }
 

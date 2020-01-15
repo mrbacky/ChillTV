@@ -58,7 +58,7 @@ public class DBManager implements DBFacade {
     }
 
     @Override
-    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
+    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView) {
         return movDAO.createMovie(title, duration, imdbRating, myRating, fileLink, lastView);
     }
 

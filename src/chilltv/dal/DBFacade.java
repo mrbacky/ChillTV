@@ -62,7 +62,7 @@ public interface DBFacade {
      */
     void deleteMovieFromCategory(Category category, Movie movie);
 
-    Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView);
+    Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView);
 
     List<Movie> getAllMovies();
 
