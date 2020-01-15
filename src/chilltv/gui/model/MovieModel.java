@@ -81,19 +81,6 @@ public class MovieModel {
         logicManager.deleteMovie(movie);
         libraryList.remove(movie);
     }
-
-    /**
-     * Searches for all movies which matches the given query.
-     *
-     * @param query The search query
-     */
-    public void filteredMovies(String query) {
-        //Create a temporary list which contains the movies obtained from the search method.
-        List<Movie> temp = logicManager.searchMovies(logicManager.getAllMovies(), query);
-        //Clear all movies from the library and add the movies from the temporary list to the library list.
-        libraryList.clear();
-        libraryList.addAll(temp);
-    }
     
     /**
      * Converts the time from the format hh:movieModel:ss to seconds.

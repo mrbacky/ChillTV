@@ -56,17 +56,4 @@ public class CategoryModel {
         logicManager.deleteCategory(category);
         categoryList.remove(category);
     }
-    
-    /**
-     * Searches for all categories which matches the given query.
-     *
-     * @param query The search query
-     */
-    public void filteredCategories(String query) {
-        //Create a temporary list which contains the categories obtained from the search method.
-        List<Category> temp = logicManager.searchCategories(logicManager.getAllCategories(), query);
-        //Clear all categories from the library and add the categories from the temporary list to the library list.
-        categoryList.clear();
-        categoryList.addAll(temp);
-    }
 }

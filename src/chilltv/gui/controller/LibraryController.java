@@ -129,7 +129,6 @@ public class LibraryController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         edit = false;
         settingTableViews();
-        setSearchCategories();
         loadCategoriesIntoMenu();
         setCategoriesIntoFilter();
     }
@@ -183,14 +182,6 @@ public class LibraryController implements Initializable {
         moviesInChosenCategory.clear();
         moviesInChosenCategory.addAll(tbv_Categories.getSelectionModel().getSelectedItem().getMovies());
         lv_Category.setItems(moviesInChosenCategory);
-    }
-
-    private void setSearchCategories() {
-        //Set the filter Predicate when the filter changes. Any changes to the
-        //search textfield activates the filter.
-        txt_catSearch.textProperty().addListener((obs, oldVal, newVal) -> {
-            catModel.filteredCategories(newVal);
-        });
     }
 
     void setContr(PlayerController pCon) {
