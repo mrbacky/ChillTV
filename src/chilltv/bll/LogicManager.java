@@ -19,7 +19,7 @@ public class LogicManager implements LogicFacade {
     private final DBFacade dbManager;
     private final TimeConverter timeConverter;
     private final SearchFilter searcher;
-    private final CategoryConverter categoryConverter;
+    //private final CategoryConverter categoryConverter;
 
     /**
      * Creates a connection to the database. Constructs a TimeConverter and
@@ -29,7 +29,7 @@ public class LogicManager implements LogicFacade {
         dbManager = new DBManager();
         timeConverter = new TimeConverter();
         searcher = new SearchFilter();
-        categoryConverter = new CategoryConverter();
+        //categoryConverter = new CategoryConverter();
 
     }
 
@@ -103,10 +103,10 @@ public class LogicManager implements LogicFacade {
         return searcher.searchCategory(searchBase, query);
     }
 
-    @Override
+    /*@Override
     public String convertCategory(Movie movie) {
             return categoryConverter.convertCategory(movie);
         }
-
+*/
    
 }

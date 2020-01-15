@@ -37,7 +37,7 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
-                List<Category> category = catDao.getAllCategoriesOfMovie(id);
+                String category = catDao.getAllCategoriesOfMovie(id);
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
                                 allMovies.add(new Movie(id, title, duration, 999, 888, fileLink, lastView, category));
@@ -61,7 +61,7 @@ public class MovieDAO {
             pstmt.setString(5, fileLink);
             pstmt.setString(6, lastView);
             int affectedRows = pstmt.executeUpdate();
-            List<Category> category = null;
+            String category = "";
 
             if (affectedRows == 0) {
                 throw new SQLException("Creating user failed, no rows affected.");
