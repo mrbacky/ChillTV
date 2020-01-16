@@ -214,21 +214,31 @@ public class LibraryController implements Initializable {
     public void handle_deleteMovie(ActionEvent event) throws IOException {
 
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
-        Parent root;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/DeleteMoviePopUp.fxml"));
-        root = (Parent) fxmlLoader.load();
-        DeleteMoviePopUpController controller = (DeleteMoviePopUpController) fxmlLoader.getController();
-        controller.setContr(this);
-        controller.setDeleteMovieLabel(selectedMovie);
-        showScene(root);
+        if (selectedMovie == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Delete movie error");
+            alert.setHeaderText("Oh!\nyou did not select a movie to delete.");
+            alert.showAndWait();
+            Stage.getWindows().clear();
 
+        } else {
+
+            Parent root;
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/DeleteMoviePopUp.fxml"));
+            root = (Parent) fxmlLoader.load();
+            DeleteMoviePopUpController controller = (DeleteMoviePopUpController) fxmlLoader.getController();
+            controller.setContr(this);
+            controller.setDeleteMovieLabel(selectedMovie);
+            showScene(root);
+
+        }
     }
-//////////////////////////////////////////
+    //////////////////////////////////////////
 
-//    private void handle_addCategoryVisible(ActionEvent event) {
-//        txt_Cat.setVisible(true);
-//        btn_saveCategory.setVisible(true);
-//    }
+    //    private void handle_addCategoryVisible(ActionEvent event) {
+    //        txt_Cat.setVisible(true);
+    //        btn_saveCategory.setVisible(true);
+    //    }
     private void handle_editCategory(ActionEvent event) {
         edit = true;
         txt_Cat.setVisible(true);
