@@ -51,19 +51,17 @@ public class LogicManager implements LogicFacade {
         dbManager.deleteCategory(category);
     }
 
+//    @Override
+//    public Category addMovieToCategory(Category category, Movie movie) {
+//        return dbManager.addMovieToCategory(category, movie);
+//    }
+//    @Override
+//    public void deleteMovieFromCategory(Category category, Movie movie) {
+//        dbManager.deleteMovieFromCategory(category, movie);
+//    }
     @Override
-    public Category addMovieToCategory(Category category, Movie movie) {
-        return dbManager.addMovieToCategory(category, movie);
-    }
-
-    @Override
-    public void deleteMovieFromCategory(Category category, Movie movie) {
-        dbManager.deleteMovieFromCategory(category, movie);
-    }
-
-    @Override
-    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView) {
-        return dbManager.createMovie(title, duration, imdbRating, myRating, fileLink, lastView);
+    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView, List<Category> cats) {
+        return dbManager.createMovie(title, duration, imdbRating, myRating, fileLink, lastView, cats);
     }
 
     @Override
@@ -100,6 +98,5 @@ public class LogicManager implements LogicFacade {
     public String convertCategory(Movie movie) {
             return categoryConverter.convertCategory(movie);
         }
-*/
-   
+     */
 }

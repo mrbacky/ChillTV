@@ -100,11 +100,8 @@ public class LibraryController implements Initializable {
     private SeparatorMenuItem separator;
     @FXML
     private MenuItem menuItem_playMovie;
-    @FXML
     private Menu menu_Category;
     private RadioMenuItem rawAction;
-    @FXML
-    private CheckMenuItem rawHorror;
     private List<CheckMenuItem> catItemList = new ArrayList<>();
     
     
@@ -125,81 +122,19 @@ public class LibraryController implements Initializable {
         //setSearchMovies();
         //setSearchCategories();
 
-        loadCategoriesIntoMenu();
         //setCheckedCategoriesForMovie();
-        setCategoriesIntoFilter();
 
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 //catModel.loadAllCategories();
-                loadCategoriesIntoMenu();
                 //setCheckedCategoriesForMovie();
             }
         });
 
     }
 
-    public void loadCategoriesIntoMenu() {
-        //ObservableList<Category> allCategories = catModel.getObsCategories();
-        //System.out.println("these are all cats   " + allCategories);
-//        menu_Category.getItems().clear();
-//        int counter = 0;
-//        for (CheckMenuItem checkMenuItem : catItemList) {
-//            for (Category cat : catModel.getObsCategories()) {
-//                catItemList.add(new CheckMenuItem(cat.toString()));
-//                //System.out.println(catItemList.get(0));
-//                counter++;
-//
-//            }
-//        }
 
-        ObservableList<Category> allCategories = catModel.getObsCategories();
-        //Add all the categories as created CheckMenuItems. Add MenuItems to the MenuButton.
-        menu_Category.getItems().clear();
-        for (Category allCat : allCategories) {
-            CheckMenuItem mi = new CheckMenuItem(allCat.toString());
-            menu_Category.getItems().add(mi);
-            //Add userdata from the Category objects to the MenuItems.
-            mi.setUserData(allCat);
-        };
-
-    }
-
-    @FXML
-    private void handle_loadCheckedCategories(MouseEvent event) {
-        /*
-        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
-        if (selectedMovie != null) {
-            for (Category cat : catModel.getObsCategories()) {
-                for (Movie mov : cat.getMovies()) {
-                    for (Category movieCat : mov.getCategory()) {
-                        if (movieCat.getName().equals(cat.getName())) {
-
-                        }
-                    }
-                }
-
-                if (cat.getMovies().contains(selectedMovie)) {
-                    catItem.setSelected(true);
-                    System.out.println("asd");
-                }
-            }
-        }*/
-    }
-
-    public void setCheckedCategoriesForMovie() {
-        //  get selected movie. get its categories checked
-        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
-        //catItem.selectedProperty().addListener(((observable, oldValue, newValue) -> {
-        for (Category cat : catModel.getObsCategories()) {
-            if (cat.getMovies().contains(selectedMovie)) {
-                catItem.setSelected(true);
-            }
-
-        }
-
-    }
 
     public void showScene(Parent root) {
         Stage stage = new Stage();
@@ -280,7 +215,7 @@ public class LibraryController implements Initializable {
         txt_Cat.setVisible(true);
         btn_saveCategory.setVisible(true);
         Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
-        //sets the existing info of the selected playlist.
+        //sets the existing info of the selected category.
         txt_Cat.setText(selectedCategory.getName());
     }
 

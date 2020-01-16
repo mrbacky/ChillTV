@@ -38,9 +38,6 @@ public class MovieModel {
 
     }
 
-   
-    
-    
     public ObservableList<Movie> getObsMovies() {
         List<Movie> allMovies = logicManager.getAllMovies();
         for (Movie movie : allMovies) {
@@ -65,8 +62,8 @@ public class MovieModel {
      * @param filelink The location of the movie.
      * @param lastView The date for when the user last viewed the movie.
      */
-    public void createMovie(String title, int duration, int myRating, float imdbRating, String filelink, String lastView) {
-        Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView);
+    public void createMovie(String title, int duration, int myRating, float imdbRating, String filelink, String lastView, List<Category> cats) {
+        Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView, cats);
 //        movie.setStringDuration(sec_To_Format(movie.getDuration()));
 //        movie.setStringCat(convert(movie));
         libraryList.add(movie);
@@ -94,9 +91,9 @@ public class MovieModel {
     public void deleteMovie(Movie movie) {
         logicManager.deleteMovie(movie);
         libraryList.remove(movie);
-        
+
     }
-    
+
     /**
      * Converts the time from the format hh:movieModel:ss to seconds.
      *
@@ -117,21 +114,21 @@ public class MovieModel {
         return logicManager.sec_To_Format(sec);
     }
 
-    public List<Movie> getAllMoviesFiltered(Filter f){
+    public List<Movie> getAllMoviesFiltered(Filter f) {
         //Create a temporary list which contains the songs obtained from the search method.
         List<Movie> temp = logicManager.getAllMoviesFiltered(f);
         //Clear all songs from the library and add the songs from the temporary list to the library list.
         libraryList.clear();
         libraryList.addAll(temp);
-        
+
         for (Movie movie : temp) {
             System.out.println(movie);
         }
-        
+
         return libraryList;
     }
-    
-    public void test(){
-        
+
+    public void test() {
+
     }
 }

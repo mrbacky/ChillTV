@@ -37,7 +37,7 @@ public class MovieDAO {
         List<Movie> allMovies = new ArrayList<>();
         String stat = "SELECT * FROM Movie";
 
-        try ( Connection xd = cp.getConnection()) {
+        try (Connection xd = cp.getConnection()) {
             Statement statement = xd.createStatement();
             ResultSet rs = statement.executeQuery(stat);
             while (rs.next()) {
@@ -63,8 +63,8 @@ public class MovieDAO {
 
     }
 
-    public Movie createMovie(String title, int duration, List<Category> cats, float imdbRating, int myRating, String fileLink, String lastView) {
-        try ( Connection con = cp.getConnection()) {
+    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView, List<Category> cats) {
+        try (Connection con = cp.getConnection()) {
             String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); //Prepared or Stat?
             pstmt.setString(1, title);
@@ -107,7 +107,7 @@ public class MovieDAO {
 
     public void deleteMovie(Movie movie) {
         //When the movie is deleted, it should also be removed from all categories. DOES IT?
-        try ( Connection con = cp.getConnection()) {
+        try (Connection con = cp.getConnection()) {
             String sql = "DELETE FROM Movie WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, movie.getId());
@@ -121,7 +121,7 @@ public class MovieDAO {
         String stat = "UPDATE movie\n"
                 + "SET title = ?, duration = ?, imdbRating = ?, myRating = ?, fileLink = ?, lastView = ?\n"
                 + "WHERE id = ?";
-        try ( Connection con = cp.getConnection()) {
+        try (Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setString(1, movie.getTitle());
             stmt.setInt(2, movie.getDuration());
@@ -159,7 +159,7 @@ public class MovieDAO {
         String sql = "SELECT Movie.* FROM Movie JOIN CatMovie ON Movie.id = CatMovie.movieId WHERE "; //Only adds distinct movies.
 
         String sqlFinal = prepStatment(sql, f);
-        try ( Connection con = cp.getConnection()) {
+        try (Connection con = cp.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sqlFinal);
 
             int i = 0;

@@ -47,19 +47,19 @@ public class DBManager implements DBFacade {
         
     }
 
-    @Override
-    public Category addMovieToCategory(Category category, Movie movie) {
-        return catDAO.addMovieToCategory(category, movie);
-    }
+//    @Override
+//    public Category addMovieToCategory(Category category, Movie movie) {
+//        return catDAO.addMovieToCategory(category, movie);
+//    }
+
+//    @Override
+//    public void deleteMovieFromCategory(Category category, Movie movie) {
+//        catDAO.deleteMovieFromCategory(category, movie);
+//    }
 
     @Override
-    public void deleteMovieFromCategory(Category category, Movie movie) {
-        catDAO.deleteMovieFromCategory(category, movie);
-    }
-
-    @Override
-    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView) {
-        return movDAO.createMovie(title, duration, imdbRating, myRating, fileLink, lastView);
+    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView, List<Category> cats) {
+        return movDAO.createMovie(title, duration, imdbRating, myRating, fileLink, lastView, cats);
     }
 
     @Override
@@ -81,4 +81,15 @@ public class DBManager implements DBFacade {
     public List<Movie> getAllMoviesFiltered(Filter f) {
         return movDAO.getAllMoviesFiltered(f);
     }
+
+    @Override
+    public Category addMovieToCategory(Category category, Movie movie) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteMovieFromCategory(Category category, Movie movie) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

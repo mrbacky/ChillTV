@@ -163,7 +163,7 @@ public class CategoryDAO {
     }
 
     
-    
+    //  shouldn
     public ArrayList getAllCategoriesForCatList(int id) throws SQLException {
         ArrayList movCatList = new ArrayList<String>();
         try ( Connection con = connectDAO.getConnection()) {

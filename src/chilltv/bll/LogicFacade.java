@@ -43,24 +43,24 @@ public interface LogicFacade {
      */
     void deleteCategory(Category category);
 
-    /**
-     * Adds a movie to a category in the database.
-     *
-     * @param category The category the movie is added to.
-     * @param movie The movie to be added to the category.
-     * @return Category with the added movie.
-     */
-    Category addMovieToCategory(Category category, Movie movie);
+//    /**
+//     * Adds a movie to a category in the database.
+//     *
+//     * @param category The category the movie is added to.
+//     * @param movie The movie to be added to the category.
+//     * @return Category with the added movie.
+//     */
+//    Category addMovieToCategory(Category category, Movie movie);
 
-    /**
-     * Deletes a movie from a category in the database.
-     *
-     * @param category The category of the movie.
-     * @param movie The movie to delete from the category.
-     */
-    void deleteMovieFromCategory(Category category, Movie movie);
+//    /**
+//     * Deletes a movie from a category in the database.
+//     *
+//     * @param category The category of the movie.
+//     * @param movie The movie to delete from the category.
+//     */
+//    void deleteMovieFromCategory(Category category, Movie movie);
 
-    Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView);
+    Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView, List<Category> cats);
 
     List<Movie> getAllMovies();
 

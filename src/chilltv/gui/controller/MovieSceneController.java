@@ -1,17 +1,26 @@
 package chilltv.gui.controller;
 
+import chilltv.be.Category;
 import chilltv.be.Movie;
+import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
@@ -30,16 +39,6 @@ public class MovieSceneController implements Initializable {
     @FXML
     private TextField txtField_title;
     @FXML
-    private ChoiceBox<String> choiceBox_Category;
-    @FXML
-    private Button btn_createVisible;
-    @FXML
-    private Button btn_createCategory;
-    @FXML
-    private Button btn_deleteCategory;
-    @FXML
-    private TextField txt_createCategory;
-    @FXML
     private TextField txtField_duration;
     @FXML
     private TextField txtField_filePath;
@@ -54,8 +53,17 @@ public class MovieSceneController implements Initializable {
 
     private LibraryController libraryController;
     private MovieModel movieModel;
+    private CategoryModel catModel;
     private boolean edit;
     private Movie movieToEdit;
+    @FXML
+    private ListView<Category> lv_categories;
+    @FXML
+    private TextField txtField_IMDbRating;
+    @FXML
+    private ComboBox<Category> comboBox_categories;
+    @FXML
+    private ComboBox<Integer> comboBox_rating;
 
     /**
      * Initializes the controller class. Upon initialization, the mode is set to
@@ -65,8 +73,27 @@ public class MovieSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         edit = false;
+        catModel = CategoryModel.getInstance();
         movieModel = MovieModel.getInstance();
-        //catModel = CategoryModel.getInstance();
+        loadCatsInComboBox();
+        loadRating();
+        
+        catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                loadCatsInComboBox();
+            }
+
+        });
+
+    }
+
+    private void loadCatsInComboBox() {
+        ObservableList<Category> allCategories = catModel.getObsCategories();
+        comboBox_categories.getItems().clear();
+        for (Category cat : allCategories) {
+            comboBox_categories.getItems().add(cat);
+        }
     }
 
     /**
@@ -76,14 +103,6 @@ public class MovieSceneController implements Initializable {
      */
     public void setContr(LibraryController libraryController) {
         this.libraryController = libraryController;
-    }
-
-    @FXML
-    private void handle_createVisible(ActionEvent event) {
-    }
-
-    @FXML
-    private void handle_deleteCategory(ActionEvent event) {
     }
 
     /**
@@ -126,16 +145,20 @@ public class MovieSceneController implements Initializable {
     @FXML
     private void handle_saveMovie(ActionEvent event) {
         if (!edit) {
+            //  converting String entry to float
+            float imdbRatingFloat = Float.parseFloat(txtField_IMDbRating.getText());
+            List<Category> catsToAdd = lv_categories.getItems();
+            System.out.println("cats to add  "+catsToAdd);
             movieModel.createMovie(
+                                    
                     /*title*/       txtField_title.getText().trim(),
                     /*duration*/    movieModel.format_To_Sec(txtField_duration.getText()),
-                    /*myRatin*/     8, //imdbRating TO DO!!
-                    /*imdbRating*/  7, //myRating TO DO!!
+                    /*myRatin*/     comboBox_rating.getValue(), //imdbRating TO DO!!
+                    /*imdbRating*/  imdbRatingFloat, //myRating TO DO!!
                     /*fileLink*/    txtField_filePath.getText(),
-                    /*lastView*/    "2018"); //lastView TO DO!!
-        } 
-        
-        //movieModel.createMovie(title, 0, 0, 0, filelink, lastView);
+                    /*lastView*/    "2018",
+                    /*categoryList*/catsToAdd); //lastView TO DO!!
+        } //movieModel.createMovie(title, 0, 0, 0, filelink, lastView);
         else {
             movieToEdit.setTitle(txtField_title.getText().trim());
             //not getting the time of the new file T-T
@@ -163,7 +186,6 @@ public class MovieSceneController implements Initializable {
         edit = true;
         movieToEdit = selectedMovie;
 
-
         //sets the existing info of the selected movie.
         txtField_title.setText(movieToEdit.getTitle());
         //category TO DO!!
@@ -181,6 +203,28 @@ public class MovieSceneController implements Initializable {
     }
 
     @FXML
-    private void handle_createCategory(ActionEvent event) {
+    private void handle_setCatToLV(ActionEvent event) {
+        Category selectedCategory = comboBox_categories.getSelectionModel().getSelectedItem();
+        if (!lv_categories.getItems().contains(selectedCategory)) {
+            lv_categories.getItems().add(selectedCategory);
+        }
+
     }
+
+    @FXML
+    private void handle_removeCatItem(MouseEvent event) {
+        Category selectedCategory = lv_categories.getSelectionModel().getSelectedItem();
+        if (selectedCategory != null) {
+            lv_categories.getItems().remove(selectedCategory);
+
+        }
+    }
+
+    private void loadRating() {
+
+        for (int i = 0; i < 10; i++) {
+            comboBox_rating.getItems().add(i+1);
+        }
+    }
+
 }
