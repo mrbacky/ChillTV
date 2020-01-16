@@ -127,6 +127,7 @@ public class LibraryController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         edit = false;
         settingTableViews();
+        
         setCategoriesIntoFilter();
         setRatingsIntoFilter();
 
@@ -134,16 +135,18 @@ public class LibraryController implements Initializable {
         filterCategory();
         filterRating();
 
-        //setSearchMovies();
-        //setSearchCategories();
-        //setCheckedCategoriesForMovie();
+       
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                movieModel.getObsMovies();
+                //movieModel.getObsMovies();
+                setCategoriesIntoFilter();
             }
         });
 
+        
+        
+        
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Old movies");
         alert.setHeaderText("Not seen in more than 2 years");
@@ -296,6 +299,7 @@ public class LibraryController implements Initializable {
 
     public void setCategoriesIntoFilter() {
         //Get all categories.
+        menuButton_filterCategory.getItems().clear();
         ObservableList<Category> allCategories = catModel.getObsCategories();
         //Add all the categories as created CheckMenuItems. Add MenuItems to the MenuButton.
         for (Category allCat : allCategories) {
