@@ -272,29 +272,35 @@ public class LibraryController implements Initializable {
     @FXML
     public void handle_deleteMovie(ActionEvent event) throws IOException {
         
-        
-        
-        
-        
-        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
-        Parent root;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/DeleteMoviePopUp.fxml"));
-        root = (Parent) fxmlLoader.load();
-        DeleteMoviePopUpController controller = (DeleteMoviePopUpController) fxmlLoader.getController();
-        controller.setContr(this);
-        controller.setDeleteMovieLabel(selectedMovie);
-        showScene(root);
+// this works but makes a unsupportedException.
 
-        
+        if (movie == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Edit movie error");
+            alert.setHeaderText("Oh!\nyou did not select a movie to edit.");
+            alert.showAndWait();
+            Stage.getWindows().clear();
+            
+        } else {
+            Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
+            Parent root;
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/DeleteMoviePopUp.fxml"));
+            root = (Parent) fxmlLoader.load();
+            DeleteMoviePopUpController controller = (DeleteMoviePopUpController) fxmlLoader.getController();
+            controller.setContr(this);
+            controller.setDeleteMovieLabel(selectedMovie);
+            showScene(root);
+
+        }
     
-    }
+}
 //////////////////////////////////////////
 
 //    private void handle_addCategoryVisible(ActionEvent event) {
 //        txt_Cat.setVisible(true);
 //        btn_saveCategory.setVisible(true);
 //    }
-    private void handle_editCategory(ActionEvent event) {
+private void handle_editCategory(ActionEvent event) {
         edit = true;
         txt_Cat.setVisible(true);
         btn_saveCategory.setVisible(true);
@@ -304,7 +310,7 @@ public class LibraryController implements Initializable {
     }
 
     @FXML
-    public void handle_saveCategory(ActionEvent event) {
+        public void handle_saveCategory(ActionEvent event) {
         if (!edit) {
             Category category = new Category(0, txt_Cat.getText());
             catModel.createCategory(category);
@@ -332,7 +338,7 @@ public class LibraryController implements Initializable {
     }
 
     @FXML
-    private void handle_openPlayer(ActionEvent event) throws IOException, URISyntaxException {
+        private void handle_openPlayer(ActionEvent event) throws IOException, URISyntaxException {
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
 
         if (playerStage == null) {
@@ -359,7 +365,7 @@ public class LibraryController implements Initializable {
     }
 
     @FXML
-    private void handle_openCatLib(ActionEvent event) throws IOException {
+        private void handle_openCatLib(ActionEvent event) throws IOException {
         Parent root;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/CategoryScene.fxml"));
         root = (Parent) fxmlLoader.load();
