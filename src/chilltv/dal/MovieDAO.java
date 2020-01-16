@@ -34,7 +34,7 @@ public class MovieDAO {
         List<Movie> allMovies = new ArrayList<>();
         String stat = "SELECT * FROM Movie";
 
-        try (Connection xd = cp.getConnection()) {
+        try ( Connection xd = cp.getConnection()) {
             Statement statement = xd.createStatement();
             ResultSet rs = statement.executeQuery(stat);
             while (rs.next()) {
@@ -63,7 +63,7 @@ public class MovieDAO {
         List<Movie> allMovies = new ArrayList<>();
         String sql = "SELECT * FROM Movie WHERE lastView<=?";
 
-        try (Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {
 
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, year);
@@ -90,9 +90,8 @@ public class MovieDAO {
         }
     }
 
-    
     public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView, List<Category> catList) {
-        try (Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {
             String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); //Prepared or Stat?
             pstmt.setString(1, title);
@@ -135,7 +134,7 @@ public class MovieDAO {
 
     public void deleteMovie(Movie movie) {
         //When the movie is deleted, it should also be removed from all categories. DOES IT?
-        try (Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {
             String sql = "DELETE FROM Movie WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, movie.getId());
@@ -145,21 +144,49 @@ public class MovieDAO {
         }
     }
 
-    public void updateMovie(Movie movie, List<Category> oldCategoryList) {
+    public void updateMovie(Movie movie, List<Category> oldList) {
         String stat = "UPDATE movie\n"
                 + "SET title = ?, duration = ?, imdbRating = ?, myRating = ?, fileLink = ?, lastView = ?\n"
                 + "WHERE id = ?";
-        try (Connection con = cp.getConnection()) {
-            PreparedStatement stmt = con.prepareStatement(stat);
-            stmt.setString(1, movie.getTitle());
-            stmt.setInt(2, movie.getDuration());
-            stmt.setFloat(3, movie.getImdbRating());
-            stmt.setInt(4, movie.getMyRating());
-            stmt.setString(5, movie.getFileLink());
-            stmt.setInt(6, movie.getLastView());
-            stmt.setInt(7, movie.getId());
+        try ( Connection con = cp.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement(stat);
+            pstmt.setString(1, movie.getTitle());
+            pstmt.setInt(2, movie.getDuration());
+            pstmt.setFloat(3, movie.getImdbRating());
+            pstmt.setInt(4, movie.getMyRating());
+            pstmt.setString(5, movie.getFileLink());
+            pstmt.setInt(6, movie.getLastView());
+            pstmt.setInt(7, movie.getId());
+            pstmt.execute();
 
-            stmt.execute();
+            List<Category> deleteCatMovList = new ArrayList<>();
+            List<Category> addCatMovList = new ArrayList<>();
+
+            //Compare each category from the old list withe the new list.
+            //If the old cats are not in the new list, delete relationship in CatMovie table.
+            for (Category o : oldList) {
+                if (!inBothList(o, movie.getCategoryList())) {
+                    deleteCatMovList.add(o);
+                }
+            }
+
+            //Compare each category from the new list withe the old list.
+            //If the new cats are not in the old list, add relationship in CatMovie table.
+            for (Category n : movie.getCategoryList()) {
+                if (!inBothList(n, oldList)) {
+                    addCatMovList.add(n);
+                }
+            }
+
+            //Call method only if there are new categories.
+            if (addCatMovList.size() > 0) {
+                catMovDAO.addCategoriesToMovie(movie, addCatMovList);
+            }
+
+            //Call method only if cats are removed.
+            if (deleteCatMovList.size() > 0) {
+                catMovDAO.deleteCategoryFromMovie(movie.getId(), deleteCatMovList);
+            }
         } catch (SQLServerException ex) {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -167,8 +194,22 @@ public class MovieDAO {
         }
     }
 
-    
-    
+    /**
+     * Check if category of one list is present in another list.
+     *
+     * @param category
+     * @param categoryList
+     * @return
+     */
+    public boolean inBothList(Category category, List<Category> categoryList) {
+        for (Category n : categoryList) {
+            if (n.getId() == category.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /*SELECT M.*,
       C.*
       FROM [PrivateMovieCollection_AL].[dbo].[CatMovie] CM,
@@ -185,16 +226,12 @@ public class MovieDAO {
       ORDER BY Movie.title ASC
      */
     //public List<Movie> getAllMoviesFiltered(String query, List<Category> cats){
-    
-    
-    
-    
     public List<Movie> getAllMoviesFiltered(Filter f) {
         List<Movie> filteredMovies = new ArrayList<>();
         String sql = "SELECT Movie.* FROM Movie JOIN CatMovie ON Movie.id = CatMovie.movieId WHERE "; //Only adds distinct movies.
 
         String sqlFinal = prepStatment(sql, f);
-        try (Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sqlFinal);
 
             int i = 0;
