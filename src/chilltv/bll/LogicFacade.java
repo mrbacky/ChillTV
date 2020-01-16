@@ -62,7 +62,6 @@ public interface LogicFacade {
 
    void addMovieToCategory(Movie movie, List<Category> catToAdd);
    
-    Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView, List<Category> cats);
     Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, int lastView, List<Category> cats);
 
     List<Movie> getAllMovies();
