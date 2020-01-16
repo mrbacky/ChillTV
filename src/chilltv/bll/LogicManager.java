@@ -94,9 +94,9 @@ public class LogicManager implements LogicFacade {
         return dbManager.getAllMoviesFiltered(f);
     }
 
-    /*@Override
-    public String convertCategory(Movie movie) {
-            return categoryConverter.convertCategory(movie);
-        }
-     */
+   
+    @Override
+    public String convertCategory(List<Category> catList) {
+        return categoryConverter.convertCategory(catList);
+    }
 }

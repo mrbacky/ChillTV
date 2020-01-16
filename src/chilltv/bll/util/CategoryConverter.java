@@ -16,26 +16,15 @@ import java.util.List;
  */
 public class CategoryConverter {
 
-    /*public String convertCategory(Movie movie) {
-        List<String> categoryArrayList = new ArrayList<>();
-        if(movie.getCategory()!=null){
-            for (Category category : categoryArrayList) {
-              categoryArrayList.add(category.getName());
-        categoryArrayList.add(movie.getCategory().toString());
-        String ac = String.join(", ", categoryArrayList.toString());
-        return ac;
+    public String convertCategory(List<Category> catList) {
+        String stringCat = "";
+        for (int i = 0; i < catList.size(); i++) {
+            if (i == 0) {
+                stringCat = catList.get(i).getName();
+            }
+            stringCat = stringCat + ", " + catList.get(i).getName();
         }
-        }
-        else{
-        String nc = "No category";
-        return nc;
-        }
-//        for (Category category : categoryList) {
-//            categoryArrayList.add(category.getName());
-//
-//        }
-
+        return stringCat;
     }
-*/
 
 }

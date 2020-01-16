@@ -53,9 +53,8 @@ public class CategoryDAO {
             ResultSet rs = pstmt.getGeneratedKeys();
             rs.next();
             int id = rs.getInt(1);
-            List<Movie> movies = null;
 
-            return new Category(id, name, movies);
+            return new Category(id, name);
 
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,9 +86,8 @@ public class CategoryDAO {
                 //Add the categories to the HashMap.
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                List<Movie> movies = null;
                 //allCategories.put(id, new Category(id, name, movies));
-                allCats.add(new Category(id, name, movies));
+                allCats.add(new Category(id, name));
                 
             }
             return allCats;
@@ -127,7 +125,7 @@ public class CategoryDAO {
                 List<Category> categoryList = null;
                 //keep an eye on this, wøbbe
                 
-                allMoviesWithCat.add(new Movie(id, title, duration, duration, duration, fileLink, title, categoryList, stringCat));
+                allMoviesWithCat.add(new Movie(id, title, duration, categoryList, duration, duration, fileLink, title));
             }
             return allMoviesWithCat;
         } catch (SQLServerException ex) {
@@ -164,8 +162,8 @@ public class CategoryDAO {
 
     
     //  shouldn
-    public ArrayList getAllCategoriesForCatList(int id) throws SQLException {
-        ArrayList movCatList = new ArrayList<String>();
+    public List<Category> getAllCategoriesForCatList(int id) throws SQLException {
+        List<Category> movCatList = new ArrayList<>();
         try ( Connection con = connectDAO.getConnection()) {
             String sql = "SELECT category.name, CatMovie.* FROM Category\n"
                     + "LEFT JOIN CatMovie on categoryid = Category.id\n"
@@ -173,9 +171,12 @@ public class CategoryDAO {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                movCatList.add(rs.getInt("id"));
-                movCatList.add(rs.getString("name"));
-            }
+                int categoryId = rs.getInt("categoryId");
+                String name = rs.getString("name");
+
+                
+                movCatList.add(new Category(categoryId, name)); 
+                        }
 
         } catch (Exception e) {
         }

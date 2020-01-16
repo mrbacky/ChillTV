@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,6 +66,8 @@ public class MovieSceneController implements Initializable {
     @FXML
     private ComboBox<Integer> comboBox_rating;
 
+    ObservableList<Category> catObsList = FXCollections.observableArrayList();
+
     /**
      * Initializes the controller class. Upon initialization, the mode is set to
      * create a movie. The MovieModel and CategoryModel are initialized. All
@@ -77,7 +80,7 @@ public class MovieSceneController implements Initializable {
         movieModel = MovieModel.getInstance();
         loadCatsInComboBox();
         loadRating();
-        
+
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
@@ -147,27 +150,47 @@ public class MovieSceneController implements Initializable {
         if (!edit) {
             //  converting String entry to float
             float imdbRatingFloat = Float.parseFloat(txtField_IMDbRating.getText());
+
             List<Category> catsToAdd = lv_categories.getItems();
-            System.out.println("cats to add  "+catsToAdd);
+            System.out.println("cats to add  " + catsToAdd);
+
             movieModel.createMovie(
-                                    
-                    /*title*/       txtField_title.getText().trim(),
-                    /*duration*/    movieModel.format_To_Sec(txtField_duration.getText()),
-                    /*myRatin*/     comboBox_rating.getValue(), //imdbRating TO DO!!
-                    /*imdbRating*/  imdbRatingFloat, //myRating TO DO!!
-                    /*fileLink*/    txtField_filePath.getText(),
-                    /*lastView*/    "2018",
-                    /*categoryList*/catsToAdd); //lastView TO DO!!
-        } //movieModel.createMovie(title, 0, 0, 0, filelink, lastView);
-        else {
+                    /*title*/
+                    txtField_title.getText().trim(),
+                    /*duration*/
+                    movieModel.format_To_Sec(txtField_duration.getText()),
+                    /*myRating*/
+                    comboBox_rating.getValue(), //imdbRating TO DO!!
+                    /*imdbRating*/
+                    imdbRatingFloat, //myRating TO DO!!
+                    /*fileLink*/
+                    txtField_filePath.getText(),
+                    /*lastView*/
+                    "2018",
+                    /*categoryList*/
+                    catsToAdd);
+        } else {
+            //title
             movieToEdit.setTitle(txtField_title.getText().trim());
-            //not getting the time of the new file T-T
-            movieToEdit.setDuration(movieModel.format_To_Sec(txtField_duration.getText()));
-            //category
-            movieToEdit.setImdbRating(5); //imdbRating TO DO!!
+            //duration
+            movieToEdit.setDuration(movieModel.format_To_Sec(txtField_duration.getText())); // bug.... fix it
+            //myRating
             movieToEdit.setMyRating(3); //myRating TO DO!!
+            //imdbRating
+            movieToEdit.setImdbRating(5);
+            //fileLink
             movieToEdit.setFileLink(txtField_filePath.getText());
-            movieToEdit.setLastView("2020"); //lastView TO DO!!
+            //lastView
+            movieToEdit.setLastView("2020");
+            //categoryList
+            // List<Category> categoryList = movieToEdit.getCategoryList();
+            
+            
+            
+            movieToEdit.setCategoryList(lv_categories.getItems());
+            //lv_categories.getItems().setAll(categoryList);
+
+            //  sending new values to update method
             movieModel.updateMovie(movieToEdit);
         }
 
@@ -186,11 +209,33 @@ public class MovieSceneController implements Initializable {
         edit = true;
         movieToEdit = selectedMovie;
 
-        //sets the existing info of the selected movie.
+        //  set existing title
         txtField_title.setText(movieToEdit.getTitle());
-        //category TO DO!!
+
+        //  set existing category list
+        //lv_categories.getItems().addAll(movieToEdit.getCategoryList());
+        List<Category> catList = movieToEdit.getCategoryList();
+        catObsList.clear();
+        catObsList.addAll(catList);
+
+        lv_categories.setItems(catObsList);
+
+        //  myRating
+        comboBox_rating.setValue(movieToEdit.getMyRating());
+
+        //  IMDbRating
+        String imdbRatingToEdit = String.valueOf(movieToEdit.getImdbRating());
+        txtField_IMDbRating.setText(imdbRatingToEdit);
+        //  duration
         txtField_duration.setText(movieToEdit.getStringDuration());
+
+        //  fileLink
         txtField_filePath.setText(movieToEdit.getFileLink());
+
+        //ObservableList<Category> catsToEditList = (ObservableList<Category>) movieToEdit.getCategoryList();
+        //lv_categories.getItems().addAll(catsToEditList);
+        //lv_categories.getItems().setAll(catsToEditList);
+        //sets the existing info of the selected movie.
     }
 
     /**
@@ -223,7 +268,7 @@ public class MovieSceneController implements Initializable {
     private void loadRating() {
 
         for (int i = 0; i < 10; i++) {
-            comboBox_rating.getItems().add(i+1);
+            comboBox_rating.getItems().add(i + 1);
         }
     }
 

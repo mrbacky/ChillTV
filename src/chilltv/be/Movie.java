@@ -20,17 +20,7 @@ public class Movie {
     private List<Category> categoryList;
     private String stringCat;
 
-    public Movie(int id, String title, int duration, float imdbRating, int myRating, String fileLink, String lastView, List<Category> categoryList, String stringCat) {
-        this.id = id;
-        this.title = title;
-        this.duration = duration;
-        this.imdbRating = imdbRating;
-        this.myRating = myRating;
-        this.fileLink = fileLink;
-        this.lastView = lastView;
-        this.categoryList = categoryList;
-        this.stringCat = stringCat;
-    }
+    
 
     public Movie(int id, String title, int duration, List<Category> categoryList, float imdbRating, int myRating, String fileLink, String lastView) {
         this.id = id;

@@ -48,12 +48,12 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
-                String stringCat = catDAO.getAllCategoriesOfMovie(id);
+//                String stringCat = catDAO.getAllCategoriesOfMovie(id);
                 List<Category> categoryList = catDAO.getAllCategoriesForCatList(id);//
 
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
-                allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList, stringCat));
+                allMovies.add(new Movie(id, title, duration, categoryList, imdbRating, myRating, fileLink, lastView));
             }
             return allMovies;
         } catch (SQLException ex) {
@@ -74,7 +74,7 @@ public class MovieDAO {
             pstmt.setString(5, fileLink);
             pstmt.setString(6, lastView);
             pstmt.executeUpdate();
-
+                
             ResultSet rs = pstmt.getGeneratedKeys();
             rs.next();
             int id = rs.getInt(1);
@@ -130,6 +130,8 @@ public class MovieDAO {
             stmt.setString(5, movie.getFileLink());
             stmt.setString(6, movie.getLastView());
             stmt.setInt(7, movie.getId());
+            
+            
             stmt.execute();
         } catch (SQLServerException ex) {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -181,7 +183,7 @@ public class MovieDAO {
                 String lastView = rs.getString("lastView");
                 String stringCat = catDAO.getAllCategoriesOfMovie(id);
                 List<Category> categoryList = null;
-                filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList, stringCat));
+                filteredMovies.add(new Movie(id, title, duration, categoryList, imdbRating, myRating, fileLink, lastView));
                 //This list has duplicates. Searching for x categories, will add x rows to the ResultSet.
             }
 

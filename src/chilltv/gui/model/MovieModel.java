@@ -31,7 +31,8 @@ public class MovieModel {
         for (Movie movie : allMovies) {
             //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
             movie.setStringDuration(sec_To_Format(movie.getDuration()));
-            //movie.setStringCat(convert(movie));
+            movie.setStringCat(convertCategory(movie.getCategoryList()));
+
         }
         libraryList.clear();
         libraryList.addAll(allMovies);
@@ -64,9 +65,10 @@ public class MovieModel {
      */
     public void createMovie(String title, int duration, int myRating, float imdbRating, String filelink, String lastView, List<Category> cats) {
         Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView, cats);
-//        movie.setStringDuration(sec_To_Format(movie.getDuration()));
-//        movie.setStringCat(convert(movie));
+        movie.setStringDuration(sec_To_Format(movie.getDuration()));
+        movie.setStringCat(convertCategory(movie.getCategoryList()));
         libraryList.add(movie);
+
     }
 
     /**
@@ -92,6 +94,10 @@ public class MovieModel {
         logicManager.deleteMovie(movie);
         libraryList.remove(movie);
 
+    }
+
+    public String convertCategory(List<Category> catList) {
+        return logicManager.convertCategory(catList);
     }
 
     /**

@@ -74,7 +74,7 @@ public interface LogicFacade {
         
     List<Movie> getAllMoviesFiltered(Filter f);
     
-    //String convertCategory(Movie movie);
+    String convertCategory(List<Category> catList) ;
     
     
 }

@@ -14,21 +14,11 @@ public class Category {
 
     private int id;
     private String name;
-    private List<Movie> movies;
 
-    public Category(int id, String name, List<Movie> movies) {
+    public Category(int id, String name) {
         this.id = id;
         this.name = name;
-        this.movies = movies;
-    }
 
-   
-    
-    
-    
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
     }
 
     /**
@@ -58,40 +48,13 @@ public class Category {
         this.name = name;
     }
 
-    /**
-     * Gets the list of movies in the category.
-     *
-     * @return The list of movies.
-     */
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
     
 
-    /**
-     * Adds a movie to a category.
-     *
-     * @param movie The movie to add.
-     */
-    public void addMovie(Movie movie) {
-        movies.add(movie);
-        
-    }
+   
 
-    /**
-     * Removes a movie from a category.
-     *
-     * @param movie The movie to remove.
-     */
-    public void removeMovie(Movie movie) {
-        movies.remove(movie);
-        
-    }
-    
     @Override
     public String toString() {
         return name;
     }
-    
+
 }
