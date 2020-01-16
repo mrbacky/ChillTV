@@ -115,6 +115,8 @@ public class LibraryController implements Initializable {
     private boolean edit;
     @FXML
     private MenuButton menuButton_filterCategory;
+    @FXML
+    private MenuButton menuButton_filterRating;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -126,6 +128,7 @@ public class LibraryController implements Initializable {
         loadCategoriesIntoMenu();
         //setCheckedCategoriesForMovie();
         setCategoriesIntoFilter();
+        setRatingsIntoFilter();
 
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
@@ -136,11 +139,14 @@ public class LibraryController implements Initializable {
             }
         });
 
+        searchByTitle();
+        filterCategory();
+        filterRating();
     }
 
     public void loadCategoriesIntoMenu() {
         ObservableList<Category> allCategories = catModel.getObsCategories();
-        System.out.println("these are all cats   "+allCategories);
+        //System.out.println("these are all cats   " + allCategories);
 //        menu_Category.getItems().clear();
 //        int counter = 0;
 //        for (CheckMenuItem checkMenuItem : catItemList) {
@@ -152,7 +158,6 @@ public class LibraryController implements Initializable {
 //            }
 //        }
 
-        
     }
 
     @FXML
@@ -213,14 +218,9 @@ public class LibraryController implements Initializable {
         tbv_Movies.setItems(movieModel.getObsMovies());
         movieModel.loadAllMovies();
         catModel.loadAllCategories();
-        
 
         //  content of listView is displayed after choosing category - handle_getCategoryContent
     }
-
-    
-
-   
 
     void setContr(LibraryController libraryController) {
         this.libraryController = libraryController;
@@ -275,8 +275,6 @@ public class LibraryController implements Initializable {
         txt_Cat.setText(selectedCategory.getName());
     }
 
-    
-
     private void handle_deleteCategory(ActionEvent event) throws IOException {
         Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
         Parent root;
@@ -316,6 +314,22 @@ public class LibraryController implements Initializable {
         }
     }
 
+    public void setRatingsIntoFilter() {
+        //Create list for the rating filter.
+        List<Integer> ratings = new ArrayList();
+        int r = 0;
+        for (int i = 0; i < 10; i++) {
+            r++;
+            ratings.add(r);
+        }
+        //System.out.println("ratings menu items are " + ratings);
+        //Add all rating options to created CheckMenuItems. Add MenuItems to the MenuButton.
+        for (Integer rat : ratings) {
+            CheckMenuItem mi = new CheckMenuItem(rat.toString());
+            menuButton_filterRating.getItems().add(mi);
+        }
+    }
+
     private List<Category> accessCategoriesinFilter() {
         List<Category> cats = new ArrayList();
         for (MenuItem item : menuButton_filterCategory.getItems()) {
@@ -327,13 +341,24 @@ public class LibraryController implements Initializable {
         return cats;
     }
 
-    @FXML
-    private void searchByTitle(KeyEvent event) {
-        movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter()));
+    private float accessRatinginFilter() {
+        float f = 0;
+        for (MenuItem item : menuButton_filterRating.getItems()) {
+            //If the CheckMenu item is selected, get the value and make it float. 
+            if (((CheckMenuItem) item).isSelected()) {
+                f = Float.parseFloat(item.getText());
+            }
+        }
+        return f;
     }
-    
-    @FXML
-    private void filterCategory(MouseEvent event) {
+
+    private void searchByTitle() {
+        txt_movieSearch.textProperty().addListener((observable) -> {
+            movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter(), accessRatinginFilter()));
+        });
+    }
+
+    private void filterCategory() {
         //Get access to the CheckMenuItem in the MenuButton.
         for (MenuItem it : menuButton_filterCategory.getItems()) {
             //Listen to changes of the MenuItems.
@@ -347,10 +372,35 @@ public class LibraryController implements Initializable {
                         cats.add((Category) item.getUserData());
                     }
                 }
-                movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter()));           
+                System.out.println("check!!!!!!!!!!!!!");
+                System.out.println("LibraryContr. in filterCatgory() f is " + accessRatinginFilter());
+
+                movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter(), accessRatinginFilter()));
             });
         }
-    }    
+    }
+
+    private void filterRating() {
+        //Get access to the CheckMenuItem in the MenuButton.
+        for (MenuItem it : menuButton_filterRating.getItems()) {
+            CheckMenuItem mi = (CheckMenuItem) it;            
+            //Listen to changes of the MenuItems.
+            mi.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                for (MenuItem item : menuButton_filterRating.getItems()) {
+                    //If the CheckMenu item is selected, get the value and make it float. 
+                    if (((CheckMenuItem) item).isSelected()) {
+                        float f = Float.parseFloat(item.getText());
+                        System.out.println("LibraryContr. this is value of f in filterRating(): " + f);
+                        movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter(), f));
+                        menuButton_filterRating.setText(item.getText());
+                        //Deselect previous MenuItem.
+                        mi.setSelected(false);
+                    }
+                }
+            });
+        }
+    }
+    
     @FXML
     private void handle_openCatLib(ActionEvent event) throws IOException {
         Parent root;
@@ -365,6 +415,5 @@ public class LibraryController implements Initializable {
     @FXML
     private void handle_refresh(ActionEvent event) {
         movieModel.loadAllMovies();
-    }
-
+    }    
 }

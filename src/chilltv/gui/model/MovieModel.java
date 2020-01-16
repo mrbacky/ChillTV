@@ -125,7 +125,7 @@ public class MovieModel {
         libraryList.addAll(temp);
         
         for (Movie movie : temp) {
-            System.out.println(movie);
+            System.out.println("MovieModel.java" + movie);
         }
         
         return libraryList;

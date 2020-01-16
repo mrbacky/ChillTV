@@ -9,10 +9,12 @@ import java.util.List;
 public class Filter {
     private String query;
     private List<Category> cats;
+    private float imdbRating;
 
-    public Filter(String query, List<Category> cats) {
+    public Filter(String query, List<Category> cats, float imdbRating) {
         this.query = query;
         this.cats = cats;
+        this.imdbRating = imdbRating;
     } 
 
     public String getQuery() {
@@ -30,4 +32,12 @@ public class Filter {
     public void setCats(List<Category> cats) {
         this.cats = cats;
     }
+
+    public float getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(float imdbRating) {
+        this.imdbRating = imdbRating;
+    }    
 }
