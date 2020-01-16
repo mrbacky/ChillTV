@@ -31,12 +31,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
+import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 
 public class PlayerController implements Initializable {
@@ -76,17 +78,12 @@ public class PlayerController implements Initializable {
     private VBox vBox_buttonBar;
     @FXML
     private HBox hBox_buttonBar;
+    @FXML
+    private BorderPane topPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-//        Stage currentStage = (Stage) btn_stop.getScene().getWindow();
-//        currentStage.onCloseRequestProperty().addListener(new InvalidationListener() {
-//            @Override
-//            public void invalidated(Observable observable) {
-//                mediaPlayer.stop();
-//            }
-//        });
         vBox_buttonBar.setOpacity(0.3);
         // to test with a movie
         //handle_openFile(null);
@@ -133,8 +130,6 @@ public class PlayerController implements Initializable {
         });
 
     }
-
-    
 
 //    private void handle_openFile(ActionEvent event) {
 //        FileChooser fileChooser = new FileChooser();
@@ -196,7 +191,7 @@ public class PlayerController implements Initializable {
     @FXML
     private void hande_progressSlider(MouseEvent event) {
         //getting duration from file in seconds
-        Double time = mediaPlayer.getTotalDuration().toSeconds();
+        Double time = mediaPlayer.getTotalDuration().toMillis();
         /*
         Get the currentTime and add change listner, which will be notified whenever 
         the value of the ObservableValue changes and that we get the new value and set it to the slider
@@ -204,15 +199,15 @@ public class PlayerController implements Initializable {
         mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                progressSlider.setValue(newValue.toSeconds());
+                progressSlider.setValue(newValue.toMillis());
             }
         });
         progressSlider.maxProperty().bind(Bindings.createDoubleBinding(()
-                -> mediaPlayer.getTotalDuration().toSeconds(),
+                -> mediaPlayer.getTotalDuration().toMillis(),
                 mediaPlayer.totalDurationProperty()));
 
         progressSlider.setOnMouseClicked((MouseEvent mouseEvent) -> { //This Method shows the progress of the progress bar
-            mediaPlayer.seek(Duration.seconds(progressSlider.getValue())); //It seeks the duration in seconds ofc. 
+            mediaPlayer.seek(Duration.millis(progressSlider.getValue())); //It seeks the duration in seconds ofc. 
         });
 
     }
@@ -229,11 +224,16 @@ public class PlayerController implements Initializable {
         this.libraryController = libraryController;
     }
 
-    void playFile(Movie movieToPlay) {
+    void playFile(Movie movieToPlay, Stage stage) {
+
         File movieFile = new File(movieToPlay.getFileLink());
         if (movieFile != null) {
+
             Media media = new Media(movieFile.toURI().toString());
             mediaPlayer = new MediaPlayer(media);
+            stage.setOnCloseRequest((event) -> {
+                mediaPlayer.dispose();
+            });
             mediaView.setMediaPlayer(mediaPlayer);
             bindPlayerToGUI(lbl_endTime.textProperty(), true);
             bindPlayerToGUI(lbl_startTime.textProperty(), false);
@@ -242,17 +242,17 @@ public class PlayerController implements Initializable {
             DoubleProperty height = mediaView.fitHeightProperty();
             width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
             height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+
             mediaPlayer.play();
-            
-            
-
         }
-
     }
 
+   
     @FXML
+    // makes play button in mediaview action.
     private void handle_play(ActionEvent event) {
         mediaPlayer.play();
+
     }
 
 }

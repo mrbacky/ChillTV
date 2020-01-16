@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -114,6 +115,7 @@ public class MovieSceneController implements Initializable {
      */
     @FXML
     private void handle_openFileChooser(ActionEvent event) {
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("mp4 Files", "*.mp4"),
@@ -147,6 +149,32 @@ public class MovieSceneController implements Initializable {
      */
     @FXML
     private void handle_saveMovie(ActionEvent event) {
+
+        if (txtField_title.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Add title error");
+            alert.setHeaderText("Oh!\nyou forgot to set the title.");
+
+            alert.showAndWait();
+
+        }
+        if (txt_createCategory.getText().isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Add category error");
+            alert.setHeaderText("Oh!\nyou forgot to set the categories.");
+
+            alert.showAndWait();
+        }
+        if (txtField_filePath.getText().isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Add filepath error");
+            alert.setHeaderText("Oh!\nyou forgot to add the filepath for the movie.");
+
+            alert.showAndWait();
+        }
+
         if (!edit) {
             //  converting String entry to float
             float imdbRatingFloat = Float.parseFloat(txtField_IMDbRating.getText());
@@ -242,7 +270,8 @@ public class MovieSceneController implements Initializable {
      * Closes the stage.
      */
     @FXML
-    private void handle_cancelMovieScene(ActionEvent event) {
+    private void handle_cancelMovieScene(ActionEvent event
+    ) {
         Stage stage = (Stage) btn_cancel.getScene().getWindow();
         stage.close();
     }

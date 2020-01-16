@@ -77,4 +77,13 @@ public interface LogicFacade {
     String convertCategory(List<Category> catList) ;
     
     
+    /**
+     * Searches for all categories which matches the given query.
+     *
+     * @param searchBase
+     * @param query The search query
+     * @return A list of categories that matches the search query.
+     */
+    List<Category> searchCategories(List<Category> searchBase, String query);
+    List<Movie> getMoviesOlderThan(int year);
 }

@@ -99,4 +99,14 @@ public class LogicManager implements LogicFacade {
     public String convertCategory(List<Category> catList) {
         return categoryConverter.convertCategory(catList);
     }
+
+    @Override
+    public String convertCategory(Movie movie) {
+            return categoryConverter.convertCategory(movie);
+        }
+
+    @Override
+   public List<Movie> getMoviesOlderThan(int year){
+       return dbManager.getMoviesOlderThan(year);
+   }
 }

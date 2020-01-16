@@ -69,6 +69,9 @@ public interface DBFacade {
     void updateMovie(Movie movie);
 
     void deleteMovie(Movie movie);
+    
+    List<Movie> getMoviesOlderThan(int year);
 
     List<Movie> getAllMoviesFiltered(Filter f);
 }
+

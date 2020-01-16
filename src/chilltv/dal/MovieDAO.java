@@ -63,7 +63,38 @@ public class MovieDAO {
 
     }
 
-    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView, List<Category> cats) {
+    public List<Movie> getMoviesOlderThan(int year){
+        List<Movie> allMovies = new ArrayList<>();
+        String sql = "SELECT * FROM Movie WHERE lastView<=?";
+        
+        try (Connection con = cp.getConnection()) {
+            
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, year);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String title = rs.getString("title");
+                int duration = rs.getInt("duration");
+                int imdbRating = rs.getInt("imdbRating");
+                int myRating = rs.getInt("myRating");
+                String fileLink = rs.getString("fileLink");
+                int lastView = rs.getInt("lastView");
+                List<Category> category = catDao.getAllCategoriesOfMovie(id);
+//                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
+//                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
+                allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category));
+
+            }
+            return allMovies;
+        } catch (SQLException ex) {
+            System.out.println("Exception " + ex);
+            return null;
+        }
+    }
+    
+    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView) {
         try (Connection con = cp.getConnection()) {
             String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); //Prepared or Stat?
@@ -128,7 +159,7 @@ public class MovieDAO {
             stmt.setFloat(3, movie.getImdbRating());
             stmt.setInt(4, movie.getMyRating());
             stmt.setString(5, movie.getFileLink());
-            stmt.setString(6, movie.getLastView());
+            stmt.setInt(6, movie.getLastView());
             stmt.setInt(7, movie.getId());
             
             

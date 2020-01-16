@@ -78,6 +78,9 @@ public class DBManager implements DBFacade {
     }
 
     @Override
+    public List<Movie> getMoviesOlderThan(int year) {
+        return movDAO.getMoviesOlderThan(year);
+    }
     public List<Movie> getAllMoviesFiltered(Filter f) {
         return movDAO.getAllMoviesFiltered(f);
     }

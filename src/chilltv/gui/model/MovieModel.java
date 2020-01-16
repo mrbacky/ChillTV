@@ -120,6 +120,10 @@ public class MovieModel {
         return logicManager.sec_To_Format(sec);
     }
 
+    public List<Movie> getMoviesOlderThan(int year) {
+        return logicManager.getMoviesOlderThan(year);
+    }
+
     public List<Movie> getAllMoviesFiltered(Filter f) {
         //Create a temporary list which contains the songs obtained from the search method.
         List<Movie> temp = logicManager.getAllMoviesFiltered(f);
