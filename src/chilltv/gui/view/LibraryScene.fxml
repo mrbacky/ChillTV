@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="900.0" styleClass="bg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chilltv.gui.controller.LibraryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="900.0" styleClass="bg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chilltv.gui.controller.LibraryController">
    <children>
       <TableView fx:id="tbv_Movies" layoutX="190.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0">
         <columns>
@@ -64,7 +64,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <TextField fx:id="txt_movieSearch" layoutX="490.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#searchByTitle" prefHeight="25.0" prefWidth="368.0" promptText="title" />
+      <TextField fx:id="txt_movieSearch" layoutX="490.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="368.0" promptText="title" />
       <ImageView fx:id="icon_search" fitHeight="20.0" fitWidth="20.0" layoutX="862.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../MyTunesC/src/mytunes/gui/assets/icons8-search-30.png" />
@@ -95,7 +95,8 @@
             </ImageView>
          </graphic>
       </Button>
-      <MenuButton fx:id="menuButton_filterCategory" layoutX="39.0" layoutY="79.0" mnemonicParsing="false" onMouseClicked="#filterCategory" prefHeight="25.0" prefWidth="113.0" text="Category" />
+      <MenuButton fx:id="menuButton_filterCategory" layoutX="39.0" layoutY="79.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="Category" />
+      <MenuButton fx:id="menuButton_filterRating" layoutX="372.0" layoutY="30.0" mnemonicParsing="false" text="iMDB Rating" />
       
    </children>
 </AnchorPane>

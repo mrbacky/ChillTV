@@ -10,13 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -37,7 +34,7 @@ public class MovieDAO {
         List<Movie> allMovies = new ArrayList<>();
         String stat = "SELECT * FROM Movie";
 
-        try (Connection xd = cp.getConnection()) {
+        try ( Connection xd = cp.getConnection()) {
             Statement statement = xd.createStatement();
             ResultSet rs = statement.executeQuery(stat);
             while (rs.next()) {
@@ -119,10 +116,10 @@ public class MovieDAO {
                 throw new SQLException("Creating user failed, no rows affected.");
             }
 
-            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+            try ( ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     int id = rs.getInt(1);
-                    return new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category,stringCat);
+                    return new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category, stringCat);
                 } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
@@ -137,7 +134,7 @@ public class MovieDAO {
 
     public void deleteMovie(Movie movie) {
         //When the movie is deleted, it should also be removed from all categories. DOES IT?
-        try (Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {
             String sql = "DELETE FROM Movie WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, movie.getId());
@@ -151,7 +148,7 @@ public class MovieDAO {
         String stat = "UPDATE movie\n"
                 + "SET title = ?, duration = ?, imdbRating = ?, myRating = ?, fileLink = ?, lastView = ?\n"
                 + "WHERE id = ?";
-        try (Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setString(1, movie.getTitle());
             stmt.setInt(2, movie.getDuration());
@@ -202,6 +199,10 @@ public class MovieDAO {
 
             pstmt.setString(i + 1, "%" + f.getQuery() + "%");
 
+            if (f.getImdbRating() > 0) {
+                pstmt.setFloat(i + 2, f.getImdbRating());
+            }
+
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -212,12 +213,12 @@ public class MovieDAO {
                 String fileLink = rs.getString("fileLink");
                 String lastView = rs.getString("lastView");
                 List<Category> categoryList = null;
-                filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, myRating, categoryList));
-                //This list has duplicates. Searching for x categories, will add x rows to the ResultSet.
+                filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList, stringCat));
+                //This list contains duplicates when searching for x categories, will add x rows to the ResultSet.
             }
 
-            Map dublicates = elementsInArray(filteredMovies);
-            return generateCorrectList(dublicates, filteredMovies, f.getCats().size());
+            Map duplicates = elementsInArray(filteredMovies);
+            return generateCorrectList(duplicates, filteredMovies, f.getCats().size());
         } catch (SQLException ex) {
             System.out.println("chilltv.dal.MovieDAO.libraryFilter()" + ex);
         }
@@ -241,16 +242,21 @@ public class MovieDAO {
         }
 
         sql += "Movie.title LIKE ? "; //? = %query%
+
+        if (f.getImdbRating() > 0) {
+            sql += "AND Movie.imdbRating >= ?";
+        }
+
         System.out.println(sql);
         return sql;
     }
 
     private Map elementsInArray(List<Movie> arrayTofind) {
 
-        Map<Integer, Integer> dupElements = new HashMap<Integer, Integer>(); //movieId + count
+        Map<Integer, Integer> dupElements = new HashMap<>(); //movieId + count
 
-        for (int i = 0; i < arrayTofind.size(); i++) {
-            if (!dupElements.containsKey(arrayTofind.get(i).getId())) { //Set key for HashMap
+        for (int i = 0; i < arrayTofind.size(); i++) { //Loop through list
+            if (!dupElements.containsKey(arrayTofind.get(i).getId())) { //Set key for HashMap to movieId
                 dupElements.put(arrayTofind.get(i).getId(), 0); //Set value for HashMap for all to 0
             }
         }
@@ -259,19 +265,19 @@ public class MovieDAO {
             newInt = newInt + 1;
             dupElements.replace(arrayTofind.get(i).getId(), newInt); //Change the value for duplicates. +1 for each duplicate.
         }
-        return dupElements;
+        return dupElements; //List with duplicates have changed values in the HashMap. List without duplicates keep the value 0.
     }
 
-    private List<Movie> generateCorrectList(Map duplicates, List<Movie> movListWithDup, int filterSize) {
-        List<Movie> movList = new ArrayList<Movie>();
+    private List<Movie> generateCorrectList(Map duplicates, List<Movie> movListWithDup, int catFilterSize) {
+        List<Movie> movList = new ArrayList<>();
 
         Iterator entries = duplicates.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry entry = (Map.Entry) entries.next();
-            Integer key = (Integer) entry.getKey();
-            Integer value = (Integer) entry.getValue();
+            Integer key = (Integer) entry.getKey(); //Get key from HashMap.
+            Integer value = (Integer) entry.getValue(); //Get value from HashMap.
             for (Movie movie : movListWithDup) {
-                if (movie.getId() == key && value > filterSize - 1) {
+                if (movie.getId() == key && value > catFilterSize - 1) { //Filters out the duplicates by comparing the value with x categories.
                     movList.add(movie);
                     break;
                 }
