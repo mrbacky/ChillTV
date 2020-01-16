@@ -59,15 +59,17 @@ public class CatMovieDAO {
      * @param category The category deleted from the movie.
      * @param movie The movie the category was added to.
      */
-    public void deleteCategoryFromMovie(Category category, Movie movie) {
+    public void deleteCategoryFromMovie(int movieId, List<Category> catToDelete){
         try ( //Get a connection to the database.
                  Connection con = connectDAO.getConnection()) {
             //Create a prepared statement.
             String sql = "DELETE FROM CatMovie WHERE categoryId = ? and movieId = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             //Set parameter values.
-            pstmt.setInt(1, category.getId());
-            pstmt.setInt(2, movie.getId());
+            for (Category category : catToDelete) {
+                pstmt.setInt(1, category.getId());
+                pstmt.setInt(2, movieId);
+            }
             //Execute SQL query.
             pstmt.executeUpdate();
         } catch (SQLServerException ex) {

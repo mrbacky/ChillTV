@@ -52,7 +52,7 @@ public interface DBFacade {
      * @param movie The movie to be added to the category.
      * @return Category with the added movie.
      */
-    Category addMovieToCategory(Category category, Movie movie);
+    void addMovieToCategory(Movie movie, List<Category> catToAdd);
 
     /**
      * Deletes a movie from a category in the database.
@@ -60,7 +60,7 @@ public interface DBFacade {
      * @param category The category of the movie.
      * @param movie The movie to delete from the category.
      */
-    void deleteMovieFromCategory(Category category, Movie movie);
+    void deleteMovieFromCategory(int movieId, List<Category> catToDelete);
 
     Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, String lastView, List<Category> cats);
 

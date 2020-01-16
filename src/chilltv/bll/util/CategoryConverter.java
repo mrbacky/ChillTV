@@ -16,15 +16,13 @@ import java.util.List;
  */
 public class CategoryConverter {
 
-    public String convertCategory(List<Category> catList) {
-        String stringCat = "";
-        for (int i = 0; i < catList.size(); i++) {
-            if (i == 0) {
-                stringCat = catList.get(i).getName();
-            }
-            stringCat = stringCat + ", " + catList.get(i).getName();
+    public String convertCategory(List<Category> cats){
+    String cc = "";
+    for (int i = 0; i < cats.size(); i++) {
+            if(i == 0)cc=cats.get(i).getName();
+            cc = cc + ", "+cats.get(i).getName();
         }
-        return stringCat;
+        return cc;
     }
 
 }

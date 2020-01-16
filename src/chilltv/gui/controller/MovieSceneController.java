@@ -6,6 +6,7 @@ import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
@@ -252,6 +253,9 @@ public class MovieSceneController implements Initializable {
         Category selectedCategory = comboBox_categories.getSelectionModel().getSelectedItem();
         if (!lv_categories.getItems().contains(selectedCategory)) {
             lv_categories.getItems().add(selectedCategory);
+            List<Category> catList = new ArrayList<>();
+            catList.add(selectedCategory);
+            movieModel.addMovieToCategory(movieToEdit, catList);
         }
 
     }
@@ -259,9 +263,12 @@ public class MovieSceneController implements Initializable {
     @FXML
     private void handle_removeCatItem(MouseEvent event) {
         Category selectedCategory = lv_categories.getSelectionModel().getSelectedItem();
+        
         if (selectedCategory != null) {
             lv_categories.getItems().remove(selectedCategory);
-
+            List<Category> catList = new ArrayList<>();
+            catList.add(selectedCategory);
+            movieModel.deleteCategoryFromMovie(movieToEdit.getId(), catList);
         }
     }
 

@@ -17,6 +17,7 @@ public class DBManager implements DBFacade {
 
     private final CategoryDAO catDAO;
     private final MovieDAO movDAO;
+    private final CatMovieDAO catMovDao;
 
     /**
      * Constructs data access objects.
@@ -24,6 +25,7 @@ public class DBManager implements DBFacade {
     public DBManager() {
         catDAO = new CategoryDAO();
         movDAO = new MovieDAO();
+        catMovDao = new CatMovieDAO();
     }
 
     @Override
@@ -83,13 +85,13 @@ public class DBManager implements DBFacade {
     }
 
     @Override
-    public Category addMovieToCategory(Category category, Movie movie) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addMovieToCategory(Movie movie, List<Category> catToAdd) {
+        catMovDao.addCategoriesToMovie(movie, catToAdd);
     }
 
     @Override
-    public void deleteMovieFromCategory(Category category, Movie movie) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteMovieFromCategory(int movieId, List<Category> catToDelete) {
+        catMovDao.deleteCategoryFromMovie(movieId, catToDelete);
     }
 
 }

@@ -96,8 +96,8 @@ public class MovieModel {
 
     }
 
-    public String convertCategory(List<Category> catList) {
-        return logicManager.convertCategory(catList);
+    public String convertCategory(List<Category> cats){
+        return logicManager.convertCategory(cats);
     }
 
     /**
@@ -136,5 +136,13 @@ public class MovieModel {
 
     public void test() {
 
+    }
+    
+    public void deleteCategoryFromMovie(int movieId, List<Category> catToDelete){
+        logicManager.deleteMovieFromCategory(movieId, catToDelete);
+    }
+
+    public void addMovieToCategory(Movie movie, List<Category> catToAdd) {
+        logicManager.addMovieToCategory(movie, catToAdd);
     }
 }
