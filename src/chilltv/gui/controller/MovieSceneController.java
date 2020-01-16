@@ -159,7 +159,7 @@ public class MovieSceneController implements Initializable {
             alert.showAndWait();
 
         }
-        if (comboBox_categories.getValue()==null) {
+        if (comboBox_categories.getValue() == null) {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Add category error");
@@ -213,9 +213,7 @@ public class MovieSceneController implements Initializable {
             movieToEdit.setLastView(LocalDate.now().getYear());
             //categoryList
             // List<Category> categoryList = movieToEdit.getCategoryList();
-            
-            
-            
+
             movieToEdit.setCategoryList(lv_categories.getItems());
             //lv_categories.getItems().setAll(categoryList);
 
@@ -235,31 +233,43 @@ public class MovieSceneController implements Initializable {
      * @param selectedMovie The movie to edit.
      */
     public void editMode(Movie selectedMovie) {
-        edit = true;
-        movieToEdit = selectedMovie;
+        if (selectedMovie == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Edit movie error");
+            alert.setHeaderText("Oh!\nyou did not select a movie to edit.");
+            alert.showAndWait();
+            Stage.getWindows().clear();
 
-        //  set existing title
-        txtField_title.setText(movieToEdit.getTitle());
+        } else {
+            if (selectedMovie != null) {
 
-        //  set existing category list
-        //lv_categories.getItems().addAll(movieToEdit.getCategoryList());
-        List<Category> catList = movieToEdit.getCategoryList();
-        catObsList.clear();
-        catObsList.addAll(catList);
+                edit = true;
+                movieToEdit = selectedMovie;
 
-        lv_categories.setItems(catObsList);
+                //  set existing title
+                txtField_title.setText(movieToEdit.getTitle());
 
-        //  myRating
-        comboBox_rating.setValue(movieToEdit.getMyRating());
+                //  set existing category list
+                //lv_categories.getItems().addAll(movieToEdit.getCategoryList());
+                List<Category> catList = movieToEdit.getCategoryList();
+                catObsList.clear();
+                catObsList.addAll(catList);
 
-        //  IMDbRating
-        String imdbRatingToEdit = String.valueOf(movieToEdit.getImdbRating());
-        txtField_IMDbRating.setText(imdbRatingToEdit);
-        //  duration
-        txtField_duration.setText(movieToEdit.getStringDuration());
+                lv_categories.setItems(catObsList);
 
-        //  fileLink
-        txtField_filePath.setText(movieToEdit.getFileLink());
+                //  myRating
+                comboBox_rating.setValue(movieToEdit.getMyRating());
+
+                //  IMDbRating
+                String imdbRatingToEdit = String.valueOf(movieToEdit.getImdbRating());
+                txtField_IMDbRating.setText(imdbRatingToEdit);
+                //  duration
+                txtField_duration.setText(movieToEdit.getStringDuration());
+
+                //  fileLink
+                txtField_filePath.setText(movieToEdit.getFileLink());
+            }
+        }
 
         //ObservableList<Category> catsToEditList = (ObservableList<Category>) movieToEdit.getCategoryList();
         //lv_categories.getItems().addAll(catsToEditList);
@@ -278,7 +288,8 @@ public class MovieSceneController implements Initializable {
     }
 
     @FXML
-    private void handle_setCatToLV(ActionEvent event) {
+    private void handle_setCatToLV(ActionEvent event
+    ) {
         Category selectedCategory = comboBox_categories.getSelectionModel().getSelectedItem();
         if (!lv_categories.getItems().contains(selectedCategory)) {
             lv_categories.getItems().add(selectedCategory);
@@ -287,7 +298,8 @@ public class MovieSceneController implements Initializable {
     }
 
     @FXML
-    private void handle_removeCatItem(MouseEvent event) {
+    private void handle_removeCatItem(MouseEvent event
+    ) {
         Category selectedCategory = lv_categories.getSelectionModel().getSelectedItem();
         if (selectedCategory != null) {
             lv_categories.getItems().remove(selectedCategory);
