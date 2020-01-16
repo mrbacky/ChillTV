@@ -88,6 +88,7 @@ public class MovieSceneController implements Initializable {
             @Override
             public void invalidated(Observable observable) {
                 loadCatsInComboBox();
+                movieModel.getObsMovies();
             }
 
         });
