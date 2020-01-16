@@ -100,6 +100,15 @@ public class LogicManager implements LogicFacade {
         return categoryConverter.convertCategory(catList);
     }
 
+    @Override
+    public void deleteMovieFromCategory(int movieId, List<Category> catToDelete) {
+        dbManager.deleteMovieFromCategory(movieId, catToDelete);
+    }
+
+    @Override
+    public void addMovieToCategory(Movie movie, List<Category> catToAdd) {
+        dbManager.addMovieToCategory(movie, catToAdd);
+    }
     
 
     @Override

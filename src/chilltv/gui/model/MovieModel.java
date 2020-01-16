@@ -137,8 +137,14 @@ public class MovieModel {
 
         return libraryList;
     }
-
-    public void test() {
-
+    
+     public void deleteCategoryFromMovie(int movieId, List<Category> catToDelete){
+        logicManager.deleteMovieFromCategory(movieId, catToDelete);
     }
+
+    public void addMovieToCategory(Movie movie, List<Category> catToAdd) {
+        logicManager.addMovieToCategory(movie, catToAdd);
+    }
+
+    
 }
