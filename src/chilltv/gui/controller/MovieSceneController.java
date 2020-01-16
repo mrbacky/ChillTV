@@ -176,55 +176,71 @@ public class MovieSceneController implements Initializable {
 
             alert.showAndWait();
         }
+        if (comboBox_rating.getSelectionModel().isEmpty()) {
 
-        if (!edit) {
-            //  converting String entry to float
-            float imdbRatingFloat = Float.parseFloat(txtField_IMDbRating.getText());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Add rating error");
+            alert.setHeaderText("Oh!\nyou forgot to add your rating for the movie.");
 
-            List<Category> catsToAdd = lv_categories.getItems();
-            System.out.println("cats to add  " + catsToAdd);
-
-            movieModel.createMovie(
-                    /*title*/
-                    txtField_title.getText().trim(),
-                    /*duration*/
-                    movieModel.format_To_Sec(txtField_duration.getText()),
-                    /*myRating*/
-                    comboBox_rating.getValue(), //imdbRating TO DO!!
-                    /*imdbRating*/
-                    imdbRatingFloat, //myRating TO DO!!
-                    /*fileLink*/
-                    txtField_filePath.getText(),
-                    /*lastView*/
-                    0,
-                    /*categoryList*/
-                    catsToAdd);
-        } else {
-            //title
-            movieToEdit.setTitle(txtField_title.getText().trim());
-            //duration
-            movieToEdit.setDuration(movieModel.format_To_Sec(txtField_duration.getText())); // bug.... fix it
-            //myRating
-            movieToEdit.setMyRating(3); //myRating TO DO!!
-            //imdbRating
-            movieToEdit.setImdbRating(5);
-            //fileLink
-            movieToEdit.setFileLink(txtField_filePath.getText());
-            //lastView
-            movieToEdit.setLastView(LocalDate.now().getYear());
-            //categoryList
-            // List<Category> categoryList = movieToEdit.getCategoryList();
-
-            movieToEdit.setCategoryList(lv_categories.getItems());
-            //lv_categories.getItems().setAll(categoryList);
-
-            //  sending new values to update method
-            movieModel.updateMovie(movieToEdit);
+            alert.showAndWait();
         }
+        if (txtField_IMDbRating.getText().isEmpty()) {
 
-        Stage stage;
-        stage = (Stage) btn_saveMovie.getScene().getWindow();
-        stage.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Add IMDB rating error");
+            alert.setHeaderText("Oh!\nyou forgot to add the IMDB rating for the movie.");
+
+            alert.showAndWait();
+
+            if (!edit) {
+                //  converting String entry to float
+                float imdbRatingFloat = Float.parseFloat(txtField_IMDbRating.getText());
+
+                List<Category> catsToAdd = lv_categories.getItems();
+                System.out.println("cats to add  " + catsToAdd);
+
+                movieModel.createMovie(
+                        /*title*/
+                        txtField_title.getText().trim(),
+                        /*duration*/
+                        movieModel.format_To_Sec(txtField_duration.getText()),
+                        /*myRating*/
+                        comboBox_rating.getValue(), //imdbRating TO DO!!
+                        /*imdbRating*/
+                        imdbRatingFloat, //myRating TO DO!!
+                        /*fileLink*/
+                        txtField_filePath.getText(),
+                        /*lastView*/
+                        0,
+                        /*categoryList*/
+                        catsToAdd);
+            } else {
+                //title
+                movieToEdit.setTitle(txtField_title.getText().trim());
+                //duration
+                movieToEdit.setDuration(movieModel.format_To_Sec(txtField_duration.getText())); // bug.... fix it
+                //myRating
+                movieToEdit.setMyRating(3); //myRating TO DO!!
+                //imdbRating
+                movieToEdit.setImdbRating(5);
+                //fileLink
+                movieToEdit.setFileLink(txtField_filePath.getText());
+                //lastView
+                movieToEdit.setLastView(LocalDate.now().getYear());
+                //categoryList
+                // List<Category> categoryList = movieToEdit.getCategoryList();
+
+                movieToEdit.setCategoryList(lv_categories.getItems());
+                //lv_categories.getItems().setAll(categoryList);
+
+                //  sending new values to update method
+                movieModel.updateMovie(movieToEdit);
+            }
+
+            Stage stage;
+            stage = (Stage) btn_saveMovie.getScene().getWindow();
+            stage.close();
+        }
     }
 
     /**
@@ -234,6 +250,7 @@ public class MovieSceneController implements Initializable {
      * @param selectedMovie The movie to edit.
      */
     public void editMode(Movie selectedMovie) {
+
         if (selectedMovie == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Edit movie error");
