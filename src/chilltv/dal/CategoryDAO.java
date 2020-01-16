@@ -121,7 +121,6 @@ public class CategoryDAO {
                 int duration = rs.getInt("duration");
                 String fileLink = rs.getString("fileLink");
                 String title = rs.getString("title");
-                String stringCat = getAllCategoriesOfMovie(id);
                 List<Category> categoryList = null;
                 //keep an eye on this, wøbbe
                 
@@ -137,29 +136,6 @@ public class CategoryDAO {
         
         return null;
     }
-
-    public String getAllCategoriesOfMovie(int id) throws SQLException {
-        ArrayList<String> categoryForMovieList = new ArrayList<String>();
-        try ( Connection con = connectDAO.getConnection()) {
-            String sql = "SELECT category.name, CatMovie.* FROM Category\n"
-                    + "LEFT JOIN CatMovie on categoryid = Category.id\n"
-                    + "WHERE CatMovie.movieID = " + id + " ORDER BY Category.id";
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                categoryForMovieList.add(rs.getString("name"));
-            }
-
-        } catch (Exception e) {
-        }
-        String ac = "";
-        for (int i = 0; i < categoryForMovieList.size(); i++) {
-            if(i == 0)ac=categoryForMovieList.get(i);
-            ac = ac + ", "+categoryForMovieList.get(i);
-        }
-        return ac;
-    }
-
     
     //  shouldn
     public List<Category> getAllCategoriesForCatList(int id) throws SQLException {

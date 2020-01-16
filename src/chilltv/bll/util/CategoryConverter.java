@@ -20,7 +20,7 @@ public class CategoryConverter {
     String cc = "";
     for (int i = 0; i < cats.size(); i++) {
             if(i == 0)cc=cats.get(i).getName();
-            cc = cc + ", "+cats.get(i).getName();
+           else cc = cc + ", "+cats.get(i).getName();
         }
         return cc;
     }
