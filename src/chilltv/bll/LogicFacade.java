@@ -59,7 +59,7 @@ public interface LogicFacade {
      */
     void deleteMovieFromCategory(Category category, Movie movie);
 
-    Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView);
+    Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView);
 
     List<Movie> getAllMovies();
 
@@ -90,4 +90,5 @@ public interface LogicFacade {
      * @return A list of categories that matches the search query.
      */
     List<Category> searchCategories(List<Category> searchBase, String query);
+    List<Movie> getMoviesOlderThan(int year);
 }

@@ -64,7 +64,7 @@ public class LogicManager implements LogicFacade {
     }
 
     @Override
-    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
+    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView) {
         return dbManager.createMovie(title, duration, imdbRating, myRating, fileLink, lastView);
     }
 
@@ -108,5 +108,8 @@ public class LogicManager implements LogicFacade {
             return categoryConverter.convertCategory(movie);
         }
 
-   
+    @Override
+   public List<Movie> getMoviesOlderThan(int year){
+       return dbManager.getMoviesOlderThan(year);
+   }
 }

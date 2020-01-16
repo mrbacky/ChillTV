@@ -61,7 +61,7 @@ public class DBManager implements DBFacade {
     }
 
     @Override
-    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView) {
+    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView) {
         return movDAO.createMovie(title, duration, imdbRating, myRating, fileLink, lastView);
     }
     
@@ -78,5 +78,10 @@ public class DBManager implements DBFacade {
     @Override
     public void deleteMovie(Movie movie) {
         movDAO.deleteMovie(movie);
+    }
+
+    @Override
+    public List<Movie> getMoviesOlderThan(int year) {
+        return movDAO.getMoviesOlderThan(year);
     }
 }

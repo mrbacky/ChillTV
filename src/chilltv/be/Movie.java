@@ -15,14 +15,14 @@ public class Movie {
     private int imdbRating;
     private int myRating;
     private String fileLink;
-    private String lastView;
+    private int lastView;
     private String stringDuration;
     //  
     private List<Category> category;
     
     private String stringCat;
 
-    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, String lastView, List<Category> category) {
+    public Movie(int id, String title, int duration, int imdbRating, int myRating, String fileLink, int lastView, List<Category> category) {
         this.id = id;
         this.title = title;
         this.duration = duration;
@@ -99,11 +99,11 @@ public class Movie {
         this.fileLink = fileLink;
     }
 
-    public String getLastView() {
+    public int getLastView() {
         return lastView;
     }
 
-    public void setLastView(String lastView) {
+    public void setLastView(int lastView) {
         this.lastView = lastView;
     }
 

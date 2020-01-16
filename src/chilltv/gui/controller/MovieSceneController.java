@@ -4,6 +4,7 @@ import chilltv.be.Movie;
 import chilltv.gui.model.MovieModel;
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -133,7 +134,7 @@ public class MovieSceneController implements Initializable {
                     8, //imdbRating TO DO!!
                     7, //myRating TO DO!!
                     txtField_filePath.getText(),
-                    "2018"); //lastView TO DO!!
+                    0); 
         } else {
             movieToEdit.setTitle(txtField_title.getText().trim());
             //not getting the time of the new file T-T
@@ -142,7 +143,7 @@ public class MovieSceneController implements Initializable {
             movieToEdit.setImdbRating(5); //imdbRating TO DO!!
             movieToEdit.setMyRating(3); //myRating TO DO!!
             movieToEdit.setFileLink(txtField_filePath.getText());
-            movieToEdit.setLastView("2020"); //lastView TO DO!!
+            //movieToEdit.setLastView(LocalDate.now().getYear()); 
             movieModel.updateMovie(movieToEdit);
         }
         

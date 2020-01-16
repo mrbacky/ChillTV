@@ -8,6 +8,7 @@ import java.awt.color.ICC_ColorSpace;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -23,6 +24,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
@@ -108,6 +111,9 @@ public class LibraryController implements Initializable {
     private Button btn_openCatLib;
     private LibraryController libraryController;
 
+    private Stage playerStage;
+    private PlayerController playerController;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         edit = false;
@@ -126,6 +132,18 @@ public class LibraryController implements Initializable {
                 //setCheckedCategoriesForMovie();
             }
         });
+        
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Old movies");
+        alert.setHeaderText("Not seen in more than 2 years");
+        List<Movie> oldMovies = movieModel.getMoviesOlderThan(LocalDate.now().getYear()-2);
+        String movieString = "";
+        
+        for (Movie oldMovie : oldMovies) {
+            movieString += oldMovie + "\n";
+        }
+        alert.setContentText(movieString);
+        alert.showAndWait();
 
     }
 
@@ -141,6 +159,7 @@ public class LibraryController implements Initializable {
 
     @FXML
     private void handle_loadCheckedCategories(MouseEvent event) {
+        /*
         catItem.setSelected(true);
         //  hasmap .... key-nameOfCat.....value.category
         //  
@@ -161,6 +180,8 @@ public class LibraryController implements Initializable {
                 }
             }
         }
+         */
+
     }
 
     public void setCheckedCategoriesForMovie() {
@@ -302,16 +323,29 @@ public class LibraryController implements Initializable {
     @FXML
     private void handle_openPlayer(ActionEvent event) throws IOException, URISyntaxException {
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
-        Parent root;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/PlayerScene.fxml"));
-        root = (Parent) fxmlLoader.load();
-        PlayerController playerController = (PlayerController) fxmlLoader.getController();
 
-        playerController.setContr(this);
+        if (playerStage == null) {
+            Parent root;
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/PlayerScene.fxml"));
+            root = (Parent) fxmlLoader.load();
+            playerController = (PlayerController) fxmlLoader.getController();
+            fxmlLoader.<PlayerController>getController().setContr(this);
+            playerController.setContr(this);
 
-        playerController.playFile(selectedMovie);
-        showScene(root);
+            playerStage = new Stage();
+            Scene scene = new Scene(root);
+            playerStage.setScene(scene);
+        }
 
+        playerController.playFile(selectedMovie, playerStage);
+        playerStage.setAlwaysOnTop(true);
+        playerStage.setAlwaysOnTop(false);
+        selectedMovie.setLastView(LocalDate.now().getYear());
+        movieModel.updateMovie(selectedMovie);
+        playerStage.show();
+        
+
+        //showScene(root);
     }
 
     @FXML

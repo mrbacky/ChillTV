@@ -61,11 +61,14 @@ public interface DBFacade {
      */
     void deleteMovieFromCategory(Category category, Movie movie);
 
-    Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, String lastView);
+    Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView);
 
     List<Movie> getAllMovies();
 
     void updateMovie(Movie movie);
 
     void deleteMovie(Movie movie);
+    
+    List<Movie> getMoviesOlderThan(int year);
 }
+

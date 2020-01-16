@@ -106,7 +106,7 @@ public class CategoryDAO {
         HashMap<Integer, Category> categories = getAllCategories();
         try ( //Get a connection to the database.
                 Connection con = connectDAO.getConnection()) {
-            String sql = "SELECT CatMovie.movieId, Movie.id, Movie.title, Movie.duration, Movie.fileLink, CatMovie.categoryId\n"
+            String sql = "SELECT CatMovie.movieId, Movie.id, Movie.title, Movie.duration, Movie.fileLink, CatMovie.categoryId, Movie.lastView\n"
                     + "FROM CatMovie LEFT JOIN Movie ON CatMovie.movieId = Movie.id";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -116,10 +116,11 @@ public class CategoryDAO {
                 int duration = rs.getInt("duration");
                 String fileLink = rs.getString("fileLink");
                 String title = rs.getString("title");
+                 int lastView = rs.getInt("lastView");
                 List<Category> category = getAllCategoriesOfMovie(id);
                 //keep an eye on this, wøbbe
 
-                categories.get(categoryId).addMovie(new Movie(id, title, duration, 888, 99, fileLink, title, category));
+                categories.get(categoryId).addMovie(new Movie(id, title, duration, 888, 99, fileLink, lastView, category));
             }
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
