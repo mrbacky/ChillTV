@@ -260,34 +260,33 @@ public class MovieSceneController implements Initializable {
             Stage.getWindows().clear();
 
         } else {
-            if (selectedMovie != null) {
 
-                edit = true;
-                movieToEdit = selectedMovie;
+            edit = true;
+            movieToEdit = selectedMovie;
 
-                //  set existing title
-                txtField_title.setText(movieToEdit.getTitle());
+            //  set existing title
+            txtField_title.setText(movieToEdit.getTitle());
 
-                //  set existing category list
-                //lv_categories.getItems().addAll(movieToEdit.getCategoryList());
-                List<Category> catList = movieToEdit.getCategoryList();
-                catObsList.clear();
-                catObsList.addAll(catList);
+            //  set existing category list
+            //lv_categories.getItems().addAll(movieToEdit.getCategoryList());
+            List<Category> catList = movieToEdit.getCategoryList();
+            catObsList.clear();
+            catObsList.addAll(catList);
 
-                lv_categories.setItems(catObsList);
+            lv_categories.setItems(catObsList);
 
-                //  myRating
-                comboBox_rating.setValue(movieToEdit.getMyRating());
+            //  myRating
+            comboBox_rating.setValue(movieToEdit.getMyRating());
 
-                //  IMDbRating
-                String imdbRatingToEdit = String.valueOf(movieToEdit.getImdbRating());
-                txtField_IMDbRating.setText(imdbRatingToEdit);
-                //  duration
-                txtField_duration.setText(movieToEdit.getStringDuration());
+            //  IMDbRating
+            String imdbRatingToEdit = String.valueOf(movieToEdit.getImdbRating());
+            txtField_IMDbRating.setText(imdbRatingToEdit);
+            //  duration
+            txtField_duration.setText(movieToEdit.getStringDuration());
 
-                //  fileLink
-                txtField_filePath.setText(movieToEdit.getFileLink());
-            }
+            //  fileLink
+            txtField_filePath.setText(movieToEdit.getFileLink());
+
         }
 
         //ObservableList<Category> catsToEditList = (ObservableList<Category>) movieToEdit.getCategoryList();
@@ -300,28 +299,28 @@ public class MovieSceneController implements Initializable {
      * Closes the stage.
      */
     @FXML
-    private void handle_cancelMovieScene(ActionEvent event
-    ) {
+    private void handle_cancelMovieScene(ActionEvent event) {
         Stage stage = (Stage) btn_cancel.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    private void handle_setCatToLV(ActionEvent event
-    ) {
+    private void handle_setCatToLV(ActionEvent event) {
         Category selectedCategory = comboBox_categories.getSelectionModel().getSelectedItem();
-        if (!lv_categories.getItems().contains(selectedCategory)) {
+        if (!edit) {
+            if (!lv_categories.getItems().contains(selectedCategory)) {
+                lv_categories.getItems().add(selectedCategory);
+            }
+        } else {
             lv_categories.getItems().add(selectedCategory);
             List<Category> catList = new ArrayList<>();
             catList.add(selectedCategory);
             movieModel.addMovieToCategory(movieToEdit, catList);
         }
-
     }
 
     @FXML
-    private void handle_removeCatItem(MouseEvent event
-    ) {
+    private void handle_removeCatItem(MouseEvent event) {
         Category selectedCategory = lv_categories.getSelectionModel().getSelectedItem();
         if (selectedCategory != null) {
             lv_categories.getItems().remove(selectedCategory);
