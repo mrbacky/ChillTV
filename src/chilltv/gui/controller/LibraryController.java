@@ -133,7 +133,6 @@ public class LibraryController implements Initializable {
         searchByTitle();
         filterCategory();
         filterRating();
-        
 
         //setSearchMovies();
         //setSearchCategories();
@@ -141,8 +140,7 @@ public class LibraryController implements Initializable {
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                //catModel.loadAllCategories();
-                //setCheckedCategoriesForMovie();
+                movieModel.getObsMovies();
             }
         });
 
@@ -319,7 +317,6 @@ public class LibraryController implements Initializable {
         return cats;
     }
 
-    
     @FXML
     private void handle_openCatLib(ActionEvent event) throws IOException {
         Parent root;
