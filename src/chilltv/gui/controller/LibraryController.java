@@ -79,7 +79,7 @@ public class LibraryController implements Initializable {
     @FXML
     private TableColumn<Movie, Integer> col_iMDBRating;
     @FXML
-    private TableColumn<Movie, String> col_LastView;    //LocalDateTime
+    private TableColumn<Movie, Integer> col_LastView;    //LocalDateTime
 
     private TableView<Category> tbv_Categories;
     private TableColumn<Category, String> col_Name;

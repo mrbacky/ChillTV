@@ -128,6 +128,13 @@ public class MovieModel {
         //Create a temporary list which contains the songs obtained from the search method.
         List<Movie> temp = logicManager.getAllMoviesFiltered(f);
         //Clear all songs from the library and add the songs from the temporary list to the library list.
+        for (Movie movie : temp) {
+            //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
+            movie.setStringDuration(sec_To_Format(movie.getDuration()));
+            movie.setStringCat(convertCategory(movie.getCategoryList()));
+
+        }
+        
         libraryList.clear();
         libraryList.addAll(temp);
 
