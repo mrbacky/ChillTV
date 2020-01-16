@@ -47,13 +47,13 @@ public class MovieDAO {
                 float imdbRating = rs.getFloat("imdbRating");
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
-                String lastView = rs.getString("lastView");
+                int lastView = rs.getInt("lastView");
 //                String stringCat = catDAO.getAllCategoriesOfMovie(id);
                 List<Category> categoryList = catDAO.getAllCategoriesForCatList(id);//
 
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
-                allMovies.add(new Movie(id, title, duration, categoryList, imdbRating, myRating, fileLink, lastView));
+                allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList));
             }
             return allMovies;
         } catch (SQLException ex) {
@@ -81,7 +81,7 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 int lastView = rs.getInt("lastView");
-                List<Category> category = catDao.getAllCategoriesOfMovie(id);
+                List<Category> category = catDAO.getAllCategoriesForCatList(id);
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
                 allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category));
@@ -94,7 +94,7 @@ public class MovieDAO {
         }
     }
     
-    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView) {
+    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView,List<Category> catList) {
         try (Connection con = cp.getConnection()) {
             String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); //Prepared or Stat?
@@ -103,14 +103,14 @@ public class MovieDAO {
             pstmt.setFloat(3, imdbRating);
             pstmt.setInt(4, myRating);
             pstmt.setString(5, fileLink);
-            pstmt.setString(6, lastView);
+            pstmt.setInt(6, lastView);
             pstmt.executeUpdate();
                 
             ResultSet rs = pstmt.getGeneratedKeys();
             rs.next();
             int id = rs.getInt(1);
-            Movie movie = new Movie(id, title, duration, cats, imdbRating, myRating, fileLink, lastView);
-            catMovDAO.addCategoriesToMovie(movie, cats);
+            Movie movie = new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, catList);
+            catMovDAO.addCategoriesToMovie(movie, catList);
             return movie;
             /*int affectedRows = pstmt.executeUpdate();
             List<Category> category = null;
@@ -214,7 +214,7 @@ public class MovieDAO {
                 String lastView = rs.getString("lastView");
                 String stringCat = catDAO.getAllCategoriesOfMovie(id);
                 List<Category> categoryList = null;
-                filteredMovies.add(new Movie(id, title, duration, categoryList, imdbRating, myRating, fileLink, lastView));
+                filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, myRating, categoryList));
                 //This list has duplicates. Searching for x categories, will add x rows to the ResultSet.
             }
 

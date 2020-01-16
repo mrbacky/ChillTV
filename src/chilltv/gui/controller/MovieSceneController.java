@@ -6,6 +6,7 @@ import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
@@ -158,7 +159,7 @@ public class MovieSceneController implements Initializable {
             alert.showAndWait();
 
         }
-        if (txt_createCategory.getText().isEmpty()) {
+        if (comboBox_categories.getValue()==null) {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Add category error");
@@ -194,7 +195,7 @@ public class MovieSceneController implements Initializable {
                     /*fileLink*/
                     txtField_filePath.getText(),
                     /*lastView*/
-                    "2018",
+                    0,
                     /*categoryList*/
                     catsToAdd);
         } else {
@@ -209,7 +210,7 @@ public class MovieSceneController implements Initializable {
             //fileLink
             movieToEdit.setFileLink(txtField_filePath.getText());
             //lastView
-            movieToEdit.setLastView("2020");
+            movieToEdit.setLastView(LocalDate.now().getYear());
             //categoryList
             // List<Category> categoryList = movieToEdit.getCategoryList();
             

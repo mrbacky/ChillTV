@@ -106,12 +106,12 @@ public class CategoryDAO {
      *
      * @return unhashedPlaylists
      * @throws SQLException
-     */
+     *///keep eye on this one
     public List<Movie> getAllMoviesInCategories(int catid) throws SQLException {
         List<Movie> allMoviesWithCat = new ArrayList<>();
         try ( //Get a connection to the database.
                  Connection con = connectDAO.getConnection()) {
-            String sql = "SELECT CatMovie.movieId, Movie.id, Movie.title, Movie.duration, Movie.fileLink, CatMovie.categoryId\n"
+            String sql = "SELECT CatMovie.movieId, Movie.id, Movie.title, Movie.duration, Movie.fileLink, CatMovie.categoryId, Movie.lastView\n"
                     + "FROM CatMovie LEFT JOIN Movie ON CatMovie.movieId = Movie.id WHERE categoryId = " + catid;
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -122,10 +122,11 @@ public class CategoryDAO {
                 String fileLink = rs.getString("fileLink");
                 String title = rs.getString("title");
                 String stringCat = getAllCategoriesOfMovie(id);
+                int lastView = rs.getInt("lastView");
                 List<Category> categoryList = null;
                 //keep an eye on this, wøbbe
                 
-                allMoviesWithCat.add(new Movie(id, title, duration, categoryList, duration, duration, fileLink, title));
+                allMoviesWithCat.add(new Movie(id, title, duration, duration, duration, fileLink, lastView, categoryList));
             }
             return allMoviesWithCat;
         } catch (SQLServerException ex) {

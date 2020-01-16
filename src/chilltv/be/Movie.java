@@ -15,14 +15,12 @@ public class Movie {
     private float imdbRating;
     private int myRating;
     private String fileLink;
-    private String lastView;
+    private int lastView;
     private String stringDuration;
     private List<Category> categoryList;
     private String stringCat;
 
-    
-
-    public Movie(int id, String title, int duration, List<Category> categoryList, float imdbRating, int myRating, String fileLink, String lastView) {
+    public Movie(int id, String title, int duration, float imdbRating, int myRating, String fileLink, int lastView, List<Category> categoryList) {
         this.id = id;
         this.title = title;
         this.duration = duration;
@@ -32,7 +30,7 @@ public class Movie {
         this.lastView = lastView;
         this.categoryList = categoryList;
     }
-        
+
     public int getId() {
         return id;
     }
@@ -81,11 +79,11 @@ public class Movie {
         this.fileLink = fileLink;
     }
 
-    public String getLastView() {
+    public int getLastView() {
         return lastView;
     }
 
-    public void setLastView(String lastView) {
+    public void setLastView(int lastView) {
         this.lastView = lastView;
     }
 
@@ -113,4 +111,10 @@ public class Movie {
         this.stringCat = stringCat;
     }
 
+    @Override
+    public String toString(){
+        return title;
+    }
+    
+    
 }

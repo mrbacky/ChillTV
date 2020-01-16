@@ -107,8 +107,7 @@ public class LibraryController implements Initializable {
     private Menu menu_Category;
     private RadioMenuItem rawAction;
     private List<CheckMenuItem> catItemList = new ArrayList<>();
-    
-    
+
     private CheckMenuItem catItem;
     @FXML
     private Button btn_openCatLib;
@@ -130,7 +129,6 @@ public class LibraryController implements Initializable {
         //setSearchCategories();
 
         //setCheckedCategoriesForMovie();
-
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
@@ -152,8 +150,6 @@ public class LibraryController implements Initializable {
         alert.showAndWait();
 
     }
-
-
 
     public void showScene(Parent root) {
         Stage stage = new Stage();
@@ -216,11 +212,7 @@ public class LibraryController implements Initializable {
 
     @FXML
     public void handle_deleteMovie(ActionEvent event) throws IOException {
-        
-        
-        
-        
-        
+
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
         Parent root;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/DeleteMoviePopUp.fxml"));
@@ -230,8 +222,6 @@ public class LibraryController implements Initializable {
         controller.setDeleteMovieLabel(selectedMovie);
         showScene(root);
 
-        
-    
     }
 //////////////////////////////////////////
 
