@@ -245,41 +245,7 @@ public class PlayerController implements Initializable {
         }
     }
 
-    /*
-             if (mediaView.isDisabled())
-        {
-            mediaPlayer.stop();
-        }*/
-
- /* if (mediaView != null) {
-            mediaPlayer.stop();
-        
-           
-       
-                
-       /*     if (mediaView.isManaged()== true) {
-                
-                 mediaPlayer.play(); 
-            }
-            else
-                mediaView.getMediaPlayer().stop();
-               
-            }*/
-    //  mediaView.getMediaPlayer();
-
-    /*  if (mediaView != null) {
-        mediaPlayer.stop();
-        mediaPlayer.dispose();
-      }
-      else mediaPlayer.play();
-      
-            
-  }*/
- /* if(mediaView.isVisible()){
-          mediaPlayer.play();
-          }else{
-             mediaPlayer.stop();
-          }*/
+   
     @FXML
     // makes play button in mediaview action.
     private void handle_play(ActionEvent event) {

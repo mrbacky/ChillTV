@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -93,6 +94,7 @@ public class MovieSceneController implements Initializable {
      */
     @FXML
     private void handle_openFileChooser(ActionEvent event) {
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("mp4 Files", "*.mp4"),
@@ -126,6 +128,32 @@ public class MovieSceneController implements Initializable {
      */
     @FXML
     private void handle_saveMovie(ActionEvent event) {
+
+        if (txtField_title.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Add title error");
+            alert.setHeaderText("Oh!\nyou forgot to set the title.");
+
+            alert.showAndWait();
+
+        }
+        if (txt_createCategory.getText().isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Add category error");
+            alert.setHeaderText("Oh!\nyou forgot to set the categories.");
+
+            alert.showAndWait();
+        }
+        if (txtField_filePath.getText().isEmpty()) {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Add filepath error");
+            alert.setHeaderText("Oh!\nyou forgot to add the filepath for the movie.");
+
+            alert.showAndWait();
+        }
+
         if (!edit) {
             movieModel.createMovie(
                     txtField_title.getText().trim(),
@@ -134,8 +162,9 @@ public class MovieSceneController implements Initializable {
                     8, //imdbRating TO DO!!
                     7, //myRating TO DO!!
                     txtField_filePath.getText(),
-                    0); 
+                    0);
         } else {
+
             movieToEdit.setTitle(txtField_title.getText().trim());
             //not getting the time of the new file T-T
             movieToEdit.setDuration(movieModel.format_To_Sec(txtField_duration.getText()));
@@ -146,9 +175,7 @@ public class MovieSceneController implements Initializable {
             //movieToEdit.setLastView(LocalDate.now().getYear()); 
             movieModel.updateMovie(movieToEdit);
         }
-        
-        
-        
+
         Stage stage;
         stage = (Stage) btn_saveMovie.getScene().getWindow();
         stage.close();
@@ -161,26 +188,40 @@ public class MovieSceneController implements Initializable {
      * @param selectedMovie The movie to edit.
      */
     public void editMode(Movie selectedMovie) {
-        edit = true;
-        movieToEdit = selectedMovie;
 
-        //sets the existing info of the selected movie.
-        txtField_title.setText(movieToEdit.getTitle());
-        //category TO DO!!
-        txtField_duration.setText(movieToEdit.getStringDuration());
-        txtField_filePath.setText(movieToEdit.getFileLink());
+        if (selectedMovie == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Edit movie error");
+            alert.setHeaderText("Oh!\nyou did not select a movie to edit.");
+            alert.showAndWait();
+            Stage.getWindows().clear();
+
+        } else {
+            if (selectedMovie != null) {
+                edit = true;
+                movieToEdit = selectedMovie;
+
+                //sets the existing info of the selected movie.
+                txtField_title.setText(movieToEdit.getTitle());
+                //category TO DO!!
+                txtField_duration.setText(movieToEdit.getStringDuration());
+                txtField_filePath.setText(movieToEdit.getFileLink());
+            }
+        }
     }
 
     /**
      * Closes the stage.
      */
     @FXML
-    private void handle_cancelMovieScene(ActionEvent event) {
+    private void handle_cancelMovieScene(ActionEvent event
+    ) {
         Stage stage = (Stage) btn_cancel.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    private void handle_createCategory(ActionEvent event) {
+    private void handle_createCategory(ActionEvent event
+    ) {
     }
 }

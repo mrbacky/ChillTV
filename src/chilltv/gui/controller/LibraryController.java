@@ -44,6 +44,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 public class LibraryController implements Initializable {
 
@@ -132,13 +133,13 @@ public class LibraryController implements Initializable {
                 //setCheckedCategoriesForMovie();
             }
         });
-        
+
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Old movies");
         alert.setHeaderText("Not seen in more than 2 years");
-        List<Movie> oldMovies = movieModel.getMoviesOlderThan(LocalDate.now().getYear()-2);
+        List<Movie> oldMovies = movieModel.getMoviesOlderThan(LocalDate.now().getYear() - 2);
         String movieString = "";
-        
+
         for (Movie oldMovie : oldMovies) {
             movieString += oldMovie + "\n";
         }
@@ -245,11 +246,13 @@ public class LibraryController implements Initializable {
 
     @FXML
     private void btn_openAddMovie(ActionEvent event) throws IOException {
+
         Parent root;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/MovieScene.fxml"));
         root = (Parent) fxmlLoader.load();
         fxmlLoader.<MovieSceneController>getController().setContr(this);
         showScene(root);
+
     }
 
     @FXML
@@ -267,7 +270,12 @@ public class LibraryController implements Initializable {
     }
 
     @FXML
-    private void handle_deleteMovie(ActionEvent event) throws IOException {
+    public void handle_deleteMovie(ActionEvent event) throws IOException {
+        
+        
+        
+        
+        
         Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
         Parent root;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/DeleteMoviePopUp.fxml"));
@@ -277,7 +285,10 @@ public class LibraryController implements Initializable {
         controller.setDeleteMovieLabel(selectedMovie);
         showScene(root);
 
+        
+    
     }
+//////////////////////////////////////////
 
 //    private void handle_addCategoryVisible(ActionEvent event) {
 //        txt_Cat.setVisible(true);
@@ -343,7 +354,6 @@ public class LibraryController implements Initializable {
         selectedMovie.setLastView(LocalDate.now().getYear());
         movieModel.updateMovie(selectedMovie);
         playerStage.show();
-        
 
         //showScene(root);
     }
