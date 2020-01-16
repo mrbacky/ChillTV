@@ -3,16 +3,21 @@ package chilltv.gui.controller;
 import chilltv.be.Category;
 import chilltv.be.Filter;
 import chilltv.be.Movie;
+import chilltv.dal.CatMovieDAO;
+import chilltv.dal.CategoryDAO;
 import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
 import java.awt.color.ICC_ColorSpace;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -123,11 +128,17 @@ public class LibraryController implements Initializable {
     @FXML
     private MenuButton menuButton_filterRating;
 
+    //  temporary
+    CategoryDAO catDAO;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //  temporary
+        catDAO = new CategoryDAO();
+
         edit = false;
         settingTableViews();
-        
+
         setCategoriesIntoFilter();
         setRatingsIntoFilter();
 
@@ -135,18 +146,16 @@ public class LibraryController implements Initializable {
         filterCategory();
         filterRating();
 
-       
+        
+
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                //movieModel.getObsMovies();
                 setCategoriesIntoFilter();
+
             }
         });
 
-        
-        
-        
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Old movies");
         alert.setHeaderText("Not seen in more than 2 years");
@@ -291,7 +300,7 @@ public class LibraryController implements Initializable {
         playerStage.setAlwaysOnTop(true);
         playerStage.setAlwaysOnTop(false);
         selectedMovie.setLastView(LocalDate.now().getYear());
-        movieModel.updateMovie(selectedMovie);
+        //movieModel.updateMovie(selectedMovie);
         playerStage.show();
 
         //showScene(root);

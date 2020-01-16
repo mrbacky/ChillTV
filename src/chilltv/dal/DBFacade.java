@@ -70,7 +70,7 @@ public interface DBFacade {
 
     List<Movie> getAllMovies();
 
-    void updateMovie(Movie movie);
+    void updateMovie(Movie movie,List<Category> oldCategoryList);
 
     void deleteMovie(Movie movie);
     

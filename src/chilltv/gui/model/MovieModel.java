@@ -39,14 +39,14 @@ public class MovieModel {
     }
 
     public ObservableList<Movie> getObsMovies() {
-        List<Movie> allMovies = logicManager.getAllMovies();
-        for (Movie movie : allMovies) {
-            //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
-            movie.setStringDuration(sec_To_Format(movie.getDuration()));
-            //movie.setStringCat(convert(movie));
-        }
-        libraryList.clear();
-        libraryList.addAll(allMovies);
+//        List<Movie> allMovies = logicManager.getAllMovies();
+//        for (Movie movie : allMovies) {
+//            //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
+//            movie.setStringDuration(sec_To_Format(movie.getDuration()));
+//            //movie.setStringCat(convert(movie));
+//        }
+//        libraryList.clear();
+//        libraryList.addAll(allMovies);
         return libraryList;
     }
 
@@ -76,8 +76,11 @@ public class MovieModel {
      *
      * @param movie The movie to update.
      */
-    public void updateMovie(Movie movie) {
-        logicManager.updateMovie(movie);
+    public void updateMovie(Movie movie, List<Category> oldCategoryList) {
+        movie.setStringDuration(sec_To_Format(movie.getDuration()));
+        movie.setStringCat(convertCategory(movie.getCategoryList()));
+        logicManager.updateMovie(movie,oldCategoryList);
+        
         int index = libraryList.indexOf(movie);
         libraryList.set(index, movie);
     }

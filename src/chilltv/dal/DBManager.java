@@ -62,8 +62,8 @@ public class DBManager implements DBFacade {
     }
 
     @Override
-    public void updateMovie(Movie movie) {
-        movDAO.updateMovie(movie);
+    public void updateMovie(Movie movie,List<Category> oldCategoryList) {
+        movDAO.updateMovie(movie,oldCategoryList);
     }
 
     @Override

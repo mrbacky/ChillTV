@@ -54,12 +54,18 @@ public class MovieSceneController implements Initializable {
     private Button btn_cancel;
     @FXML
     private Label lbl_Categories;
+    
+    
+    private List<Category> oldCategoryList;
+    
 
     private LibraryController libraryController;
     private MovieModel movieModel;
     private CategoryModel catModel;
     private boolean edit;
     private Movie movieToEdit;
+    
+    
     @FXML
     private ListView<Category> lv_categories;
     @FXML
@@ -88,7 +94,7 @@ public class MovieSceneController implements Initializable {
             @Override
             public void invalidated(Observable observable) {
                 loadCatsInComboBox();
-                movieModel.getObsMovies();
+                
             }
 
         });
@@ -236,7 +242,7 @@ public class MovieSceneController implements Initializable {
             //lv_categories.getItems().setAll(categoryList);
 
             //  sending new values to update method
-            movieModel.updateMovie(movieToEdit);
+            movieModel.updateMovie(movieToEdit, oldCategoryList);
         }
 
         Stage stage;
@@ -270,9 +276,11 @@ public class MovieSceneController implements Initializable {
 
             //  set existing category list
             //lv_categories.getItems().addAll(movieToEdit.getCategoryList());
-            List<Category> catList = movieToEdit.getCategoryList();
+            oldCategoryList = movieToEdit.getCategoryList();
             catObsList.clear();
-            catObsList.addAll(catList);
+            catObsList.addAll(oldCategoryList);
+            
+            
 
             lv_categories.setItems(catObsList);
 
@@ -308,16 +316,10 @@ public class MovieSceneController implements Initializable {
     @FXML
     private void handle_setCatToLV(ActionEvent event) {
         Category selectedCategory = comboBox_categories.getSelectionModel().getSelectedItem();
-        if (!edit) {
-            if (!lv_categories.getItems().contains(selectedCategory)) {
+        if (!lv_categories.getItems().contains(selectedCategory)) {
                 lv_categories.getItems().add(selectedCategory);
+                
             }
-        } else {
-            lv_categories.getItems().add(selectedCategory);
-            List<Category> catList = new ArrayList<>();
-            catList.add(selectedCategory);
-            movieModel.addMovieToCategory(movieToEdit, catList);
-        }
     }
 
     @FXML

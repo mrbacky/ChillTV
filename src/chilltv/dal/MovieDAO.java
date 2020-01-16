@@ -34,7 +34,7 @@ public class MovieDAO {
         List<Movie> allMovies = new ArrayList<>();
         String stat = "SELECT * FROM Movie";
 
-        try ( Connection xd = cp.getConnection()) {
+        try (Connection xd = cp.getConnection()) {
             Statement statement = xd.createStatement();
             ResultSet rs = statement.executeQuery(stat);
             while (rs.next()) {
@@ -45,7 +45,7 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 int lastView = rs.getInt("lastView");
-                List<Category> categoryList = catDAO.getAllCategoriesForCatList(id);//
+                List<Category> categoryList = catDAO.getAllCatsForMovie(id);//
 
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
@@ -59,16 +59,16 @@ public class MovieDAO {
 
     }
 
-    public List<Movie> getMoviesOlderThan(int year){
+    public List<Movie> getMoviesOlderThan(int year) {
         List<Movie> allMovies = new ArrayList<>();
         String sql = "SELECT * FROM Movie WHERE lastView<=?";
-        
+
         try (Connection con = cp.getConnection()) {
-            
+
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, year);
             ResultSet rs = pstmt.executeQuery();
-            
+
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
@@ -77,7 +77,7 @@ public class MovieDAO {
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 int lastView = rs.getInt("lastView");
-                List<Category> category = catDAO.getAllCategoriesForCatList(id);
+                List<Category> category = catDAO.getAllCatsForMovie(id);
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
 //                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
                 allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category));
@@ -89,8 +89,9 @@ public class MovieDAO {
             return null;
         }
     }
+
     
-    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView,List<Category> catList) {
+    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView, List<Category> catList) {
         try (Connection con = cp.getConnection()) {
             String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); //Prepared or Stat?
@@ -101,7 +102,7 @@ public class MovieDAO {
             pstmt.setString(5, fileLink);
             pstmt.setInt(6, lastView);
             pstmt.executeUpdate();
-                
+
             ResultSet rs = pstmt.getGeneratedKeys();
             rs.next();
             int id = rs.getInt(1);
@@ -134,7 +135,7 @@ public class MovieDAO {
 
     public void deleteMovie(Movie movie) {
         //When the movie is deleted, it should also be removed from all categories. DOES IT?
-        try ( Connection con = cp.getConnection()) {
+        try (Connection con = cp.getConnection()) {
             String sql = "DELETE FROM Movie WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, movie.getId());
@@ -144,11 +145,11 @@ public class MovieDAO {
         }
     }
 
-    public void updateMovie(Movie movie) {
+    public void updateMovie(Movie movie, List<Category> oldCategoryList) {
         String stat = "UPDATE movie\n"
                 + "SET title = ?, duration = ?, imdbRating = ?, myRating = ?, fileLink = ?, lastView = ?\n"
                 + "WHERE id = ?";
-        try ( Connection con = cp.getConnection()) {
+        try (Connection con = cp.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setString(1, movie.getTitle());
             stmt.setInt(2, movie.getDuration());
@@ -157,8 +158,7 @@ public class MovieDAO {
             stmt.setString(5, movie.getFileLink());
             stmt.setInt(6, movie.getLastView());
             stmt.setInt(7, movie.getId());
-            
-            
+
             stmt.execute();
         } catch (SQLServerException ex) {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -167,6 +167,8 @@ public class MovieDAO {
         }
     }
 
+    
+    
     /*SELECT M.*,
       C.*
       FROM [PrivateMovieCollection_AL].[dbo].[CatMovie] CM,
@@ -183,6 +185,10 @@ public class MovieDAO {
       ORDER BY Movie.title ASC
      */
     //public List<Movie> getAllMoviesFiltered(String query, List<Category> cats){
+    
+    
+    
+    
     public List<Movie> getAllMoviesFiltered(Filter f) {
         List<Movie> filteredMovies = new ArrayList<>();
         String sql = "SELECT Movie.* FROM Movie JOIN CatMovie ON Movie.id = CatMovie.movieId WHERE "; //Only adds distinct movies.
@@ -211,7 +217,7 @@ public class MovieDAO {
                 float imdbRating = rs.getFloat("imdbRating");
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
-                List<Category> categoryList = catDAO.getAllCategoriesForCatList(id);//
+                List<Category> categoryList = catDAO.getAllCatsForMovie(id);//
                 filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, myRating, categoryList));
                 //This list contains duplicates when searching for x categories, will add x rows to the ResultSet.
             }

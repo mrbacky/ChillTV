@@ -99,47 +99,10 @@ public class CategoryDAO {
         return null;
     }
 
-    /**
-     * Gets all movies in all categories. Performs an SQL statement with a JOIN
-     * to get the values of the CatMovie table and Movie table. Adds the values
-     * to a HashMap and converts it to an ArrayList.
-     *
-     * @return unhashedPlaylists
-     * @throws SQLException
-     *///keep eye on this one
     
-    public List<Movie> getAllMoviesInCategories(int catid) throws SQLException {
-        List<Movie> allMoviesWithCat = new ArrayList<>();
-        try ( //Get a connection to the database.
-                Connection con = connectDAO.getConnection()) {
-            String sql = "SELECT CatMovie.movieId, Movie.id, Movie.title, Movie.duration, Movie.fileLink, CatMovie.categoryId, Movie.lastView\n"
-                    + "FROM CatMovie LEFT JOIN Movie ON CatMovie.movieId = Movie.id WHERE categoryId = " + catid;
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                int id = rs.getInt("movieId");
-                //int categoryId = rs.getInt("categoryId");
-                int duration = rs.getInt("duration");
-                String fileLink = rs.getString("fileLink");
-                String title = rs.getString("title");
-                int lastView = rs.getInt("lastView");
-                List<Category> categoryList = null;
-                //keep an eye on this, wøbbe
 
-                allMoviesWithCat.add(new Movie(id, title, duration, duration, duration, fileLink, lastView, categoryList));
-            }
-            return allMoviesWithCat;
-        } catch (SQLServerException ex) {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return null;
-    }
-
-    public List<Category> getAllCategoriesForCatList(int id) throws SQLException {
-        List<Category> movCatList = new ArrayList<>();
+    public List<Category> getAllCatsForMovie(int id) throws SQLException {
+        List<Category> catListOfMovie = new ArrayList<>();
         try (Connection con = connectDAO.getConnection()) {
             String sql = "SELECT category.name, CatMovie.* FROM Category\n"
                     + "LEFT JOIN CatMovie on categoryid = Category.id\n"
@@ -150,12 +113,12 @@ public class CategoryDAO {
                 int categoryId = rs.getInt("categoryId");
                 String name = rs.getString("name");
 
-                movCatList.add(new Category(categoryId, name));
+                catListOfMovie.add(new Category(categoryId, name));
             }
 
         } catch (Exception e) {
         }
-        return movCatList;
+        return catListOfMovie;
     }
 
     /**
