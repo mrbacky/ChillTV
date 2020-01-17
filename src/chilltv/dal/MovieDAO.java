@@ -48,6 +48,7 @@ public class MovieDAO {
      * @param myRating The personal rating of the movie.
      * @param fileLink The file location of the movie.
      * @param lastView The last viewed year of the movie.
+     * @param catList The category list of the movie.
      * @return The newly created movie.
      */
     public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView, List<Category> catList) {
@@ -69,7 +70,7 @@ public class MovieDAO {
 
             Movie movie = new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, catList);
 
-            catMovDAO.addCategoriesToMovie(movie, catList);
+            catMovDAO.addCategoryToMovie(movie, catList);
 
             return movie;
             /*int affectedRows = pstmt.executeUpdate();
@@ -134,53 +135,12 @@ public class MovieDAO {
     }
 
     /**
-     * Gets all movies from the database, which are last viewed more than x
-     * years ago.
-     *
-     * @param year x number of years.
-     * @return A list with movies older than x years.
-     */
-    public List<Movie> getMoviesOlderThan(int year) {
-        List<Movie> allMovies = new ArrayList<>();
-
-        String sql = "SELECT * FROM Movie WHERE lastView<=?";
-
-        try ( Connection con = cp.getConnection()) {
-
-            PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, year);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String title = rs.getString("title");
-                int duration = rs.getInt("duration");
-                int imdbRating = rs.getInt("imdbRating");
-                int myRating = rs.getInt("myRating");
-                String fileLink = rs.getString("fileLink");
-                int lastView = rs.getInt("lastView");
-                List<Category> category = catDAO.getAllCatsForMovie(id);
-//                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
-//                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
-                allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category));
-
-            }
-
-            return allMovies;
-
-        } catch (SQLException ex) {
-            System.out.println("Exception " + ex);
-            return null;
-        }
-    }
-
-    /**
      * Updates a movie in the database after editing.
      *
      * @param movie The movie to be updated.
-     * @param oldList The previous list of categories for the movie.
+     * @param oldCatList The previous list of categories for the movie.
      */
-    public void updateMovie(Movie movie, List<Category> oldList) {
+    public void updateMovie(Movie movie, List<Category> oldCatList) {
         String stat = "UPDATE movie\n"
                 + "SET title = ?, duration = ?, imdbRating = ?, myRating = ?, fileLink = ?, lastView = ?\n"
                 + "WHERE id = ?";
@@ -199,9 +159,9 @@ public class MovieDAO {
             List<Category> deleteCatMovList = new ArrayList<>();
             List<Category> addCatMovList = new ArrayList<>();
 
-            //Compare each category from the old list withe the new list.
+            //Compare each category from the old list with the new list.
             //If the old cats are not in the new list, the relationship will be deleted from CatMovie table.
-            for (Category o : oldList) {
+            for (Category o : oldCatList) {
                 if (!inBothList(o, movie.getCategoryList())) {
                     deleteCatMovList.add(o);
                 }
@@ -210,14 +170,14 @@ public class MovieDAO {
             //Compare each category from the new list withe the old list.
             //If the new cats are not in the old list, the relationship will be inserted into CatMovie table.
             for (Category n : movie.getCategoryList()) {
-                if (!inBothList(n, oldList)) {
+                if (!inBothList(n, oldCatList)) {
                     addCatMovList.add(n);
                 }
             }
 
             //Call method only if there are new categories.
             if (addCatMovList.size() > 0) {
-                catMovDAO.addCategoriesToMovie(movie, addCatMovList);
+                catMovDAO.addCategoryToMovie(movie, addCatMovList);
             }
 
             //Call method only if categories are removed.
@@ -264,6 +224,47 @@ public class MovieDAO {
         }
     }
 
+    /**
+     * Gets all movies from the database, which are last viewed more than x
+     * years ago.
+     *
+     * @param year x number of years.
+     * @return A list with movies older than x years.
+     */
+    public List<Movie> getMoviesOlderThan(int year) {
+        List<Movie> allMovies = new ArrayList<>();
+
+        String sql = "SELECT * FROM Movie WHERE lastView<=?";
+
+        try ( Connection con = cp.getConnection()) {
+
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, year);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String title = rs.getString("title");
+                int duration = rs.getInt("duration");
+                int imdbRating = rs.getInt("imdbRating");
+                int myRating = rs.getInt("myRating");
+                String fileLink = rs.getString("fileLink");
+                int lastView = rs.getInt("lastView");
+                List<Category> category = catDAO.getAllCatsForMovie(id);
+//                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
+//                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
+                allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category));
+
+            }
+
+            return allMovies;
+
+        } catch (SQLException ex) {
+            System.out.println("Exception " + ex);
+            return null;
+        }
+    }
+    
     //__________________________________________________________________________                       
     //
     //      Filter  

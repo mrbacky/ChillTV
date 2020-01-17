@@ -34,7 +34,7 @@ public class CatMovieDAO {
      * @param movie The movie, the categories will be added to.
      * @param cats The list of categories to add.
      */
-    public void addCategoriesToMovie(Movie movie, List<Category> cats) {
+    public void addCategoryToMovie(Movie movie, List<Category> cats) {
         try (
                 //Get a connection to the database.
                  Connection con = connectDAO.getConnection()) {

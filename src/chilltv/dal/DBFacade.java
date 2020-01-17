@@ -1,4 +1,3 @@
-
 package chilltv.dal;
 
 import chilltv.be.Category;
@@ -14,30 +13,86 @@ import java.util.List;
  */
 public interface DBFacade {
 
+    //__________________________________________________________________________                       
+    //      
+    //      Movie  
+    //__________________________________________________________________________
+    /**
+     * Creates and adds a new movie in the database.
+     *
+     * @param title The title of the movie.
+     * @param duration The duration of the movie.
+     * @param imdbRating The imdbRating of the movie.
+     * @param myRating The personal rating of the movie.
+     * @param fileLink The file location of the movie.
+     * @param lastView The last viewed year of the movie.
+     * @param cats The category list of the movie.
+     * @return The newly created movie.
+     */
+    Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, int lastView, List<Category> cats);
+
+    /**
+     * Gets all the movies from the database.
+     *
+     * @return A list with all movies.
+     */
+    List<Movie> getAllMovies();
+
+    /**
+     * Updates a movie in the database after editing.
+     *
+     * @param movie The movie to be updated.
+     * @param oldCatList The previous list of categories for the movie.
+     */
+    void updateMovie(Movie movie, List<Category> oldCatList);
+
+    /**
+     * Deletes a movie from the database.
+     *
+     * @param movie The movie to delete.
+     */
+    void deleteMovie(Movie movie);
+
+    /**
+     * Gets all movies from the database, which are last viewed more than x
+     * years ago.
+     *
+     * @param year x number of years.
+     * @return A list with movies older than x years.
+     */
+    List<Movie> getMoviesOlderThan(int year);
+
+    /**
+     * Gets all movies after filtering.
+     *
+     * @param f Filter which can filter by title, category and imdbRating.
+     * @return A list with all movies after filter has been used.
+     */
+    List<Movie> getAllMoviesFiltered(Filter f);
+
+    //__________________________________________________________________________                       
+    //      
+    //      Category  
+    //__________________________________________________________________________
     /**
      * Creates and adds a new category to the database.
      *
-     * @param category The category to create.
+     * @param name The name of the new category.
      * @return The newly created category.
      */
     Category createCategory(String name);
-    
-    
-    
 
     /**
-     * Gets a list with the names of all the categories and their respective
-     * contents (movies) in the database.
+     * Gets a list with all the categories.
      *
      * @return List with all categories.
      */
     List<Category> getAllCategories();
 
     /**
-     * Updates the name of the category in the database to reflect the values in
-     * the given Movie objects.
+     * Updates the name of the category in the database.
      *
-     * @param category The category to be updated.
+     * @param category The category to updated.
      * @return The updated category.
      */
     Category updateCategory(Category category);
@@ -49,34 +104,23 @@ public interface DBFacade {
      */
     void deleteCategory(Category category);
 
+    //__________________________________________________________________________                       
+    //      
+    //      CatMovie  
+    //__________________________________________________________________________
     /**
-     * Adds a movie to a category in the database.
+     * Adds a category list of a movie in the database.
      *
-     * @param category The category the movie should be added to.
-     * @param movie The movie to be added to the category.
-     * @return Category with the added movie.
+     * @param movie The movie the categories will be added to.
+     * @param cats The list of categories added to the movie.
      */
-    void addMovieToCategory(Movie movie, List<Category> catToAdd);
+    void addCategoryToMovie(Movie movie, List<Category> cats);
 
     /**
-     * Deletes a movie from a category in the database.
+     * Deletes a category list of a movie from the database.
      *
-     * @param category The category of the movie.
-     * @param movie The movie to delete from the category.
+     * @param movieId
+     * @param cats The list of categories deleted from the movie.
      */
-    void deleteMovieFromCategory(int movieId, List<Category> catToDelete);
-
-    Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, int lastView, List<Category> cats);
-
-    List<Movie> getAllMovies();
-
-    void updateMovie(Movie movie,List<Category> oldCategoryList);
-
-    void deleteMovie(Movie movie);
-    
-    List<Movie> getMoviesOlderThan(int year);
-
-    List<Movie> getAllMoviesFiltered(Filter f);
+    void deleteCategoryFromMovie(int movieId, List<Category> cats);
 }
-
-
