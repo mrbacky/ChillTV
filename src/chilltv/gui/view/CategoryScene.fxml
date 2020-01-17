@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="232.0" prefWidth="509.0" styleClass="bg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chilltv.gui.controller.CategorySceneController">
+<AnchorPane prefHeight="232.0" prefWidth="509.0" styleClass="bg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chilltv.gui.controller.CategorySceneController">
    <children>
-      <Label fx:id="lbl_Categories" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="136.0" layoutY="32.0" prefHeight="25.0" prefWidth="237.0" styleClass="lblFlow" stylesheets="@../css/style.css" text="Add/Edit/Delete Category" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="lbl_categories" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="136.0" layoutY="32.0" prefHeight="25.0" prefWidth="237.0" styleClass="lblFlow" stylesheets="@../css/style.css" text="Add/Edit/Delete Category" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
@@ -55,7 +55,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btn_addCategoryVisible" layoutX="295.0" layoutY="103.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_addCategoryVisible" prefHeight="20.0" prefWidth="20.0" textFill="WHITE">
+      <Button fx:id="btn_createCategoryVisible" layoutX="295.0" layoutY="103.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_createCategoryVisible" prefHeight="20.0" prefWidth="20.0" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
