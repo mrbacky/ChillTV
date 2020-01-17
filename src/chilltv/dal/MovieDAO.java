@@ -304,8 +304,9 @@ public class MovieDAO {
                 float imdbRating = rs.getFloat("imdbRating");
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
+                int lastView = rs.getInt("lastView");
                 List<Category> categoryList = catDAO.getAllCatsForMovie(id);//
-                filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, myRating, categoryList));
+                filteredMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList));
                 //This list contains duplicates when searching for x categories, will add x rows to the ResultSet.
             }
 

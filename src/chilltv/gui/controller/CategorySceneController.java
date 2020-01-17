@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class CategorySceneController implements Initializable {
 
@@ -26,8 +27,6 @@ public class CategorySceneController implements Initializable {
     private Label lbl_newCat;
     @FXML
     private Button btn_createCat;
-    @FXML
-    private Button btn_confirm;
     @FXML
     private Button btn_cancel;
     private LibraryController libCon;
@@ -93,13 +92,12 @@ public class CategorySceneController implements Initializable {
 
     
 
-    @FXML
-    private void handle_confirmCat(ActionEvent event) {
-
-    }
 
     @FXML
     private void handle_cancelScene(ActionEvent event) {
+        Stage stage = (Stage) btn_cancel.getScene().getWindow();
+        stage.close();
+        
     }
 
     @FXML
