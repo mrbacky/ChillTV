@@ -11,7 +11,7 @@ import javafx.collections.ObservableList;
 
 public class MovieModel {
 
-    private LogicFacade logicManager;
+    private final LogicFacade logicManager;
     private final ObservableList<Movie> libraryList = FXCollections.observableArrayList();
     private static MovieModel movieModel;
 
@@ -25,7 +25,11 @@ public class MovieModel {
     private MovieModel() {
         logicManager = new LogicManager();
     }
-
+    
+    //__________________________________________________________________________                       
+    //      
+    //      Movie  
+    //__________________________________________________________________________ 
     public void loadAllMovies() {
         List<Movie> allMovies = logicManager.getAllMovies();
         for (Movie movie : allMovies) {
@@ -76,10 +80,10 @@ public class MovieModel {
      *
      * @param movie The movie to update.
      */
-    public void updateMovie(Movie movie, List<Category> oldCategoryList) {
+    public void updateMovie(Movie movie, List<Category> oldCatList) {
         movie.setStringDuration(sec_To_Format(movie.getDuration()));
         movie.setStringCat(convertCategory(movie.getCategoryList()));
-        logicManager.updateMovie(movie,oldCategoryList);
+        logicManager.updateMovie(movie,oldCatList);
         
         int index = libraryList.indexOf(movie);
         libraryList.set(index, movie);
@@ -87,33 +91,80 @@ public class MovieModel {
 
     /**
      * Deletes a movie from the library list. The method calls the BLL to delete
-     * a movie from the database. The deleted song is deleted from the library
-     * list and all other playlists.
+     * a movie from the database. The deleted movie is deleted from the library
+     * list and is no longer connected with any category.
      *
      * @param movie The movie to delete.
      */
     public void deleteMovie(Movie movie) {
         logicManager.deleteMovie(movie);
         libraryList.remove(movie);
-
-    }
-
-    public String convertCategory(List<Category> catList) {
-        return logicManager.convertCategory(catList);
     }
 
     /**
-     * Converts the time from the format hh:movieModel:ss to seconds.
+     * Gets all movies from the database, which are last viewed more than x
+     * years ago.
      *
-     * @param timeString The time in the format hh:movieModel:ss.
-     * @return The time in seconds.
+     * @param year x number of years.
+     * @return A list with movies older than x years.
      */
-    public int format_To_Sec(String timeString) {
-        return logicManager.format_To_Sec(timeString);
+    public List<Movie> getMoviesOlderThan(int year) {
+        return logicManager.getMoviesOlderThan(year);
     }
 
     /**
-     * Converts the time from seconds to the format hh:movieModel:ss.
+     * Gets all movies after filtering.
+     *
+     * @param f Filter which can filter by title, category and imdbRating.
+     * @return A list with all movies after filter has been used.
+     */
+    public List<Movie> getAllMoviesFiltered(Filter f) {
+        //Create a temporary list which contains the movies obtained from the filter method.
+        List<Movie> temp = logicManager.getAllMoviesFiltered(f);
+        //Clear all movies from the library and add the movies from the temporary list to the library list.
+        for (Movie movie : temp) {
+            //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
+            movie.setStringDuration(sec_To_Format(movie.getDuration()));
+            //replaces category in String before adding the movie to an ObservableList.            
+            movie.setStringCat(convertCategory(movie.getCategoryList()));
+        }
+        
+        libraryList.clear();
+        libraryList.addAll(temp);
+
+        return libraryList;
+    }
+    
+    //__________________________________________________________________________                       
+    //      
+    //      CatMovie  
+    //__________________________________________________________________________    
+    /**
+     * Adds a category list of a movie in the database.
+     *
+     * @param movie The movie the categories will be added to.
+     * @param cats The list of categories added to the movie.
+     */
+    public void addMovieToCategory(Movie movie, List<Category> cats) {
+        logicManager.addCategoryToMovie(movie, cats);
+    }
+    
+    /**
+     * Deletes a category list of a movie from the database.
+     *
+     * @param movieId
+     * @param cats The list of categories deleted from the movie.
+     */
+    public void deleteCategoryFromMovie(int movieId, List<Category> cats){
+        logicManager.deleteCategoryFromMovie(movieId, cats);        
+    }
+
+    //__________________________________________________________________________                       
+    //      
+    //      Utilities  
+    //__________________________________________________________________________
+    /**
+     * Converts the time from seconds to the format hh:mm:ss.
      *
      * @param sec The time in seconds.
      * @return The formatted time.
@@ -121,40 +172,24 @@ public class MovieModel {
     public String sec_To_Format(int sec) {
         return logicManager.sec_To_Format(sec);
     }
-
-    public List<Movie> getMoviesOlderThan(int year) {
-        return logicManager.getMoviesOlderThan(year);
-    }
-
-    public List<Movie> getAllMoviesFiltered(Filter f) {
-        //Create a temporary list which contains the songs obtained from the search method.
-        List<Movie> temp = logicManager.getAllMoviesFiltered(f);
-        //Clear all songs from the library and add the songs from the temporary list to the library list.
-        for (Movie movie : temp) {
-            //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
-            movie.setStringDuration(sec_To_Format(movie.getDuration()));
-            movie.setStringCat(convertCategory(movie.getCategoryList()));
-
-        }
-        
-        libraryList.clear();
-        libraryList.addAll(temp);
-
-        for (Movie movie : temp) {
-            System.out.println(movie);
-        }
-
-        return libraryList;
+    
+    /**
+     * Converts the time from the format hh:mm:ss to seconds.
+     *
+     * @param timeString The time in the format hh:mm:ss.
+     * @return The time in seconds.
+     */
+    public int format_To_Sec(String timeString) {
+        return logicManager.format_To_Sec(timeString);
     }
     
-     public void deleteCategoryFromMovie(int movieId, List<Category> catToDelete){
-        logicManager.deleteCategoryFromMovie(movieId, catToDelete);
-        
+    /**
+     * Converts the category list of a movie to a string for the view.
+     *
+     * @param cats The list of categories.
+     * @return The category list as a string.
+     */
+    public String convertCategory(List<Category> cats) {
+        return logicManager.convertCategory(cats);
     }
-
-    public void addMovieToCategory(Movie movie, List<Category> catToAdd) {
-        logicManager.addCategoryToMovie(movie, catToAdd);
-    }
-
-    
 }

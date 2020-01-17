@@ -146,8 +146,8 @@ public interface LogicFacade {
     /**
      * Converts the category list of a movie to a string for the view.
      *
-     * @param catList The list of categories.
+     * @param cats The list of categories.
      * @return The category list as a string.
      */
-    String convertCategory(List<Category> catList);
+    String convertCategory(List<Category> cats);
 }
