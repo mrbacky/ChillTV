@@ -12,7 +12,10 @@ import java.util.List;
 /**
  * This class manages the connection between GUI and DAL.
  *
- * @author annem
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public class LogicManager implements LogicFacade {
 

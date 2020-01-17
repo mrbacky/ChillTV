@@ -28,6 +28,13 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
+/**
+ *
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
+ */
 public class PlayerController implements Initializable {
 
     @FXML
@@ -163,7 +170,6 @@ public class PlayerController implements Initializable {
             mediaPlayer.setVolume(volumeSlider.getValue() * 100);
             mediaPlayer.setVolume(volumeSlider.getValue() / 100);
         }
-
     }
 
     @FXML
@@ -187,7 +193,6 @@ public class PlayerController implements Initializable {
         progressSlider.setOnMouseClicked((MouseEvent mouseEvent) -> { //This Method shows the progress of the progress bar
             mediaPlayer.seek(Duration.millis(progressSlider.getValue())); //It seeks the duration in seconds ofc. 
         });
-
     }
 
     @FXML
@@ -199,5 +204,4 @@ public class PlayerController implements Initializable {
     private void handle_hideBar(MouseEvent event) {
         vBox_buttonBar.setOpacity(0.5);
     }
-
 }

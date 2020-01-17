@@ -7,7 +7,7 @@ import java.util.List;
  * CategoryConverter Class is used to convert the category list of a movie to a
  * string for the view.
  *
- * @author Martin
+ * @author Martin Emil Rune Wøbbe
  */
 public class CategoryConverter {
 

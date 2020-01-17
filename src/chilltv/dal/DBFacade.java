@@ -8,8 +8,10 @@ import java.util.List;
 /**
  * This interface is a facade for the data access layer. It contains methods
  * used for database operations.
- *
- * @author annem
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public interface DBFacade {
 

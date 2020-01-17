@@ -6,7 +6,7 @@ import java.util.List;
  * This class is a Filter class. It is used for methods related to filtering
  * movies.
  *
- * @author annem
+ * @author Anne Luong
  */
 public class Filter {
 

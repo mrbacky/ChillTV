@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 /**
  * This DAO class can perform CRUD operations on the database CatMovie table.
  *
- * @author annem
+ * @author Anne Luong
  */
 public class CatMovieDAO {
 

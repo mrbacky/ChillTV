@@ -8,7 +8,10 @@ import java.util.List;
 /**
  * This interface is a facade for the business logic layer.
  *
- * @author annem
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public interface LogicFacade {
 

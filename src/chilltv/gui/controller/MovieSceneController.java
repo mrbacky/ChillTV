@@ -34,7 +34,10 @@ import javafx.util.Duration;
  * requests to the MovieModel when creating and updating a movie. The default
  * mode is to create a movie. The mode can be changed to edit a movie.
  *
- * @author annem
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public class MovieSceneController implements Initializable {
 

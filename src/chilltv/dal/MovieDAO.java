@@ -21,7 +21,10 @@ import java.util.logging.Logger;
  * This DAO class can perform CRUD operations on mainly the database Movie
  * table.
  *
- * @author annem
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public class MovieDAO {
 

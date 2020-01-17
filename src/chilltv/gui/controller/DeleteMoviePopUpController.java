@@ -16,7 +16,10 @@ import javafx.stage.Stage;
  * Controller class for the DeleteMoviePopUpScene. It sends requests to the
  * MovieModel when deleting a movie.
  *
- * @author annem
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public class DeleteMoviePopUpController implements Initializable {
 

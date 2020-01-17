@@ -16,7 +16,10 @@ import javafx.stage.Stage;
  * Controller class for the DeleteCategoryPopUp. It sends requests to the
  * CategoryModel when deleting a category.
  *
- * @author annem
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public class DeleteCategoryPopUpController implements Initializable {
 

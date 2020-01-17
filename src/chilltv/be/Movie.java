@@ -7,7 +7,10 @@ import java.util.List;
  * where each entity instance corresponds to a row in the table. The columns of
  * each row is the attribute of the entity.
  *
- * @author annem
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public class Movie {
 

@@ -21,7 +21,10 @@ import javafx.stage.Stage;
  * requests to the Category Model, when creating, updating and deleting a
  * category.
  *
- * @author annem
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public class CategorySceneController implements Initializable {
 

@@ -16,7 +16,10 @@ import java.util.logging.Logger;
  * The CategoryDAO class can perform CRUD operations on the Category database
  * table.
  *
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
  * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public class CategoryDAO {
 
