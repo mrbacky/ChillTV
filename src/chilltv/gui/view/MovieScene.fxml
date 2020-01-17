@@ -18,24 +18,24 @@
          </font>
       </Label>
       <TextField fx:id="txtField_title" layoutX="135.0" layoutY="90.0" prefHeight="25.0" prefWidth="350.0" />
-      <Label layoutX="54.0" layoutY="134.0" prefHeight="17.0" prefWidth="79.0" text="Categories:" textFill="WHITE">
+      <Label layoutX="55.0" layoutY="142.0" prefHeight="17.0" prefWidth="86.0" text="Categories:" textFill="WHITE">
          <font>
             <Font name="Arial" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="213.0" prefHeight="20.0" prefWidth="66.0" text="Duration:" textFill="WHITE">
+      <Label layoutX="65.0" layoutY="228.0" prefHeight="20.0" prefWidth="66.0" text="Duration:" textFill="WHITE">
          <font>
             <Font name="Arial" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="txtField_duration" layoutX="136.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="60.0" />
-      <Label layoutX="102.0" layoutY="253.0" prefHeight="20.0" prefWidth="33.0" text="File:" textFill="WHITE">
+      <TextField fx:id="txtField_duration" layoutX="136.0" layoutY="225.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="60.0" />
+      <Label layoutX="98.0" layoutY="268.0" prefHeight="20.0" prefWidth="33.0" text="File:" textFill="WHITE">
          <font>
             <Font name="Arial" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="txtField_filePath" layoutX="135.0" layoutY="250.0" prefHeight="25.0" prefWidth="350.0" />
-      <Button fx:id="btn_fileChooser" layoutX="500.0" layoutY="251.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_openFileChooser" prefHeight="25.0" prefWidth="25.0" textFill="WHITE">
+      <TextField fx:id="txtField_filePath" layoutX="137.0" layoutY="265.0" prefHeight="25.0" prefWidth="350.0" />
+      <Button fx:id="btn_fileChooser" layoutX="501.0" layoutY="265.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_openFileChooser" prefHeight="25.0" prefWidth="25.0" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -68,12 +68,12 @@
          </font>
       </Label>
       <ListView fx:id="lv_categories" layoutX="135.0" layoutY="130.0" onMouseClicked="#handle_removeCatItem" orientation="HORIZONTAL" prefHeight="40.0" prefWidth="240.0" />
-      <TextField fx:id="txtField_IMDbRating" layoutX="226.0" layoutY="170.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="86.0" promptText="IMDb Rating">
+      <TextField fx:id="txtField_IMDbRating" layoutX="226.0" layoutY="185.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="86.0" promptText="IMDb Rating">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </TextField>
-      <ComboBox fx:id="comboBox_categories" layoutX="385.0" layoutY="130.0" onAction="#handle_setCatToLV" prefHeight="25.0" prefWidth="100.0" promptText="Categories" />
-      <ComboBox fx:id="comboBox_rating" layoutX="136.0" layoutY="170.0" prefHeight="25.0" prefWidth="79.0" promptText="Rating" />
+      <ComboBox fx:id="comboBox_categories" layoutX="385.0" layoutY="130.0" onAction="#handle_setCatToLV" prefHeight="40.0" prefWidth="100.0" promptText="Categories" />
+      <ComboBox fx:id="comboBox_rating" layoutX="136.0" layoutY="185.0" prefHeight="25.0" prefWidth="79.0" promptText="Rating" />
    </children>
 </AnchorPane>

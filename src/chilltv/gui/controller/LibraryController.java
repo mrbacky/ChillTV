@@ -3,28 +3,20 @@ package chilltv.gui.controller;
 import chilltv.be.Category;
 import chilltv.be.Filter;
 import chilltv.be.Movie;
-import chilltv.dal.CatMovieDAO;
 import chilltv.dal.CategoryDAO;
 import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
-import java.awt.color.ICC_ColorSpace;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,43 +28,41 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 public class LibraryController implements Initializable {
 
     @FXML
+    private Button btn_openCatLib;
+    @FXML
     private Button btn_addMovie;
-    @FXML
-    private ImageView icon_search;
-    @FXML
-    private Label lbl_Categories;
-    private TextField txt_catSearch;
     @FXML
     private Button btn_editMovie;
     @FXML
     private Button btn_deleteMovie;
     @FXML
     private TextField txt_movieSearch;
-
     @FXML
-    private TableView<Movie> tbv_Movies;
+    private TextField txt_Cat;
+    @FXML
+    private Label lbl_Categories;
+    @FXML
+    private ImageView icon_search;
+    //__________________________________________________________________________
+    //  Library Table View
+    //__________________________________________________________________________
+    @FXML
+    private TableView<Movie> tbv_library;
     @FXML
     private TableColumn<Movie, String> col_Title;
     @FXML
@@ -84,58 +74,42 @@ public class LibraryController implements Initializable {
     @FXML
     private TableColumn<Movie, Integer> col_iMDBRating;
     @FXML
-    private TableColumn<Movie, Integer> col_LastView;    //LocalDateTime
-
-    private TableView<Category> tbv_Categories;
-    private TableColumn<Category, String> col_Name;
-    private TableColumn<Category, Integer> col_numOfMovies;
-
-    @FXML
-    private TextField txt_Cat;
-    private Button btn_saveCategory;
-
-    private PlayerController pCon;
-    private Movie movie;
-    private MovieModel movieModel;
-    private CategoryModel catModel;
-    private Category categoryToEdit;
+    private TableColumn<Movie, Integer> col_LastView;
+    //__________________________________________________________________________
+    //  Context Menu for Movie selection
+    //__________________________________________________________________________
     @FXML
     private ContextMenu con_ContextMenu;
+    @FXML
+    private MenuItem menuItem_playMovie;
     @FXML
     private MenuItem menuItem_Edit;
     @FXML
     private MenuItem menuItem_Delete;
-    @FXML
-    private SeparatorMenuItem separator;
-    @FXML
-    private MenuItem menuItem_playMovie;
+    //__________________________________________________________________________
+    //private CheckMenuItem catItem;
+    //private List<CheckMenuItem> catItemList = new ArrayList<>();
     private Menu menu_Category;
-    private RadioMenuItem rawAction;
-    private List<CheckMenuItem> catItemList = new ArrayList<>();
-
-    private CheckMenuItem catItem;
-    @FXML
-    private Button btn_openCatLib;
-    private LibraryController libraryController;
-    @FXML
-    private Button btn_refresh;
-    private boolean edit;
     @FXML
     private MenuButton menuButton_filterCategory;
-
-    private Stage playerStage;
-    private PlayerController playerController;
     @FXML
     private MenuButton menuButton_filterRating;
 
-    //  temporary
-    CategoryDAO catDAO;
+    private Stage playerStage;
+    //  Controllers
+    private PlayerController playerController;
+    private LibraryController libraryController;
+    private PlayerController pCon;
+    //  Models
+    private MovieModel movieModel;
+    private CategoryModel catModel;
+
+    private Movie movie;
+    private Category categoryToEdit;
+    private boolean edit;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //  temporary
-        catDAO = new CategoryDAO();
-
         edit = false;
         settingTableViews();
 
@@ -146,13 +120,10 @@ public class LibraryController implements Initializable {
         filterCategory();
         filterRating();
 
-        
-
         catModel.getInstance().getObsCategories().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 setCategoriesIntoFilter();
-
             }
         });
 
@@ -177,12 +148,16 @@ public class LibraryController implements Initializable {
         stage.show();
     }
 
+    //__________________________________________________________________________                       
+    //
+    //      setters
+    //__________________________________________________________________________
     private void settingTableViews() {
-        //  get models
+        // get models
         movieModel = MovieModel.getInstance();
         catModel = CategoryModel.getInstance();
 
-        //  Library table view
+        //  set Library table view
         col_Title.setCellValueFactory(new PropertyValueFactory<>("title"));
         col_Category.setCellValueFactory(new PropertyValueFactory<>("stringCat"));
         col_Duration.setCellValueFactory(new PropertyValueFactory<>("stringDuration"));
@@ -191,22 +166,53 @@ public class LibraryController implements Initializable {
         col_LastView.setCellValueFactory(new PropertyValueFactory<>("lastView"));
 
         //  displaying content of library list
-        tbv_Movies.setItems(movieModel.getObsMovies());
+        tbv_library.setItems(movieModel.getObsMovies());
         //  loading all movies from DB
         movieModel.loadAllMovies();
         //  loading all categories from DB
         catModel.loadAllCategories();
-
-        //  content of listView is displayed after choosing category - handle_getCategoryContent
     }
 
-    void setContr(LibraryController libraryController) {
-        this.libraryController = libraryController;
+//    void setContr(LibraryController libraryController) {
+//        this.libraryController = libraryController;
+//    }
+
+    public void setCategoriesIntoFilter() {
+        //Get all categories.
+        menuButton_filterCategory.getItems().clear();
+        ObservableList<Category> allCategories = catModel.getObsCategories();
+        //Add all the categories as created CheckMenuItems. Add MenuItems to the MenuButton.
+        for (Category allCat : allCategories) {
+            CheckMenuItem mi = new CheckMenuItem(allCat.toString());
+            menuButton_filterCategory.getItems().add(mi);
+            //Add userdata from the Category objects to the MenuItems.
+            mi.setUserData(allCat);
+        }
     }
 
+    public void setRatingsIntoFilter() {
+        //Create list for the rating filter.
+        List<Integer> ratings = new ArrayList();
+        int r = 0;
+        for (int i = 0; i < 10; i++) {
+            r++;
+            ratings.add(r);
+        }
+        //System.out.println("ratings menu items are " + ratings);
+        //Add all rating options to created CheckMenuItems. Add MenuItems to the MenuButton.
+        for (Integer rat : ratings) {
+            CheckMenuItem mi = new CheckMenuItem(rat.toString());
+            menuButton_filterRating.getItems().add(mi);
+        }
+    }
+
+    //__________________________________________________________________________                       
+    //
+    //      Scene openers - AddMovie, EditMovie, DeleteMovie, 
+    //      Category Library Player
+    //__________________________________________________________________________
     @FXML
     private void btn_openAddMovie(ActionEvent event) throws IOException {
-
         Parent root;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/MovieScene.fxml"));
         root = (Parent) fxmlLoader.load();
@@ -217,7 +223,7 @@ public class LibraryController implements Initializable {
 
     @FXML
     private void handle_openEditMovie(ActionEvent event) throws IOException {
-        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
+        Movie selectedMovie = tbv_library.getSelectionModel().getSelectedItem();
         Parent root;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/MovieScene.fxml"));
         root = (Parent) fxmlLoader.load();
@@ -232,7 +238,7 @@ public class LibraryController implements Initializable {
     @FXML
     public void handle_deleteMovie(ActionEvent event) throws IOException {
 
-        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
+        Movie selectedMovie = tbv_library.getSelectionModel().getSelectedItem();
         if (selectedMovie == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Delete movie error");
@@ -252,36 +258,21 @@ public class LibraryController implements Initializable {
 
         }
     }
-    //////////////////////////////////////////
 
-    //    private void handle_addCategoryVisible(ActionEvent event) {
-    //        txt_Cat.setVisible(true);
-    //        btn_saveCategory.setVisible(true);
-    //    }
-    private void handle_editCategory(ActionEvent event) {
-        edit = true;
-        txt_Cat.setVisible(true);
-        btn_saveCategory.setVisible(true);
-        Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
-        //sets the existing info of the selected category.
-        txt_Cat.setText(selectedCategory.getName());
-    }
-
-    private void handle_deleteCategory(ActionEvent event) throws IOException {
-        Category selectedCategory = tbv_Categories.getSelectionModel().getSelectedItem();
+    @FXML
+    private void handle_openCatLib(ActionEvent event) throws IOException {
         Parent root;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/DeleteCategoryPopUp.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/CategoryScene.fxml"));
         root = (Parent) fxmlLoader.load();
-        DeleteCategoryPopUpController controller = (DeleteCategoryPopUpController) fxmlLoader.getController();
-        controller.setContr(this);
-        controller.setDeleteCategoryLabel(selectedCategory);
+        CategorySceneController controller = (CategorySceneController) fxmlLoader.getController();
+        fxmlLoader.<CategorySceneController>getController().setContr(this);
         showScene(root);
 
     }
 
     @FXML
     private void handle_openPlayer(ActionEvent event) throws IOException, URISyntaxException {
-        Movie selectedMovie = tbv_Movies.getSelectionModel().getSelectedItem();
+        Movie selectedMovie = tbv_library.getSelectionModel().getSelectedItem();
 
         if (playerStage == null) {
             Parent root;
@@ -306,17 +297,14 @@ public class LibraryController implements Initializable {
         //showScene(root);
     }
 
-    public void setCategoriesIntoFilter() {
-        //Get all categories.
-        menuButton_filterCategory.getItems().clear();
-        ObservableList<Category> allCategories = catModel.getObsCategories();
-        //Add all the categories as created CheckMenuItems. Add MenuItems to the MenuButton.
-        for (Category allCat : allCategories) {
-            CheckMenuItem mi = new CheckMenuItem(allCat.toString());
-            menuButton_filterCategory.getItems().add(mi);
-            //Add userdata from the Category objects to the MenuItems.
-            mi.setUserData(allCat);
-        }
+    //__________________________________________________________________________                       
+    //
+    //      Filter methods
+    //__________________________________________________________________________
+    private void searchByTitle() {
+        txt_movieSearch.textProperty().addListener((observable) -> {
+            movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter(), accessRatinginFilter()));
+        });
     }
 
     private List<Category> accessCategoriesinFilter() {
@@ -330,38 +318,6 @@ public class LibraryController implements Initializable {
         return cats;
     }
 
-    @FXML
-    private void handle_openCatLib(ActionEvent event) throws IOException {
-        Parent root;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/chilltv/gui/view/CategoryScene.fxml"));
-        root = (Parent) fxmlLoader.load();
-        CategorySceneController controller = (CategorySceneController) fxmlLoader.getController();
-        fxmlLoader.<CategorySceneController>getController().setContr(this);
-        showScene(root);
-
-    }
-
-    @FXML
-    private void handle_refresh(ActionEvent event) {
-        movieModel.loadAllMovies();
-    }
-
-    public void setRatingsIntoFilter() {
-        //Create list for the rating filter.
-        List<Integer> ratings = new ArrayList();
-        int r = 0;
-        for (int i = 0; i < 10; i++) {
-            r++;
-            ratings.add(r);
-        }
-        //System.out.println("ratings menu items are " + ratings);
-        //Add all rating options to created CheckMenuItems. Add MenuItems to the MenuButton.
-        for (Integer rat : ratings) {
-            CheckMenuItem mi = new CheckMenuItem(rat.toString());
-            menuButton_filterRating.getItems().add(mi);
-        }
-    }
-
     private float accessRatinginFilter() {
         float f = 0;
         for (MenuItem item : menuButton_filterRating.getItems()) {
@@ -371,12 +327,6 @@ public class LibraryController implements Initializable {
             }
         }
         return f;
-    }
-
-    private void searchByTitle() {
-        txt_movieSearch.textProperty().addListener((observable) -> {
-            movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter(), accessRatinginFilter()));
-        });
     }
 
     private void filterCategory() {
@@ -422,4 +372,11 @@ public class LibraryController implements Initializable {
         }
     }
 
+    
+    public void refreshLibrary(){
+        movieModel.loadAllMovies();
+
+    }
+    
+    
 }

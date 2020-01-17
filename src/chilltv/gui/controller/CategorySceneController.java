@@ -28,7 +28,6 @@ public class CategorySceneController implements Initializable {
     private Button btn_createCat;
     @FXML
     private Button btn_cancel;
-    private LibraryController libCon;
     @FXML
     private Button btn_addCategoryVisible;
     @FXML
@@ -69,6 +68,14 @@ public class CategorySceneController implements Initializable {
         }
     }
 
+    void setContr(LibraryController libraryController) {
+        this.libraryController = libraryController;
+    }
+    
+    public void refreshLibrary() {
+        libraryController.refreshLibrary();
+    }
+    
     @FXML
     public void handle_saveCategory(ActionEvent event) {
 
@@ -77,8 +84,11 @@ public class CategorySceneController implements Initializable {
             txt_createCategory.setText("");
 
         } else {
+            
             selectedCategory.setName(txt_createCategory.getText().trim());
             catModel.updateCategory(selectedCategory);
+            refreshLibrary();
+            
 
         }
 
@@ -123,9 +133,7 @@ public class CategorySceneController implements Initializable {
         txt_createCategory.setVisible(false);
     }
 
-    void setContr(LibraryController libraryController) {
-        this.libraryController = libraryController;
-    }
+    
 
     @FXML
     private void handle_editCatVisible(ActionEvent event) {
