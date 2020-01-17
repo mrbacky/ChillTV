@@ -11,7 +11,11 @@ import javafx.collections.ObservableList;
 
 /**
  * The MovieModel gets and passes data about the movies to the BLL.
- * @author annem
+ *
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public class MovieModel {
 
@@ -163,7 +167,7 @@ public class MovieModel {
      * @param movie The movie the categories will be added to.
      * @param cats The list of categories added to the movie.
      */
-    public void addMovieToCategory(Movie movie, List<Category> cats) {
+    public void addCategoryToMovie(Movie movie, List<Category> cats) {
         logicManager.addCategoryToMovie(movie, cats);
     }
 

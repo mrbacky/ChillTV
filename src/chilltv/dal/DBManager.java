@@ -8,7 +8,10 @@ import java.util.List;
 /**
  * This class manages all operations on the database.
  *
- * @author annem
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
  */
 public class DBManager implements DBFacade {
 

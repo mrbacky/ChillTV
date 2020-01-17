@@ -7,6 +7,14 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * The Category Model gets and passes data about the categories to the BLL.
+ *
+ * @author Radoslav Backovsky
+ * @author Louise Lauenborg
+ * @author Anne Luong
+ * @author Martin Emil Rune Wøbbe
+ */
 public class CategoryModel {
 
     private static CategoryModel catModel;
@@ -25,10 +33,10 @@ public class CategoryModel {
         logicManager = new LogicManager();
     }
 
-        public void createCategory(String name) {
+    public void createCategory(String name) {
         Category category = logicManager.createCategory(name);
         categoryList.add(category);
-        
+
     }
 
     public void loadAllCategories() {

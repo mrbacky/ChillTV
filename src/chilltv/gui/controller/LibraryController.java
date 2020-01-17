@@ -3,7 +3,6 @@ package chilltv.gui.controller;
 import chilltv.be.Category;
 import chilltv.be.Filter;
 import chilltv.be.Movie;
-import chilltv.dal.CategoryDAO;
 import chilltv.gui.model.CategoryModel;
 import chilltv.gui.model.MovieModel;
 import java.io.IOException;
@@ -31,8 +30,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioMenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -371,12 +368,9 @@ public class LibraryController implements Initializable {
             });
         }
     }
-
     
     public void refreshLibrary(){
         movieModel.loadAllMovies();
 
     }
-    
-    
 }
