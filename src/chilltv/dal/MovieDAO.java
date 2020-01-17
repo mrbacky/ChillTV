@@ -73,22 +73,7 @@ public class MovieDAO {
             catMovDAO.addCategoryToMovie(movie, catList);
 
             return movie;
-            /*int affectedRows = pstmt.executeUpdate();
-            List<Category> category = null;
-            String stringCat = "asd";
-
-            if (affectedRows == 0) {
-                throw new SQLException("Creating user failed, no rows affected.");
-            }
-
-            try ( ResultSet rs = pstmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    int id = rs.getInt(1);
-                    return new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category, stringCat);
-                } else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
-                }
-            }*/
+            
         } catch (SQLServerException ex) {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -121,8 +106,7 @@ public class MovieDAO {
                 int lastView = rs.getInt("lastView");
                 List<Category> categoryList = catDAO.getAllCatsForMovie(id);//
 
-//                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
-//                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
+
                 allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList));
             }
 
