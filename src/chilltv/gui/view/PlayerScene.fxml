@@ -14,9 +14,9 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="topPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chilltv.gui.controller.PlayerController">
+<BorderPane fx:id="topPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chilltv.gui.controller.PlayerController">
    <bottom>
-      <VBox fx:id="vBox_buttonBar" accessibleRole="NODE" alignment="CENTER" blendMode="SRC_ATOP" minHeight="-Infinity" minWidth="-Infinity" onMouseExited="#handle_hideBar" onMouseMoved="#handle_showBar" prefHeight="35.0" prefWidth="640.0" stylesheets="@../css/style.css" BorderPane.alignment="BOTTOM_CENTER">
+      <VBox fx:id="vBox_buttonBar" accessibleRole="NODE" alignment="CENTER" blendMode="SRC_ATOP" minHeight="-Infinity" minWidth="-Infinity" onMouseExited="#handle_hideBar" onMouseMoved="#handle_showBar" prefHeight="35.0" prefWidth="640.0" styleClass="myBar" stylesheets="@../css/style.css" BorderPane.alignment="BOTTOM_CENTER">
          <children>
             <HBox fx:id="hBox_buttonBar" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="640.0" styleClass="myBar" stylesheets="@../css/style.css">
                <children>
@@ -25,37 +25,46 @@
                         <Insets />
                      </opaqueInsets>
                      <HBox.margin>
-                        <Insets />
+                        <Insets left="20.0" right="10.0" />
                      </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/icon_play.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icon_play.png" />
-                     </image>
-                  </ImageView>
                   <Button fx:id="btn_pause" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_pause" prefHeight="20.0" prefWidth="20.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                      <HBox.margin>
-                        <Insets />
+                        <Insets left="10.0" right="10.0" />
                      </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/icons8-pause-30.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons8-pause-30.png" />
-                     </image>
-                  </ImageView>
                   <Button fx:id="btn_stop" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_stop" prefHeight="20.0" prefWidth="20.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/icons8-stop-30.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
                   </Button>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/icons8-stop-30.png" />
-                     </image>
-                  </ImageView>
                   <Label fx:id="lbl_startTime" contentDisplay="CENTER" prefHeight="20.0" prefWidth="50.0" text="02:54:26" textFill="WHITE">
                      <font>
                         <Font size="13.0" />
