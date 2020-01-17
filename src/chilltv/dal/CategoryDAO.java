@@ -1,7 +1,6 @@
 package chilltv.dal;
 
 import chilltv.be.Category;
-import chilltv.dal.util.CategoryConverterV1;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +21,6 @@ import java.util.logging.Logger;
 public class CategoryDAO {
 
     private final DBConnectionProvider connectDAO;
-    CategoryConverterV1 cc = new CategoryConverterV1();
 
     /**
      * Constructor, which creates the connection with the database.
