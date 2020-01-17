@@ -81,6 +81,10 @@ public class CategorySceneController implements Initializable {
         this.libraryController = libraryController;
     }
 
+    public void refreshLibrary() {
+        libraryController.refreshLibrary();
+    }
+    
     /**
      * Gets all the existing categories into the ChoiceBox.
      */
@@ -152,6 +156,7 @@ public class CategorySceneController implements Initializable {
             
             selectedCategory.setName(txt_createCategory.getText().trim());
             catModel.updateCategory(selectedCategory);
+            refreshLibrary();
         }
 
         hideControls();
@@ -164,6 +169,7 @@ public class CategorySceneController implements Initializable {
     private void handle_deleteCategory(ActionEvent event) {
         Category catToDelete = choiceBox_category.getSelectionModel().getSelectedItem();
         catModel.deleteCategory(catToDelete);
+        refreshLibrary();
     }
 
     /**
