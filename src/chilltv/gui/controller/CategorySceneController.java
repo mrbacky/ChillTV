@@ -3,7 +3,6 @@ package chilltv.gui.controller;
 import chilltv.be.Category;
 import chilltv.gui.model.CategoryModel;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -81,9 +80,6 @@ public class CategorySceneController implements Initializable {
             selectedCategory.setName(txt_createCategory.getText().trim());
             catModel.updateCategory(selectedCategory);
 
-            //update the edited name
-            //categoryToEdit.setName(txt_createCategory.getText().trim());
-            //catModel.updateCategory(categoryToEdit);
         }
 
         hideControls();
