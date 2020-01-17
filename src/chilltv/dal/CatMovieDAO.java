@@ -59,7 +59,7 @@ public class CatMovieDAO {
      * @param category The category deleted from the movie.
      * @param movie The movie the category was added to.
      */
-    public void deleteCategoryFromMovie(int movieId, List<Category> catToDelete){
+    public void deleteCategoryFromMovie(int movieId, List<Category> catToDelete){//!!!!!!!!!!!!!!!!!!!!!!!Change parameter?
         try ( //Get a connection to the database.
                  Connection con = connectDAO.getConnection()) {
             //Create a prepared statement.
@@ -69,9 +69,10 @@ public class CatMovieDAO {
             for (Category category : catToDelete) {
                 pstmt.setInt(1, category.getId());
                 pstmt.setInt(2, movieId);
+                pstmt.addBatch();
             }
             //Execute SQL query.
-            pstmt.executeUpdate();
+            pstmt.executeBatch();
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
