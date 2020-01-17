@@ -42,7 +42,12 @@ import javafx.util.Duration;
 public class MovieSceneController implements Initializable {
 
     @FXML
-    private Label lbl_movie;
+    private Button btn_fileChooser;
+    @FXML
+    private Button btn_saveMovie;
+    @FXML
+    private Button btn_cancel;
+
     @FXML
     private TextField txtField_title;
     @FXML
@@ -52,27 +57,24 @@ public class MovieSceneController implements Initializable {
     @FXML
     private TextField txtField_filePath;
     @FXML
-    private Button btn_fileChooser;
-    @FXML
-    private Button btn_saveMovie;
-    @FXML
-    private Button btn_cancel;
-    @FXML
-    private ListView<Category> lv_categories;
-    @FXML
     private ComboBox<Category> comboBox_categories;
     @FXML
     private ComboBox<Integer> comboBox_rating;
+    @FXML
+    private Label lbl_movie;
 
+    @FXML
+    private ListView<Category> lv_categories;
     private LibraryController libraryController;
     private MovieModel movieModel;
     private CategoryModel catModel;
 
-    private boolean edit;
     private Movie movieToEdit;
+
+    private ObservableList<Category> catObsList = FXCollections.observableArrayList();
     private List<Category> oldCategoryList;
 
-    ObservableList<Category> catObsList = FXCollections.observableArrayList();
+    private boolean edit;
 
     /**
      * Initializes the controller class. Upon initialization, the mode is set to
