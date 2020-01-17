@@ -149,6 +149,7 @@ public class CategorySceneController implements Initializable {
             txt_createCategory.setText("");
 
         } else {
+            
             selectedCategory.setName(txt_createCategory.getText().trim());
             catModel.updateCategory(selectedCategory);
         }
