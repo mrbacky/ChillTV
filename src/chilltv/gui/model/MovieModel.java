@@ -9,12 +9,22 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * The MovieModel gets and passes data about the movies to the BLL.
+ * @author annem
+ */
 public class MovieModel {
 
     private final LogicFacade logicManager;
     private final ObservableList<Movie> libraryList = FXCollections.observableArrayList();
     private static MovieModel movieModel;
 
+    /**
+     * Creates an instance of the model of the MovieModel. Ensures that the same
+     * instance of the model is used in the entire program.
+     *
+     * @return The movieModel
+     */
     public static MovieModel getInstance() {
         if (movieModel == null) {
             movieModel = new MovieModel();
@@ -22,56 +32,61 @@ public class MovieModel {
         return movieModel;
     }
 
+    /**
+     * Establish a connection to the BLL.
+     */
     private MovieModel() {
         logicManager = new LogicManager();
     }
-    
+
     //__________________________________________________________________________                       
     //      
     //      Movie  
     //__________________________________________________________________________ 
+    /**
+     * Gets all movies from the database.
+     */
     public void loadAllMovies() {
         List<Movie> allMovies = logicManager.getAllMovies();
         for (Movie movie : allMovies) {
             //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
             movie.setStringDuration(sec_To_Format(movie.getDuration()));
+            //replaces category in String before adding the movie to an ObservableList. 
             movie.setStringCat(convertCategory(movie.getCategoryList()));
         }
         libraryList.clear();
         libraryList.addAll(allMovies);
-
     }
 
+    /**
+     * Returns a list with all the movies (library) as an ObservableList.
+     *
+     * @return The list of all movies in the library.
+     */
     public ObservableList<Movie> getObsMovies() {
-//        List<Movie> allMovies = logicManager.getAllMovies();
-//        for (Movie movie : allMovies) {
-//            //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
-//            movie.setStringDuration(sec_To_Format(movie.getDuration()));
-//            //movie.setStringCat(convert(movie));
-//        }
-//        libraryList.clear();
-//        libraryList.addAll(allMovies);
         return libraryList;
     }
 
     /**
-     * Creates and adds a new movie. The method calls the BLL to create a movie
-     * in the database. The created movie is added to the library list (the
+     * Creates and adds a new movie.The method calls the BLL to create a movie
+     * in the database.The created movie is added to the library list (the
      * library consists of all the songs).
      *
      * @param title The title of the movie.
      * @param duration The duration of the movie.
-     * @param myRating The rating given by the user.
-     * @param imdbRating The rating from imdb.
-     * @param filelink The location of the movie.
-     * @param lastView The date for when the user last viewed the movie.
+     * @param imdbRating The imdbRating of the movie.
+     * @param myRating The personal rating of the movie.
+     * @param fileLink The file location of the movie.
+     * @param lastView The last viewed year of the movie.
+     * @param cats The category list of the movie.
      */
-    public void createMovie(String title, int duration, int myRating, float imdbRating, String filelink, int lastView, List<Category> cats) {
-        Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, filelink, lastView, cats);
+    public void createMovie(String title, int duration, int myRating, float imdbRating, String fileLink, int lastView, List<Category> cats) {
+        Movie movie = logicManager.createMovie(title, duration, imdbRating, myRating, fileLink, lastView, cats);
+        //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
         movie.setStringDuration(sec_To_Format(movie.getDuration()));
+        //replaces category in String before adding the movie to an ObservableList. 
         movie.setStringCat(convertCategory(movie.getCategoryList()));
         libraryList.add(movie);
-
     }
 
     /**
@@ -79,12 +94,15 @@ public class MovieModel {
      * the database.
      *
      * @param movie The movie to update.
+     * @param oldCatList
      */
     public void updateMovie(Movie movie, List<Category> oldCatList) {
+        //replaces duration in seconds with hh:mm:ss format before adding the movie to an ObservableList.
         movie.setStringDuration(sec_To_Format(movie.getDuration()));
+        //replaces category in String before adding the movie to an ObservableList. 
         movie.setStringCat(convertCategory(movie.getCategoryList()));
-        logicManager.updateMovie(movie,oldCatList);
-        
+        logicManager.updateMovie(movie, oldCatList);
+
         int index = libraryList.indexOf(movie);
         libraryList.set(index, movie);
     }
@@ -128,13 +146,13 @@ public class MovieModel {
             //replaces category in String before adding the movie to an ObservableList.            
             movie.setStringCat(convertCategory(movie.getCategoryList()));
         }
-        
+
         libraryList.clear();
         libraryList.addAll(temp);
 
         return libraryList;
     }
-    
+
     //__________________________________________________________________________                       
     //      
     //      CatMovie  
@@ -148,15 +166,15 @@ public class MovieModel {
     public void addMovieToCategory(Movie movie, List<Category> cats) {
         logicManager.addCategoryToMovie(movie, cats);
     }
-    
+
     /**
      * Deletes a category list of a movie from the database.
      *
      * @param movieId
      * @param cats The list of categories deleted from the movie.
      */
-    public void deleteCategoryFromMovie(int movieId, List<Category> cats){
-        logicManager.deleteCategoryFromMovie(movieId, cats);        
+    public void deleteCategoryFromMovie(int movieId, List<Category> cats) {
+        logicManager.deleteCategoryFromMovie(movieId, cats);
     }
 
     //__________________________________________________________________________                       
@@ -172,7 +190,7 @@ public class MovieModel {
     public String sec_To_Format(int sec) {
         return logicManager.sec_To_Format(sec);
     }
-    
+
     /**
      * Converts the time from the format hh:mm:ss to seconds.
      *
@@ -182,7 +200,7 @@ public class MovieModel {
     public int format_To_Sec(String timeString) {
         return logicManager.format_To_Sec(timeString);
     }
-    
+
     /**
      * Converts the category list of a movie to a string for the view.
      *
