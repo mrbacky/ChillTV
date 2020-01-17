@@ -314,7 +314,7 @@ public class MovieSceneController implements Initializable {
     }
 
     @FXML
-    private void handle_setCatToLV(ActionEvent event) {
+    private void handle_setCatToLV(ActionEvent event) {        
         Category selectedCategory = comboBox_categories.getSelectionModel().getSelectedItem();
         if (!lv_categories.getItems().contains(selectedCategory)) {
                 lv_categories.getItems().add(selectedCategory);
@@ -325,12 +325,15 @@ public class MovieSceneController implements Initializable {
     @FXML
     private void handle_removeCatItem(MouseEvent event) {
         Category selectedCategory = lv_categories.getSelectionModel().getSelectedItem();
-        if (selectedCategory != null) {
+        if (!edit) {
+            lv_categories.getItems().remove(selectedCategory);
+            System.out.println("REMOVE NEW HERE!!!!!!!!!!!!!!!!!!!!!!!!");
+        } else {
             lv_categories.getItems().remove(selectedCategory);
             List<Category> catList = new ArrayList<>();
             catList.add(selectedCategory);
             movieModel.deleteCategoryFromMovie(movieToEdit.getId(), catList);
-
+            System.out.println("REMOVE EDIT HERE!!!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
 

@@ -2,30 +2,19 @@ package chilltv.gui.controller;
 
 import chilltv.be.Movie;
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLEncoder;
 import javafx.util.Duration;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
-import javafx.scene.control.SelectionModel;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -37,22 +26,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.stage.FileChooser;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 
 public class PlayerController implements Initializable {
 
     @FXML
-    private Button btn_library;
-    @FXML
-    private Button btn_previous;
-    @FXML
     private Button btn_play;
     @FXML
     private Button btn_pause;
-    @FXML
-    private Button btn_next;
     @FXML
     private ImageView img_minVolume;
     @FXML
@@ -212,13 +193,6 @@ public class PlayerController implements Initializable {
 
     }
 
-    @FXML
-    private void handle_previous(ActionEvent event) {
-    }
-
-    @FXML
-    private void handle_next(ActionEvent event) {
-    }
 
     void setContr(LibraryController libraryController) {
         this.libraryController = libraryController;
