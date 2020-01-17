@@ -31,36 +31,36 @@ import javafx.stage.Stage;
 public class PlayerController implements Initializable {
 
     @FXML
+    private BorderPane topPane;
+
+    @FXML
+    private MediaView mediaView;
+
+    @FXML
     private Button btn_play;
     @FXML
     private Button btn_pause;
     @FXML
-    private ImageView img_minVolume;
-    @FXML
-    private Slider volumeSlider;
-    @FXML
-    private Slider progressSlider;
-    @FXML
-    private ImageView img_maxVolume;
+    private Button btn_stop;
     @FXML
     private Label lbl_startTime;
     @FXML
     private Label lbl_endTime;
     @FXML
-    private MediaView mediaView;
-   
+    private ImageView img_minVolume;
     @FXML
-    private Button btn_stop;
-
-    private String filePath;
-    private MediaPlayer mediaPlayer;
-    private LibraryController libraryController;
+    private ImageView img_maxVolume;
+    @FXML
+    private Slider volumeSlider;
+    @FXML
+    private Slider progressSlider;
     @FXML
     private VBox vBox_buttonBar;
     @FXML
     private HBox hBox_buttonBar;
-    @FXML
-    private BorderPane topPane;
+
+    private MediaPlayer mediaPlayer;
+    private LibraryController libraryController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,6 +69,10 @@ public class PlayerController implements Initializable {
         // to test with a movie
         //handle_openFile(null);
 
+    }
+
+    void setContr(LibraryController libraryController) {
+        this.libraryController = libraryController;
     }
 
     private void bindPlayerToGUI(StringProperty sp, boolean end) {
@@ -112,32 +116,35 @@ public class PlayerController implements Initializable {
 
     }
 
-//    private void handle_openFile(ActionEvent event) {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.getExtensionFilters().addAll(
-//                new FileChooser.ExtensionFilter("mp4 Files", "*.mp4"),
-//                new FileChooser.ExtensionFilter("mpeg4 Files", "*.mpeg4")
-//        );
-//
-//        File movieFile = fileChooser.showOpenDialog(null);
-//        filePath = movieFile.toURI().toString();
-//
-//        if (filePath != null) {
-//            Media media = new Media(filePath);
-//            mediaPlayer = new MediaPlayer(media);
-//            mediaView.setMediaPlayer(mediaPlayer);
-//            bindPlayerToGUI(lbl_endTime.textProperty(), true);
-//            bindPlayerToGUI(lbl_startTime.textProperty(), false);
-//
-//            DoubleProperty width = mediaView.fitWidthProperty();
-//            DoubleProperty height = mediaView.fitHeightProperty();
-//            width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
-//            height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
-//            mediaPlayer.play();
-//
-//        }
-//
-//    }
+    void playFile(Movie movieToPlay, Stage stage) {
+
+        File movieFile = new File(movieToPlay.getFileLink());
+        if (movieFile != null) {
+
+            Media media = new Media(movieFile.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            stage.setOnCloseRequest((event) -> {
+                mediaPlayer.dispose();
+            });
+            mediaView.setMediaPlayer(mediaPlayer);
+            bindPlayerToGUI(lbl_endTime.textProperty(), true);
+            bindPlayerToGUI(lbl_startTime.textProperty(), false);
+
+            DoubleProperty width = mediaView.fitWidthProperty();
+            DoubleProperty height = mediaView.fitHeightProperty();
+            width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
+            height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+
+            mediaPlayer.play();
+        }
+    }
+
+    @FXML
+    private void handle_play(ActionEvent event) {
+        mediaPlayer.play();
+
+    }
+
     @FXML
     private void handle_pause(ActionEvent event) {
         mediaPlayer.pause();
@@ -146,16 +153,6 @@ public class PlayerController implements Initializable {
     @FXML
     private void handle_stop(ActionEvent event) {
         mediaPlayer.stop();
-    }
-
-    @FXML
-    private void handle_showBar(MouseEvent event) {
-        vBox_buttonBar.setOpacity(1);
-    }
-
-    @FXML
-    private void handle_hideBar(MouseEvent event) {
-        vBox_buttonBar.setOpacity(0.3);
     }
 
     @FXML
@@ -193,40 +190,14 @@ public class PlayerController implements Initializable {
 
     }
 
-
-    void setContr(LibraryController libraryController) {
-        this.libraryController = libraryController;
-    }
-
-    void playFile(Movie movieToPlay, Stage stage) {
-
-        File movieFile = new File(movieToPlay.getFileLink());
-        if (movieFile != null) {
-
-            Media media = new Media(movieFile.toURI().toString());
-            mediaPlayer = new MediaPlayer(media);
-            stage.setOnCloseRequest((event) -> {
-                mediaPlayer.dispose();
-            });
-            mediaView.setMediaPlayer(mediaPlayer);
-            bindPlayerToGUI(lbl_endTime.textProperty(), true);
-            bindPlayerToGUI(lbl_startTime.textProperty(), false);
-
-            DoubleProperty width = mediaView.fitWidthProperty();
-            DoubleProperty height = mediaView.fitHeightProperty();
-            width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
-            height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
-
-            mediaPlayer.play();
-        }
-    }
-
-   
     @FXML
-    // makes play button in mediaview action.
-    private void handle_play(ActionEvent event) {
-        mediaPlayer.play();
+    private void handle_showBar(MouseEvent event) {
+        vBox_buttonBar.setOpacity(1);
+    }
 
+    @FXML
+    private void handle_hideBar(MouseEvent event) {
+        vBox_buttonBar.setOpacity(0.5);
     }
 
 }
