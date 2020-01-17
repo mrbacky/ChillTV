@@ -1,7 +1,6 @@
 package chilltv.gui.model;
 
 import chilltv.be.Category;
-import chilltv.be.Movie;
 import chilltv.bll.LogicFacade;
 import chilltv.bll.LogicManager;
 import java.util.List;
@@ -11,10 +10,8 @@ import javafx.collections.ObservableList;
 public class CategoryModel {
 
     private static CategoryModel catModel;
-    private LogicFacade logicManager;
+    private final LogicFacade logicManager;
     private final ObservableList<Category> categoryList = FXCollections.observableArrayList();
-    private final ObservableList<Movie> moviesOfCategory = FXCollections.observableArrayList();
-//    private ObservableList<>
 
     public static CategoryModel getInstance() {
         if (catModel == null) {
@@ -28,7 +25,11 @@ public class CategoryModel {
         logicManager = new LogicManager();
     }
 
-    
+        public void createCategory(String name) {
+        Category category = logicManager.createCategory(name);
+        categoryList.add(category);
+        
+    }
 
     public void loadAllCategories() {
         categoryList.clear();
@@ -38,12 +39,6 @@ public class CategoryModel {
 
     public ObservableList<Category> getObsCategories() {
         return categoryList;
-    }
-
-    public void createCategory(String name) {
-        Category category = logicManager.createCategory(name);
-        categoryList.add(category);
-        
     }
 
     public void updateCategory(Category category) {
