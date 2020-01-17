@@ -28,15 +28,52 @@ public class LogicManager implements LogicFacade {
         dbManager = new DBManager();
         timeConverter = new TimeConverter();
         categoryConverter = new CategoryConverter();
-
     }
 
+    //__________________________________________________________________________                       
+    //      
+    //      Movie  
+    //__________________________________________________________________________
+    @Override
+    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, int lastView, List<Category> cats) {
+        return dbManager.createMovie(title, duration, imdbRating, myRating, fileLink, lastView, cats);
+    }
+
+    @Override
+    public List<Movie> getAllMovies() {
+        return dbManager.getAllMovies();
+    }
+
+    @Override
+    public void updateMovie(Movie movie, List<Category> oldCatList) {
+        dbManager.updateMovie(movie, oldCatList);
+    }
+
+    @Override
+    public void deleteMovie(Movie movie) {
+        dbManager.deleteMovie(movie);
+    }
+
+    @Override
+    public List<Movie> getMoviesOlderThan(int year) {
+        return dbManager.getMoviesOlderThan(year);
+    }
+    
+    @Override
+    public List<Movie> getAllMoviesFiltered(Filter f) {
+        return dbManager.getAllMoviesFiltered(f);
+    }
+    
+    //__________________________________________________________________________                       
+    //      
+    //      Category  
+    //__________________________________________________________________________
     @Override
     public Category createCategory(String name) {
         return dbManager.createCategory(name);
     }
 
-    @Override
+     @Override
     public List<Category> getAllCategories() {
         return dbManager.getAllCategories();
     }
@@ -50,27 +87,25 @@ public class LogicManager implements LogicFacade {
     public void deleteCategory(Category category) {
         dbManager.deleteCategory(category);
     }
-
+        
+    //__________________________________________________________________________                       
+    //      
+    //      CatMovie  
+    //__________________________________________________________________________
     @Override
-    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, int lastView, List<Category> cats) {
-        return dbManager.createMovie(title, duration, imdbRating, myRating, fileLink, lastView, cats);
+    public void addCategoryToMovie(Movie movie, List<Category> cats) {
+        dbManager.addCategoryToMovie(movie, cats);
+    }
+    
+    @Override
+    public void deleteCategoryFromMovie(int movieId, List<Category> cats) {
+        dbManager.deleteCategoryFromMovie(movieId, cats);
     }
 
-    @Override
-    public List<Movie> getAllMovies() {
-        return dbManager.getAllMovies();
-    }
-
-    @Override
-    public void updateMovie(Movie movie, List<Category> oldCategoryList) {
-        dbManager.updateMovie(movie, oldCategoryList);
-    }
-
-    @Override
-    public void deleteMovie(Movie movie) {
-        dbManager.deleteMovie(movie);
-    }
-
+    //__________________________________________________________________________                       
+    //      
+    //      Utilities  
+    //__________________________________________________________________________
     @Override
     public String sec_To_Format(int sec) {
         return timeConverter.sec_To_Format(sec);
@@ -79,31 +114,10 @@ public class LogicManager implements LogicFacade {
     @Override
     public int format_To_Sec(String timeString) {
         return timeConverter.format_To_Sec(timeString);
-    }
+    }   
 
     @Override
-    public List<Movie> getAllMoviesFiltered(Filter f) {
-        return dbManager.getAllMoviesFiltered(f);
+    public String convertCategory(List<Category> cats) {
+        return categoryConverter.convertCategory(cats);
     }
-
-    @Override
-    public String convertCategory(List<Category> catList) {
-        return categoryConverter.convertCategory(catList);
-    }
-
-    @Override
-    public void deleteMovieFromCategory(int movieId, List<Category> catToDelete) {
-        dbManager.deleteMovieFromCategory(movieId, catToDelete);
-    }
-
-    @Override
-    public void addMovieToCategory(Movie movie, List<Category> catToAdd) {
-        dbManager.addMovieToCategory(movie, catToAdd);
-    }
-
-    @Override
-    public List<Movie> getMoviesOlderThan(int year) {
-        return dbManager.getMoviesOlderThan(year);
-    }
-
 }

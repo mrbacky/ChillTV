@@ -148,12 +148,12 @@ public class MovieModel {
     }
     
      public void deleteCategoryFromMovie(int movieId, List<Category> catToDelete){
-        logicManager.deleteMovieFromCategory(movieId, catToDelete);
+        logicManager.deleteCategoryFromMovie(movieId, catToDelete);
         
     }
 
     public void addMovieToCategory(Movie movie, List<Category> catToAdd) {
-        logicManager.addMovieToCategory(movie, catToAdd);
+        logicManager.addCategoryToMovie(movie, catToAdd);
     }
 
     

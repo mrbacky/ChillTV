@@ -1,8 +1,5 @@
 package chilltv.be;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The Category class is an entity class. It represents a table in the database,
  * where each entity instance corresponds to a row in the table. The columns of
@@ -12,13 +9,12 @@ import java.util.List;
  */
 public class Category {
 
-    private int id;
+    private final int id;
     private String name;
 
     public Category(int id, String name) {
         this.id = id;
         this.name = name;
-
     }
 
     /**
@@ -47,14 +43,9 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
-
-    
-
-   
-
+  
     @Override
     public String toString() {
         return name;
     }
-
 }
