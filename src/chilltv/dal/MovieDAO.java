@@ -54,7 +54,7 @@ public class MovieDAO {
      * @param catList The category list of the movie.
      * @return The newly created movie.
      */
-    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView, List<Category> catList) {
+    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, int lastView, List<Category> catList) {
         try ( Connection con = cp.getConnection()) {
             String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
 
