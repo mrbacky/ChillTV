@@ -54,7 +54,7 @@ public class MovieDAO {
      * @param catList The category list of the movie.
      * @return The newly created movie.
      */
-    public Movie createMovie(String title, int duration, int imdbRating, int myRating, String fileLink, int lastView, List<Category> catList) {
+    public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, int lastView, List<Category> catList) {
         try ( Connection con = cp.getConnection()) {
             String sql = "INSERT INTO Movie(title, duration, imdbRating, myRating, fileLink, lastView) VALUES (?,?,?,?,?,?)";
 
@@ -233,13 +233,13 @@ public class MovieDAO {
                 int id = rs.getInt("id");
                 String title = rs.getString("title");
                 int duration = rs.getInt("duration");
-                int imdbRating = rs.getInt("imdbRating");
+                float imdbRating = rs.getFloat("imdbRating");
                 int myRating = rs.getInt("myRating");
                 String fileLink = rs.getString("fileLink");
                 int lastView = rs.getInt("lastView");
                 List<Category> category = catDAO.getAllCatsForMovie(id);
 //                Movie movie = new Movie(rs.getInt("id"), rs.getString("title"), rs.getInt("duration"), 
-//                        rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
+//                rs.getInt("imdbRating"), rs.getInt("myRating"), rs.getString("fileLink"), rs.getInt("lastView"));
                 allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, category));
 
             }
@@ -268,9 +268,11 @@ public class MovieDAO {
         String sql = "SELECT Movie.* FROM Movie JOIN CatMovie ON Movie.id = CatMovie.movieId WHERE "; //Only adds distinct movies.
         String sqlFinal = prepStatment(sql, f);
 
-        try ( Connection con = cp.getConnection()) {
+        try ( Connection con = cp.getConnection()) {            
+            //Create a prepared statement.
             PreparedStatement pstmt = con.prepareStatement(sqlFinal);
 
+            //Set parameter values.
             int i = 0;
             for (Category cat : f.getCats()) {
                 pstmt.setInt(i + 1, cat.getId());
@@ -283,6 +285,7 @@ public class MovieDAO {
                 pstmt.setFloat(i + 2, f.getImdbRating());
             }
 
+            //Execute PreparedStatment.
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -297,6 +300,8 @@ public class MovieDAO {
                 //This list contains duplicates when searching for x categories, will add x rows to the ResultSet.
             }
 
+            //When filtering by more than one category, the movie needs to contain all the selected categories.
+            //These methods filters out the movies which contain all the selected categories by filtering out duplicates.
             Map duplicates = elementsInArray(filteredMovies);
 
             return generateCorrectList(duplicates, filteredMovies, f.getCats().size());
@@ -348,17 +353,17 @@ public class MovieDAO {
         Map<Integer, Integer> dupElements = new HashMap<>(); //movieId + count
 
         for (int i = 0; i < arrayTofind.size(); i++) { //Loop through list
-            if (!dupElements.containsKey(arrayTofind.get(i).getId())) { //Set key for HashMap to movieId
-                dupElements.put(arrayTofind.get(i).getId(), 0); //Set value for HashMap for all to 0
+            if (!dupElements.containsKey(arrayTofind.get(i).getId())) { //If the movieId as key is not present...
+                dupElements.put(arrayTofind.get(i).getId(), 0); //Set key for HashMap to movieId. Set value for HashMap for all to 0.
             }
         }
 
         for (int i = 0; i < arrayTofind.size(); i++) {
-            Integer newInt = dupElements.get(arrayTofind.get(i).getId());
+            Integer newInt = dupElements.get(arrayTofind.get(i).getId()); // Get value of key (movieId). All start at 0.
             newInt = newInt + 1;
-            dupElements.replace(arrayTofind.get(i).getId(), newInt); //Change the value for duplicates. +1 for each duplicate.
+            dupElements.replace(arrayTofind.get(i).getId(), newInt); //No duplicates, value +1. For duplicates, +1 for each duplicate (+2 for two cats).
         }
-        return dupElements; //List with duplicates have changed values in the HashMap. List without duplicates keep the value 0.
+        return dupElements; //List with duplicates have changed values in the HashMap. List without duplicates keep the value +1.
     }
 
     /**
@@ -372,15 +377,16 @@ public class MovieDAO {
     private List<Movie> generateCorrectList(Map duplicates, List<Movie> movListWithDup, int catFilterSize) {
         List<Movie> movList = new ArrayList<>();
 
-        Iterator entries = duplicates.entrySet().iterator();
+        Iterator entries = duplicates.entrySet().iterator(); //Iterator makes it possible to iterate/traverse objects in a collection. To iterate is to
+                                                             //repeat a set of instructions in a sequence a specified number of times or condition is met
         while (entries.hasNext()) {
             Map.Entry entry = (Map.Entry) entries.next();
-            Integer key = (Integer) entry.getKey(); //Get key from HashMap.
+            Integer key = (Integer) entry.getKey(); //Get key from HashMap and store as local variable.
             Integer value = (Integer) entry.getValue(); //Get value from HashMap.
             for (Movie movie : movListWithDup) {
-                if (movie.getId() == key && value > catFilterSize - 1) { //Filters out the duplicates by comparing the value with x categories.
+                if (movie.getId() == key && value > catFilterSize - 1) { //Filters out the duplicates. If the count is greater than the number of selected categories, add to list.
                     movList.add(movie);
-                    break;
+                    break; //exit loop.
                 }
             }
         }

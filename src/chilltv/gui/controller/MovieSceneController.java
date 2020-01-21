@@ -296,9 +296,9 @@ public class MovieSceneController implements Initializable {
             /*duration*/
             movieToEdit.setDuration(movieModel.format_To_Sec(txtField_duration.getText()));
             /*myRating*/
-            movieToEdit.setMyRating(3);
+            movieToEdit.setMyRating(comboBox_rating.getValue());
             /*imdbRating*/
-            movieToEdit.setImdbRating(5);
+            movieToEdit.setImdbRating(Float.parseFloat(txtField_imdbRating.getText()));
             /*fileLink*/
             movieToEdit.setFileLink(txtField_filePath.getText());
             /*lastView*/

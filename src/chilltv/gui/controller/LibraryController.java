@@ -340,8 +340,6 @@ public class LibraryController implements Initializable {
                         cats.add((Category) item.getUserData());
                     }
                 }
-                System.out.println("check!!!!!!!!!!!!!");
-                System.out.println("LibraryContr. in filterCatgory() f is " + accessRatinginFilter());
 
                 movieModel.getAllMoviesFiltered(new Filter(txt_movieSearch.getText(), accessCategoriesinFilter(), accessRatinginFilter()));
             });

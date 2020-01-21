@@ -140,7 +140,7 @@ public class MovieModel {
      * @param f Filter which can filter by title, category and imdbRating.
      * @return A list with all movies after filter has been used.
      */
-    public List<Movie> getAllMoviesFiltered(Filter f) {
+    public List<Movie> getAllMoviesFiltered(Filter f) { //Filter class because easy to change parameter.
         //Create a temporary list which contains the movies obtained from the filter method.
         List<Movie> temp = logicManager.getAllMoviesFiltered(f);
         //Clear all movies from the library and add the movies from the temporary list to the library list.
