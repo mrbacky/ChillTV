@@ -298,7 +298,7 @@ public class MovieSceneController implements Initializable {
             /*myRating*/
             movieToEdit.setMyRating(comboBox_rating.getValue());
             /*imdbRating*/
-            movieToEdit.setImdbRating(Float.parseFloat(txtField_imdbRating.getText()));
+            movieToEdit.setImdbRating((int) Float.parseFloat(txtField_imdbRating.getText()));
             /*fileLink*/
             movieToEdit.setFileLink(txtField_filePath.getText());
             /*lastView*/

@@ -1,5 +1,10 @@
 package chilltv.be;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  * The Category class is an entity class. It represents a table in the database,
  * where each entity instance corresponds to a row in the table. The columns of
@@ -12,43 +17,40 @@ package chilltv.be;
  */
 public class Category {
 
-    private final int id;
-    private String name;
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty name = new SimpleStringProperty();
 
-    public Category(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public String getName() {
+        return name.get();
     }
 
-    /**
-     * Gets the ID of the category.
-     *
-     * @return The ID of the category.
-     */
+    public void setName(String value) {
+        name.set(value);
+    }
+
+    public StringProperty nameProperty() {
+        return name;
+    }
+
     public int getId() {
+        return id.get();
+    }
+
+    public void setId(int value) {
+        id.set(value);
+    }
+
+    public IntegerProperty idProperty() {
         return id;
     }
 
-    /**
-     * Gets the name of the category.
-     *
-     * @return The name of the category.
-     */
-    public String getName() {
-        return name;
+    public Category(int id, String name) {
+        setId(id);
+        setName(name);
     }
-
-    /**
-     * Sets the name of the category.
-     *
-     * @param name The name to set.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-  
+   
     @Override
     public String toString() {
-        return name;
+        return getName();
     }
 }
