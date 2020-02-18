@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Anne Luong
  */
-public class CatMovieDAO {
+public class CatMovieDAO implements ICatMovieDAO {
 
     private final DBConnectionProvider connectDAO;
 
@@ -66,8 +66,8 @@ public class CatMovieDAO {
      */
     public void deleteCategoryFromMovie(int movieId, List<Category> catToDelete) {//!!!!!!!!!!!!!!!!!!!!!!!Change parameter?
         try (
-            //Get a connection to the database.
-            Connection con = connectDAO.getConnection()) {
+                //Get a connection to the database.
+                 Connection con = connectDAO.getConnection()) {
             //Create a prepared statement.
             String sql = "DELETE FROM CatMovie WHERE categoryId = ? and movieId = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);

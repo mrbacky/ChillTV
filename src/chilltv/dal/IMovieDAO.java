@@ -6,15 +6,10 @@ import chilltv.be.Movie;
 import java.util.List;
 
 /**
- * This interface is a facade for the data access layer. It contains methods
- * used for database operations.
- * @author Radoslav Backovsky
- * @author Louise Lauenborg
- * @author Anne Luong
- * @author Martin Emil Rune Wøbbe
+ *
+ * @author annem
  */
-public interface DBFacade {
-
+public interface IMovieDAO {
     /**
      * Creates and adds a new movie in the database.
      *
@@ -67,50 +62,5 @@ public interface DBFacade {
      * @return A list with all movies after filter has been used.
      */
     List<Movie> getAllMoviesFiltered(Filter f);
-
-    /**
-     * Creates and adds a new category to the database.
-     *
-     * @param name The name of the new category.
-     * @return The newly created category.
-     */
-    Category createCategory(String name);
-
-    /**
-     * Gets a list with all the categories.
-     *
-     * @return List with all categories.
-     */
-    List<Category> getAllCategories();
-
-    /**
-     * Updates the name of the category in the database.
-     *
-     * @param category The category to updated.
-     * @return The updated category.
-     */
-    Category updateCategory(Category category);
-
-    /**
-     * Deletes a category in the database.
-     *
-     * @param category The category to delete.
-     */
-    void deleteCategory(Category category);
-
-    /**
-     * Adds a category list of a movie in the database.
-     *
-     * @param movie The movie the categories will be added to.
-     * @param cats The list of categories added to the movie.
-     */
-    void addCategoryToMovie(Movie movie, List<Category> cats);
-
-    /**
-     * Deletes a category list of a movie from the database.
-     *
-     * @param movieId
-     * @param cats The list of categories deleted from the movie.
-     */
-    void deleteCategoryFromMovie(int movieId, List<Category> cats);
+    
 }

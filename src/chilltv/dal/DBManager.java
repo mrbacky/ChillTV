@@ -15,26 +15,22 @@ import java.util.List;
  */
 public class DBManager implements DBFacade {
 
-    private final CategoryDAO catDAO;
-    private final MovieDAO movDAO;
-    private final CatMovieDAO catMovDao;
+    private final IMovieDAO movDAO;
+    private final ICategoryDAO catDAO;
+    private final ICatMovieDAO catMovDAO;
 
     /**
      * Constructs data access objects.
      */
     public DBManager() {
-        catDAO = new CategoryDAO();
         movDAO = new MovieDAO();
-        catMovDao = new CatMovieDAO();
+        catDAO = new CategoryDAO();
+        catMovDAO = new CatMovieDAO();
     }
-    
-    //__________________________________________________________________________                       
-    //      
-    //      Movie  
-    //__________________________________________________________________________
+
     @Override
     public Movie createMovie(String title, int duration, float imdbRating, int myRating, String fileLink, int lastView, List<Category> cats) {
-        return movDAO.createMovie(title, duration, imdbRating, myRating, fileLink, lastView, cats); //!!!
+        return movDAO.createMovie(title, duration, imdbRating, myRating, fileLink, lastView, cats);
     }
 
     @Override
@@ -51,21 +47,17 @@ public class DBManager implements DBFacade {
     public void deleteMovie(Movie movie) {
         movDAO.deleteMovie(movie);
     }
-        
+
     @Override
     public List<Movie> getMoviesOlderThan(int year) {
         return movDAO.getMoviesOlderThan(year);
     }
-    
+
     @Override
     public List<Movie> getAllMoviesFiltered(Filter f) {
         return movDAO.getAllMoviesFiltered(f);
     }
-        
-    //__________________________________________________________________________                       
-    //      
-    //      Category  
-    //__________________________________________________________________________
+
     @Override
     public Category createCategory(String name) {
         return catDAO.createCategory(name);
@@ -83,20 +75,16 @@ public class DBManager implements DBFacade {
 
     @Override
     public void deleteCategory(Category category) {
-        catDAO.deleteCategory(category);        
+        catDAO.deleteCategory(category);
     }
-    
-    //__________________________________________________________________________                       
-    //      
-    //      CatMovie  
-    //__________________________________________________________________________
+
     @Override
     public void addCategoryToMovie(Movie movie, List<Category> cats) {
-        catMovDao.addCategoryToMovie(movie, cats);
+        catMovDAO.addCategoryToMovie(movie, cats);
     }
 
     @Override
     public void deleteCategoryFromMovie(int movieId, List<Category> cats) {
-        catMovDao.deleteCategoryFromMovie(movieId, cats);
+        catMovDAO.deleteCategoryFromMovie(movieId, cats);
     }
 }

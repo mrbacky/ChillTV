@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * @author Anne Luong
  * @author Martin Emil Rune Wøbbe
  */
-public class CategoryDAO {
+public class CategoryDAO implements ICategoryDAO {
 
     private final DBConnectionProvider connectDAO;
 
@@ -40,7 +40,7 @@ public class CategoryDAO {
      */
     public Category createCategory(String name) {
         try (//Get a connection to the database.
-            Connection con = connectDAO.getConnection()) {
+                 Connection con = connectDAO.getConnection()) {
             //Create a prepared statement.
             String sql = "INSERT INTO Category VALUES (?)";
             PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -74,7 +74,7 @@ public class CategoryDAO {
         String stat = "SELECT * FROM Category";
 
         try (//Get a connection to the database.
-            Connection con = connectDAO.getConnection()) {
+                 Connection con = connectDAO.getConnection()) {
             //Create a prepared statement.
             PreparedStatement pstmt = con.prepareStatement(stat);
             ResultSet rs = pstmt.executeQuery();
@@ -85,7 +85,7 @@ public class CategoryDAO {
                 allCats.add(new Category(id, name));
             }
             return allCats;
-            
+
         } catch (SQLServerException ex) {
             Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -103,13 +103,13 @@ public class CategoryDAO {
      */
     public List<Category> getAllCatsForMovie(int id) throws SQLException {
         List<Category> catListOfMovie = new ArrayList<>();
-        
+
         try ( Connection con = connectDAO.getConnection()) {
             String sql = "SELECT category.name, CatMovie.* FROM Category\n"
                     + "LEFT JOIN CatMovie on categoryid = Category.id\n"
                     + "WHERE CatMovie.movieID = " + id + " ORDER BY Category.id";
             Statement stmt = con.createStatement();
-            
+
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 int categoryId = rs.getInt("categoryId");
@@ -133,7 +133,7 @@ public class CategoryDAO {
      */
     public Category updateCategory(Category category) {
         try (//Get a connection to the database.
-            Connection con = connectDAO.getConnection()) {
+                 Connection con = connectDAO.getConnection()) {
             //Create a prepared statement.
             String sql = "UPDATE Category SET name = ? WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
@@ -160,7 +160,7 @@ public class CategoryDAO {
     public void deleteCategory(Category category) {
         //When the category is deleted, the corresponding data in the CatMovie is also deleted.
         try (//Get a connection to the database.
-            Connection con = connectDAO.getConnection()) {
+                 Connection con = connectDAO.getConnection()) {
             //Create a prepared statement.
             String sql = "DELETE FROM Category WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);

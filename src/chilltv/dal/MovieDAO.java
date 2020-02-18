@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  * @author Anne Luong
  * @author Martin Emil Rune Wøbbe
  */
-public class MovieDAO {
+public class MovieDAO implements IMovieDAO {
 
     private final DBConnectionProvider cp;
     private final CatMovieDAO catMovDAO;
@@ -76,7 +76,7 @@ public class MovieDAO {
             catMovDAO.addCategoryToMovie(movie, catList);
 
             return movie;
-            
+
         } catch (SQLServerException ex) {
             Logger.getLogger(MovieDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -108,7 +108,6 @@ public class MovieDAO {
                 String fileLink = rs.getString("fileLink");
                 int lastView = rs.getInt("lastView");
                 List<Category> categoryList = catDAO.getAllCatsForMovie(id);//
-
 
                 allMovies.add(new Movie(id, title, duration, imdbRating, myRating, fileLink, lastView, categoryList));
             }
@@ -251,7 +250,7 @@ public class MovieDAO {
             return null;
         }
     }
-    
+
     //__________________________________________________________________________                       
     //
     //      Filter  
@@ -268,7 +267,7 @@ public class MovieDAO {
         String sql = "SELECT Movie.* FROM Movie JOIN CatMovie ON Movie.id = CatMovie.movieId WHERE "; //Only adds distinct movies.
         String sqlFinal = prepStatment(sql, f);
 
-        try ( Connection con = cp.getConnection()) {            
+        try ( Connection con = cp.getConnection()) {
             //Create a prepared statement.
             PreparedStatement pstmt = con.prepareStatement(sqlFinal);
 
@@ -370,15 +369,17 @@ public class MovieDAO {
      * Generates a correct list of results from using filter.
      *
      * @param duplicates The manipulated HashMap with duplicates.
-     * @param movListWithDup The list of movies with duplicates before manipulation (correction).
-     * @param catFilterSize The size of the category filter (number of categories selected).
+     * @param movListWithDup The list of movies with duplicates before
+     * manipulation (correction).
+     * @param catFilterSize The size of the category filter (number of
+     * categories selected).
      * @return A corrected, filtered list of movies.
      */
     private List<Movie> generateCorrectList(Map duplicates, List<Movie> movListWithDup, int catFilterSize) {
         List<Movie> movList = new ArrayList<>();
 
         Iterator entries = duplicates.entrySet().iterator(); //Iterator makes it possible to iterate/traverse objects in a collection. To iterate is to
-                                                             //repeat a set of instructions in a sequence a specified number of times or condition is met
+        //repeat a set of instructions in a sequence a specified number of times or condition is met
         while (entries.hasNext()) {
             Map.Entry entry = (Map.Entry) entries.next();
             Integer key = (Integer) entry.getKey(); //Get key from HashMap and store as local variable.
