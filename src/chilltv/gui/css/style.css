@@ -1,22 +1,44 @@
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:500&display=swap');
+
 .movieBtns{
     -fx-background-color: red;
 }
 
 .bg{
     -fx-background-color: black;
+    -fx-font-family: 'Montserrat', sans-serif;
+    
+    
     
 }
 
-.list-view{
-    -fx-background-color: #282828;
-    -fx-text-fill: red;
-}
+
 .table-view{
     -fx-background-color: #282828;
     -fx-text-fill: red;
 }
 
-.lblFlow{
+.table-view .column-header-background{
+    -fx-background-color: black;
+}
+    
+    
+
+
+.table-view .column-header, .table-view .filler{
+    -fx-background-color: transparent;
+
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #BA1B1D;
+
+}
+
+.lblFlow {
     /* green stuff */
     -fx-background-color: linear-gradient( #BA1B1D,#701E17);
     -fx-background-radius: 5px;
@@ -27,6 +49,7 @@
     
     
 }
+
 .button{
     -fx-background-color: transparent;
     -fx-opacity: 0.8;

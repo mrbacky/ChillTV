@@ -17,9 +17,10 @@ import javafx.collections.ObservableList;
  * @author Anne Luong
  * @author Martin Emil Rune Wøbbe
  */
-public class MovieModel {
+public class MovieModel {   
 
     private final LogicFacade logicManager;
+    
     private final ObservableList<Movie> libraryList = FXCollections.observableArrayList();
     private static MovieModel movieModel;
 
@@ -41,6 +42,13 @@ public class MovieModel {
      */
     private MovieModel() {
         logicManager = new LogicManager();
+        
+        
+    }
+        
+
+    public MovieModel(LogicFacade logicManager) {
+        this.logicManager = logicManager;
     }
 
     //__________________________________________________________________________                       

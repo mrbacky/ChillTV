@@ -226,7 +226,7 @@ public class LibraryController implements Initializable {
         root = (Parent) fxmlLoader.load();
 
         MovieSceneController movieSceneController = (MovieSceneController) fxmlLoader.getController();
-        movieSceneController.setContr(this);
+        //movieSceneController.setContr(this);
         movieSceneController.editMode(selectedMovie);
         showScene(root);
 

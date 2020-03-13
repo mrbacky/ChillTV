@@ -42,7 +42,7 @@ public class DBConnectionProvider {
     
     /**
      * Returns Connection object which is able to
-     * provide informations about database.
+     * provide information about database.
      * 
      * @return The connection with database.
      * @throws SQLServerException if connection with database cannot be established.

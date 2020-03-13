@@ -11,11 +11,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="770.0" styleClass="bg" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chilltv.gui.controller.LibraryController">
    <children>
-      <TableView fx:id="tbv_library" layoutX="10.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="403.0" prefWidth="750.0">
+      <TableView fx:id="tbv_library" layoutX="10.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="403.0" prefWidth="750.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0">
         <columns>
           <TableColumn fx:id="col_Title" prefWidth="219.0" text="Title" />
           <TableColumn fx:id="col_Category" minWidth="0.0" prefWidth="304.0" text="Category" />
@@ -34,7 +33,7 @@
             </ContextMenu>
          </contextMenu>
       </TableView>
-      <Button fx:id="btn_addMovie" alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="516.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btn_openAddMovie" prefHeight="20.0" prefWidth="20.0">
+      <Button fx:id="btn_addMovie" alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="516.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#btn_openAddMovie" prefHeight="20.0" prefWidth="20.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -43,7 +42,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btn_editMovie" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="516.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_openEditMovie" prefHeight="20.0" prefWidth="20.0">
+      <Button fx:id="btn_editMovie" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="516.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_openEditMovie" prefHeight="20.0" prefWidth="20.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -52,7 +51,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btn_deleteMovie" alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="516.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_deleteMovie" prefHeight="20.0" prefWidth="20.0">
+      <Button fx:id="btn_deleteMovie" alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" layoutY="516.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_deleteMovie" prefHeight="20.0" prefWidth="20.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="80.0">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -61,14 +60,14 @@
             </ImageView>
          </graphic>
       </Button>
-      <TextField fx:id="txt_movieSearch" layoutX="354.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="360.0" promptText="title" />
-      <ImageView fx:id="icon_search" fitHeight="20.0" fitWidth="20.0" layoutX="728.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+      <TextField fx:id="txt_movieSearch" layoutX="354.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="360.0" promptText="title" AnchorPane.rightAnchor="50.0" />
+      <ImageView fx:id="icon_search" fitHeight="20.0" fitWidth="20.0" layoutX="728.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="20.0">
          <image>
             <Image url="@../../../../../MyTunesC/src/mytunes/gui/assets/icons8-search-30.png" />
          </image>
       </ImageView>
       <TextField fx:id="txt_Cat" layoutX="10.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="200.0" visible="false" />
-      <Button fx:id="btn_openCatLib" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="48.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_openCatLib" prefHeight="20.0" prefWidth="20.0">
+      <Button fx:id="btn_openCatLib" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="48.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handle_openCatLib" prefHeight="20.0" prefWidth="20.0" AnchorPane.rightAnchor="550.0">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -76,13 +75,9 @@
                </image>
             </ImageView>
          </graphic></Button>
-      <Label fx:id="lbl_Categories" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="233.0" layoutY="28.0" prefHeight="60.0" prefWidth="113.0" styleClass="lblFlow" stylesheets="@../css/style.css" text="Category Library" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Label>
-      <MenuButton fx:id="menuButton_filterCategory" layoutX="354.0" layoutY="28.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="180.0" text="Category" />
-      <MenuButton fx:id="menuButton_filterRating" layoutX="544.0" layoutY="28.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="iMDB Rating" />
+      <Label fx:id="lbl_Categories" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="5.0" layoutX="233.0" layoutY="28.0" prefHeight="60.0" prefWidth="113.0" styleClass="lblFlow" text="Category Library" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="420.0" />
+      <MenuButton fx:id="menuButton_filterCategory" layoutX="354.0" layoutY="28.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="180.0" text="Category" AnchorPane.rightAnchor="230.0" />
+      <MenuButton fx:id="menuButton_filterRating" layoutX="544.0" layoutY="28.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="iMDB Rating" AnchorPane.rightAnchor="50.0" />
       
    </children>
 </AnchorPane>
